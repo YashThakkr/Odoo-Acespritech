@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="bluepay_Payment_acquirer_id_new" model="ir.ui.view">
+            <field name="name">acquirer.bluepay</field>
+            <field name="model">payment.acquirer</field>
+            <field name="inherit_id" ref="payment.payment_acquirer_form" />
+            <field name="arch" type="xml">
+               <xpath expr='//group[@name="acquirer"]' position='after'>
+                   <group attrs="{'invisible': [('provider', '!=', 'bluepay')]}">
+                       <field name="account_id"/>
+                       <field name="bluepay_secret_key" password="True"/>
+                       <field name="merchant_name" />
+                   </group>
+               </xpath>
+            </field>
+        </record>
+       </data>
+
+</odoo>
