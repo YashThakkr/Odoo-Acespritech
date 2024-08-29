@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_hotel_folio_form" model="ir.ui.view">
+            <field name="name">view.hotel.folio.form</field>
+            <field name="model">hotel.folio</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Folio">
+                    <header>
+                        <button type="object" name="action_close" string="Close" class="btn-primary"
+                                invisible="state in ['done','closed','invoiced']"/>
+                        <button type="object" name="action_done" string="Done" class="btn-primary"
+                                invisible="state in ['done','closed','invoiced']"/>
+                        <button type="object" name="action_create_hotel_invoice" string="Create Invoice"
+                                class="btn-primary"
+                                invisible="state in ['active','closed','invoiced']"/>
+                        <field name="state" widget="statusbar" statusbar_visible="active,done,closed,invoiced"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="open_invoices" icon="fa-pencil-square-o"
+                                    type="object">
+                                <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                            </button>
+                        </div>
+
+                        <div class="oe_title">
+                            <h1>
+                                <field name="number" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="customer_id" readonly="state == 'invoiced'"/>
+                                <field name="checkin_date" readonly="state == 'invoiced'"/>
+                                <field name="days" readonly="state == 'invoiced'"/>
+                                <field name="walk_in_id" readonly="state == 'invoiced'"/>
+                            </group>
+                            <group>
+                                <field name="room_category" readonly="state == 'invoiced'"/>
+                                <field name="checkout_date" readonly="state == 'invoiced'"/>
+                                <field name="room_ids" widget='many2many_tags' domain="[('status', '=', 'available')]" readonly="state == 'invoiced'"/>
+<!--                                <field name="branch_id" readonly="1" force_save="1" required="1"/>-->
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Room Lines" name="room_lines">
+                                <field name="room_line_ids">
+                                    <tree create="false">
+                                        <field name="walk_in_id" invisible="1"/>
+                                        <field name="description"/>
+                                        <field name="checkin_date"/>
+                                        <field name="checkout_date"/>
+                                        <field name="room_id"/>
+                                        <field name="discount"/>
+                                        <field name="price"/>
+                                        <field name="sub_total"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Folio Service" name="folio_service">
+                                <field name="folio_services" readonly="state == 'invoiced'">
+                                    <tree string="Folio Service" editable="bottom">
+                                        <field name="folio_id" invisible="1"/>
+                                        <field name="service_id"/>
+                                        <field name="amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Customer Activity" name="customer_activity">
+                                <field name="activity_ids" readonly="state == 'invoiced'">
+                                    <tree string="Hotel Customer Activity" editable="bottom">
+                                        <field name="customer_id"/>
+                                        <field name="folio_id" invisible="1"/>
+                                        <field name="date"/>
+                                        <field name="activity_id" options="{'no_create':True}"/>
+                                        <field name="duration"/>
+                                        <field name="charges"/>
+                                        <field name="note"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Laundry Service" name="laundry_service">
+                                <field name="service_ids">
+                                    <tree string="Laundry Services" editable="bottom" create="false">
+                                        <field name="folio_id" invisible="1"/>
+                                        <field name="room_id"/>
+                                        <field name="item_id"/>
+                                        <field name="item_service_ids" widget="many2many_tags"
+                                               options="{'no_create': True}"/>
+                                        <field name="quantity"/>
+                                        <field name="amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Pickup &amp; Drop Service" name="pickup_drop">
+                                <field name="pickup_drop_ids">
+                                    <tree string="Pickup &amp; Drop Services" editable="bottom">
+                                        <field name="folio_id" invisible="1"/>
+                                        <field name="service_no"/>
+                                        <field name="booking_reference_id"/>
+                                        <field name="customer_id" domain="[('is_hotel_customer','=',True)]"/>
+                                        <field name="service_type"/>
+                                        <field name="transportation_type"/>
+                                        <field name="is_include_in_hotel"/>
+                                        <field name="transportation_charges"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Room Transfer" name="room_transfer">
+                                <form>
+                                    <field name="hotel_room_transfer_ids">
+                                        <tree create="false">
+                                            <field name="folio_id" invisible="1"/>
+                                            <field name="walk_in_id" invisible="1"/>
+                                            <field name="from_room_id"/>
+                                            <field name="to_room_id"/>
+                                            <field name="transfer_date"/>
+                                            <field name="price"/>
+                                            <field name="reason"/>
+                                            <field name="sub_total"/>
+                                        </tree>
+                                    </field>
+                                </form>
+                            </page>
+                        </notebook>
+                        <group class="oe_left oe_inline" name="discount">
+                            <label for="discount_type"/>
+                            <field name="discount_type" nolabel="1" class="oe_subtotal_footer_separator"/>
+                            <label for="discount_rate"/>
+                            <field name="discount_rate" nolabel="1" widget="monetary"
+                                   class="oe_subtotal_footer_separator"/>
+                        </group>
+
+                        <group col="4">
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group class="oe_subtotal_footer oe_right" colspan="2" name="folio_total">
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label for="total_amount"/>
+                            </div>
+                            <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator"
+                                   widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                            <field name="discount" widget="monetary"/>
+<!--                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">-->
+<!--                            </div>-->
+                            <field name="net_total" widget="monetary" class="oe_subtotal_footer_separator"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hotel_folio_tree" model="ir.ui.view">
+            <field name="name">view.hotel.folio.tree</field>
+            <field name="model">hotel.folio</field>
+            <field name="arch" type="xml">
+                <tree string="Hotel Folio">
+                    <field name="number"/>
+                    <field name="customer_id"/>
+                    <field name="checkin_date"/>
+                    <field name="checkout_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hotel_folio_view_search" model="ir.ui.view">
+            <field name="model">hotel.folio</field>
+            <field name="arch" type="xml">
+                <search string="Views">
+<!--                    <field name="branch_id" readonly="1" force_save="1"/>-->
+                    <group expand="0" string="Group By">
+<!--                        <filter string="Branch" name="group_by_branch" domain="[]"-->
+<!--                                context="{'group_by':'branch_id'}"/>-->
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_hotel_folio" model="ir.actions.act_window">
+            <field name="name">Folios</field>
+            <field name="res_model">hotel.folio</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_hotel_folio" name="Folios" parent="sub_menu_invoicing"
+                  action="action_hotel_folio" sequence="1"/>
+
+    </data>
+</odoo>

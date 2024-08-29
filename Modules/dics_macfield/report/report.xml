@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="custom_paper_format_yellow_paper" model="report.paperformat">
+        <field name="name">yellow Paper Format</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">25</field>
+        <field name="margin_left">3</field>
+        <field name="margin_right">3</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_yellow_papaer_invoice_report" model="ir.actions.report">
+        <field name="name">Yellow Paper Invoice</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">dics_macfield.print_yellow_paper_invoice_reports</field>
+        <field name="report_file">dics_macfield.print_yellow_paper_invoice_reports</field>
+        <field name="print_report_name">(object._get_report_base_filename())</field>
+        <field name="paperformat_id" ref="dics_macfield.custom_paper_format_yellow_paper"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+    </record>
+    <!--    Account  Invoice-->
+    <record id="custom_paper_format_invoice" model="report.paperformat">
+        <field name="name">Invoices</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">19</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">34</field>
+        <field name="dpi">90</field>
+    </record>
+    <record id="account.account_invoices" model="ir.actions.report">
+        <field name="name">Invoices</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account.report_invoice_with_payments</field>
+        <field name="report_file">account.report_invoice_with_payments</field>
+        <field name="print_report_name">(object._get_report_base_filename())</field>
+        <field name="attachment">(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')</field>
+        <field name="paperformat_id" ref="dics_macfield.custom_paper_format_invoice"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="groups_id"
+               eval="[(4, ref('account.group_account_invoice')), (4, ref('account.group_account_readonly'))]"/>
+    </record>
+
+    <record id="account.account_invoices_without_payment" model="ir.actions.report">
+        <field name="name">Invoices without Payment</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account.report_invoice</field>
+        <field name="report_file">account.report_invoice</field>
+        <field name="print_report_name">(object._get_report_base_filename())</field>
+        <field name="attachment">(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')</field>
+        <field name="paperformat_id" ref="dics_macfield.custom_paper_format_invoice"/>
+        <field name="binding_model_id" ref="model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="groups_id"
+               eval="[(4, ref('account.group_account_invoice')), (4, ref('account.group_account_readonly'))]"/>
+    </record>
+
+
+    <!--    Pro Forma  -->
+    <record id="custom_paper_format_proforma_invoice" model="report.paperformat">
+        <field name="name">Invoices</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">40</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">34</field>
+        <field name="dpi">90</field>
+    </record>
+    <record id="sale.action_report_pro_forma_invoice" model="ir.actions.report">
+        <field name="name">PRO-FORMA Invoice</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sale.report_saleorder_pro_forma</field>
+        <field name="report_file">sale.report_saleorder_pro_forma</field>
+        <field name="print_report_name">'PRO-FORMA - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_sale_order"/>
+        <field name="paperformat_id" ref="dics_macfield.custom_paper_format_proforma_invoice"/>
+        <field name="binding_type">report</field>
+        <field name="groups_id" eval="[(4, ref('sale.group_proforma_sales'))]"/>
+    </record>
+
+    <!--    Sale Order-->
+
+    <record id="custom_paper_format_quotation" model="report.paperformat">
+        <field name="name">Invoices</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">35</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">3</field>
+        <field name="margin_right">3</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">26</field>
+        <field name="dpi">90</field>
+    </record>
+    <record id="sale.action_report_saleorder" model="ir.actions.report">
+        <field name="name">Quotation / Order</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sale.report_saleorder</field>
+        <field name="report_file">sale.report_saleorder</field>
+        <field name="print_report_name">
+            (object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)
+        </field>
+        <field name="binding_model_id" ref="model_sale_order"/>
+        <field name="paperformat_id" ref="dics_macfield.custom_paper_format_quotation"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="custom_paper_format_purchase" model="report.paperformat">
+        <field name="name">Invoices</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">35</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">28</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="purchase.action_report_purchase_order" model="ir.actions.report">
+        <field name="name">Purchase Order</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">purchase.report_purchaseorder</field>
+        <field name="report_file">purchase.report_purchaseorder</field>
+        <field name="print_report_name">
+            (object.state in ('draft', 'sent') and 'Request for Quotation - %s' % (object.name) or
+            'Purchase Order - %s' % (object.name))
+        </field>
+        <field name="binding_model_id" ref="model_purchase_order"/>
+        <field name="paperformat_id" ref="dics_macfield.custom_paper_format_purchase"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
+
+
+

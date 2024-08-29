@@ -1,0 +1,815 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!--        Equipment View-->
+        <record id="view_equipment_product_tree" model="ir.ui.view">
+            <field name="name">equipment.product.tree.view</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <tree string="Equipment Product">
+                    <field name="name"/>
+                    <field name="default_code"/>
+                    <field name="standard_price"/>
+                    <field name="qty_available" string="Quantity"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_equipment_product_form" model="ir.ui.view">
+            <field name="name">equipment.product.form.view</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <form string="Equipment Product">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object" name="action_open_quants"
+                                    attrs="{'invisible':[('type', '!=', 'product')]}" class="oe_stat_button"
+                                    icon="fa-cubes">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value" widget="statinfo">
+                                        <field name="qty_available" widget="statinfo" nolabel="1" class="mr4"
+                                               id="qty_available"/>
+                                        <field name="uom_name" id="uom_name"/>
+                                    </span>
+                                    <span class="o_stat_text">
+                                        On Hand
+                                    </span>
+                                </div>
+                            </button>
+                            <button string="Product Moves" type="object" name="action_view_stock_move_lines"
+                                    attrs="{'invisible':[('type', 'not in', ['product', 'consu'])]}"
+                                    class="oe_stat_button" icon="fa-exchange"/>
+                            <button string="Lot/Serial Numbers" type="object" name="action_open_product_lot"
+                                    attrs="{'invisible': [('tracking', '=', 'none')]}" class="oe_stat_button"
+                                    icon="fa-bars"/>
+                            <button string="Putaway Rules" type="object" name="action_view_related_putaway_rules"
+                                    class="oe_stat_button" icon="fa-random"
+                                    context="{'invisible_handle': True, 'single_product': product_variant_count == 1}"
+                                    invisible="1"/>
+                            <button class="oe_stat_button" name="action_view_po" type="object" icon="fa-shopping-cart"
+                                    attrs="{'invisible': [('purchase_ok', '=', False)]}"
+                                    help="Purchased in the last 365 days">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="purchased_product_qty" widget="statinfo" nolabel="1" class="mr4"
+                                               id="purchased_product_qty"/>
+                                        <field name="uom_name" id="uom_name__20__"/>
+                                    </span>
+                                    <span class="o_stat_text">
+                                        Purchased
+                                    </span>
+                                </div>
+                            </button>
+                        </div>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
+                        <field name="id" invisible="True" id="id"/>
+                        <field name="image_1920" widget="image" class="oe_avatar"
+                               options="{'preview_image': 'image_128'}" id="image_1920"/>
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name" string="Name"/>
+                            <h1>
+                                <field name="name" placeholder="Product Name" id="name"/>
+                            </h1>
+                            <div name="options" invisible="1">
+                                <div>
+                                    <field name="sale_ok" id="sale_ok"/>
+                                    <label for="sale_ok"/>
+                                </div>
+                                <div>
+                                    <field name="purchase_ok" id="purchase_ok"/>
+                                    <label for="purchase_ok"/>
+                                </div>
+                            </div>
+                        </div>
+<!--                        <group>-->
+                            <notebook>
+                                <page string="General Information">
+                                    <group>
+                                        <group>
+                                            <field name="active" invisible="1" id="active"/>
+                                            <field name="is_product_variant" invisible="1"/>
+                                            <field name="product_variant_count" invisible="1"/>
+                                            <field name="expense_policy" invisible="1"/>
+                                            <field name="type" string="Type"/>
+                                            <field name="categ_id" string="Category"/>
+                                            <field name="default_code"
+                                                   attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
+                                            <field name="barcode"
+                                                   attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
+
+                                        </group>
+                                        <group>
+                                            <field name="standard_price" widget='monetary'
+                                                   options="{'currency_field': 'cost_currency_id'}"/>
+                                            <field name="company_id" options="{'no_create_edit': True}"
+                                                   required="1"/>
+<!--                                            <field name="branch_id" groups="aspl_fitness_management_ee.group_multi_branches"/>-->
+                                            <field name="branch_id" domain="[('company_id','=',company_id)]"
+                                                   groups="aspl_fitness_management_ee.group_multi_branches"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Purchase" name="purchase"
+                                      attrs="{'invisible': [('purchase_ok','=',False)]}">
+                                    <field name="seller_ids"
+                                           context="{'default_product_tmpl_id':context.get('product_tmpl_id',active_id), 'product_template_invisible_variant': True, 'tree_view_ref':'purchase.product_supplierinfo_tree_view2'}"
+                                           nolabel="1" attrs="{'invisible': [('product_variant_count','&gt;',1)]}"
+                                           id="seller_ids"/>
+                                    <field name="variant_seller_ids"
+                                           context="{'default_product_tmpl_id': context.get('product_tmpl_id', active_id), 'tree_view_ref':'purchase.product_supplierinfo_tree_view2'}"
+                                           nolabel="1" attrs="{'invisible': [('product_variant_count','&lt;=',1)]}"
+                                           id="variant_seller_ids"/>
+                                    <group name="purchase">
+                                        <group string="Reordering" attrs="{'invisible': [('type','!=','service')]}">
+                                            <field name="service_to_purchase" id="service_to_purchase"/>
+                                        </group>
+                                        <group string="Vendor Bills" name="bill">
+                                            <field name="supplier_taxes_id" colspan="2" widget="many2many_tags"
+                                                   attrs="{'readonly':[('purchase_ok','=',0)]}"
+                                                   context="{'default_type_tax_use':'purchase'}"
+                                                   id="supplier_taxes_id"/>
+                                            <field name="purchase_method" widget="radio" id="purchase_method"/>
+                                        </group>
+                                    </group>
+                                    <group string="Purchase Description">
+                                        <field name="description_purchase" nolabel="1"
+                                               placeholder="This note is added to purchase orders."
+                                               id="description_purchase"/>
+                                    </group>
+                                    <group string="Warning when Purchasing this Product" invisible="1">
+                                        <field name="purchase_line_warn" nolabel="1" id="purchase_line_warn"/>
+                                        <field name="purchase_line_warn_msg" colspan="3" nolabel="1"
+                                               attrs="{'required':[('purchase_line_warn','!=','no-message')],'readonly':[('purchase_line_warn','=','no-message')], 'invisible':[('purchase_line_warn','=','no-message')]}"
+                                               id="purchase_line_warn_msg"/>
+                                    </group>
+                                </page>
+                                <page string="Inventory" name="inventory"
+                                      attrs="{'invisible':[('type', '=', 'service')]}">
+                                    <group name="inventory">
+                                        <group name="group_lots_and_weight" string="Logistics"
+                                               attrs="{'invisible': [('type', 'not in', ['product', 'consu'])]}">
+                                            <field name="responsible_id" domain="[('share', '=', False)]"
+                                                   id="responsible_id"/>
+                                            <label for="weight"
+                                                   attrs="{'invisible':[('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}"/>
+                                            <div class="o_row" name="weight"
+                                                 attrs="{'invisible':[('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}">
+                                                <field name="weight" id="weight"/>
+                                                <span>
+                                                    <field name="weight_uom_name" id="weight_uom_name"/>
+                                                </span>
+                                            </div>
+                                            <label for="volume"
+                                                   attrs="{'invisible':[('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}"/>
+                                            <div class="o_row" name="volume"
+                                                 attrs="{'invisible':[('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}">
+                                                <field name="volume" string="Volume" id="volume"/>
+                                                <span>
+                                                    <field name="volume_uom_name" id="volume_uom_name"/>
+                                                </span>
+                                            </div>
+                                        </group>
+                                        <group string="Traceability" name="traceability"
+                                               attrs="{'invisible': [('type', '=', 'consu')]}">
+                                            <field name="tracking" widget="radio"
+                                                   attrs="{'invisible': [('type', 'in', ['service', 'digital'])]}"
+                                                   id="tracking"/>
+                                        </group>
+                                        <group string="Counterpart Locations" name="stock_property">
+                                            <field name="property_stock_production"
+                                                   id="property_stock_production"/>
+                                            <field name="property_stock_inventory"
+                                                   id="property_stock_inventory"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Accounting" name="invoicing" groups="account.group_account_readonly">
+                                    <group name="properties">
+                                        <group string="Receivables">
+                                            <field name="property_account_income_id"
+                                                   id="property_account_income_id"/>
+                                        </group>
+                                        <group string="Payables" name="payables">
+                                            <field name="property_account_expense_id"
+                                                   id="property_account_expense_id"/>
+                                            <!-- <field name="property_account_creditor_price_difference"
+                                                   domain="[('deprecated','=',False)]" invisible="1"
+                                                   id="property_account_creditor_price_difference"/> -->
+                                        </group>
+                                    </group>
+                                </page>
+                            </notebook>
+<!--                        </group>-->
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_equipment_product_search" model="ir.ui.view">
+            <field name="name">equipment.product.search.view</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <search string="Product">
+                    <field name="name" filter_domain="[('name','ilike',self)]" string="Name"/>
+                    <field name="type"/>
+                    <field name="categ_id"/>
+                    <field name="company_id"/>
+                    <field name="branch_id" groups="aspl_fitness_management_ee.group_multi_branches"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Type" name="type"
+                                context="{'group_by':'type'}"/>
+                        <filter string="Category" name="categ_id"
+                                context="{'group_by':'categ_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_equipment_product_kanban" model="ir.ui.view">
+            <field name="name">equipment.kanban.view</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="id"/>
+                    <field name="image_1920"/>
+                    <field name="type"/>
+                    <field name="name"/>
+                    <field name="default_code"/>
+                    <field name="list_price"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="o_kanban_image">
+                                    <img alt="Avatar"
+                                         t-att-src="kanban_image('product.template', 'image_128', record.id.value)"
+                                         class="oe_kanban_picture"
+                                         options="{'placeholder': '/base/static/img/avatar_grey.png'}" widget="image"/>
+                                </div>
+                                <div class="oe_kanban_details" style="margin-left: 5px;">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong style="margin-left: 12px;">
+                                                <field name="name"/>
+                                                <small t-if="record.default_code.value">[<field name="default_code"/>]
+                                                </small>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <div name="product_cost_price" class="mt-1" style="margin-left: 12px;">
+                                        Cost:
+                                        <field name="standard_price" widget="monetary"
+                                               options="{'currency_field': 'cost_currency_id',
+                                                                'field_digits': True}"/>
+                                    </div>
+                                    <div t-if="record.type.raw_value == 'product'"
+                                         style="margin-left: 12px;">Quantity:
+                                        <field name="qty_available"/>
+                                        <field name="uom_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="action_equipment_product" model="ir.actions.act_window">
+            <field name="name">Equipments</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('is_equipment', '=', True)]</field>
+            <field name="context">{
+                'default_is_equipment': True,
+                'gym_equipment': True,
+                'fitness_categ': True,
+                'default_type': 'product',
+                'default_company_id': allowed_company_ids[0]
+                }
+            </field>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_equipment_product_kanban')}),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_equipment_product_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_equipment_product_form')}),
+
+                ]"/>
+            <field name="search_view_id" ref="view_equipment_product_search"/>
+        </record>
+
+        <menuitem action="action_equipment_product"
+                  id="menu_action_equipment_product"
+                  sequence="2"
+                  parent="fitness_menu_gym_equipments"/>
+
+        <!--        Equipment Maintenance-->
+        <record id="view_gym_equipment_maintenance_tree" model="ir.ui.view">
+            <field name="name">equipment.maintenance.tree.view</field>
+            <field name="model">equipment.maintenance</field>
+            <field name="arch" type="xml">
+                <tree string="Equipment Maintenance">
+                    <field name="name"/>
+                    <field name="location_id" optional="show"/>
+                    <field name="vendor_id" optional="show"/>
+                    <field name="branch_id" groups="aspl_fitness_management_ee.group_multi_branches"/>
+                    <field name="company_id" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gym_equipment_maintenance_form" model="ir.ui.view">
+            <field name="name">equipment.maintenance.form.view</field>
+            <field name="model">equipment.maintenance</field>
+            <field name="arch" type="xml">
+                <form string="Equipment Maintenance">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="button_confirm" string="Confirm" type="object" class="btn-primary"/>
+                        <button name="button_return_picking" string="Return" type="object"
+                                class="btn-primary"/>
+                        <button name="button_create_invoice" string="Create Bill" type="object" class="btn-primary"/>
+                        <button name="button_sent_invoice" string="Sent Bill" class="oe_highlight" type="object"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1" attrs="{'readonly': [('state','!=','draft')]}"/>
+                                <field name="vendor_id" options="{'no_create':True,'no_edit':True}" required="1"
+                                       attrs="{'readonly': [('state','!=','draft')]}"/>
+                                <field name="paid_maintenance" attrs="{'readonly': [('state','!=','draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="company_id" options="{'no_create':True,'no_edit':True}" required="1"
+                                       attrs="{'readonly': [('state','!=','draft')]}"/>
+                                <field name="branch_id" options="{'no_create':True,'no_edit':True}" required="1"
+                                       attrs="{'readonly': [('state','!=','draft')]}"/>
+                                <field name="date_dispatch"
+                                       attrs="{'readonly': [('state','!=','draft')]}"/>
+                                <field name="send_to_vendor_location"
+                                       attrs="{'readonly': [('state','!=','draft')]}"/>
+                                <field name="location_id" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Equipment Lines">
+                                <field name="equipment_line_ids" attrs="{'readonly': [('state','!=','draft')]}">
+                                    <tree string="Equipment Lines" editable="bottom">
+                                        <field name="product_id" required="1" domain="[('is_equipment','=', True)]"/>
+                                        <field name="description"/>
+<!--                                        <field name="lot_id" required="1"-->
+<!--                                               domain="[('product_id', '=', product_id)]"/>-->
+                                        <field name="lot_id" required="1"/>
+                                        <field name="qty"/>
+                                        <field name="return_qty"/>
+                                    </tree>
+                                    <form string="Equipment Line">
+                                        <sheet>
+                                            <group>
+                                                <group>
+                                                    <field name="product_id"
+                                                           options="{'no_create':True,'no_edit':True}"/>
+                                                    <field name="description"/>
+                                                </group>
+                                                <group>
+<!--                                                    <field name="lot_id" domain="[('product_id', '=', product_id)]"/>-->
+                                                    <field name="lot_id"/>
+                                                    <field name="qty"/>
+                                                    <field name="return_qty"/>
+                                                </group>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_equipment_maintenance_search" model="ir.ui.view">
+            <field name="name">equipment.maintenance.search.view</field>
+            <field name="model">equipment.maintenance</field>
+            <field name="arch" type="xml">
+                <search string="Product">
+                    <field name="name"/>
+                    <field name="location_id"/>
+                    <field name="company_id"/>
+                    <field name="branch_id" groups="aspl_fitness_management_ee.group_multi_branches"/>
+                    <filter string="Paid Maintenance" name="paid_maintenance"
+                            domain="[('paid_maintenance','=',True)]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="State" name="state"
+                                context="{'group_by':'state'}"/>
+                        <filter string="Location" name="location_id"
+                                context="{'group_by':'location_id'}"/>
+                        <filter string="Company" name="company_id"
+                                context="{'group_by':'company_id'}"/>
+                        <filter string="Branch" name="branch_id"
+                                context="{'group_by':'branch_id'}"
+                                groups="aspl_fitness_management_ee.group_multi_branches"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="equipment_maintenance_view_calendar" model="ir.ui.view">
+            <field name="name">equipment.maintenance.calendar.view</field>
+            <field name="model">equipment.maintenance</field>
+            <field name="arch" type="xml">
+                <calendar string="Calendar View" date_start="date_dispatch" color="name" hide_time="true"
+                          event_limit="5" create="false">
+                    <field name="name" filters="1"/>
+                    <field name="date_dispatch"/>
+                    <field name="branch_id" groups="aspl_fitness_management_ee.group_multi_branches"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="action_gym_equipment_maintenance" model="ir.actions.act_window">
+            <field name="name">Equipment Maintenance</field>
+            <field name="res_model">equipment.maintenance</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_gym_equipment_maintenance_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_gym_equipment_maintenance_form')}),
+                (0, 0, {'view_mode': 'calendar', 'view_id': ref('equipment_maintenance_view_calendar')}),
+                ]"/>
+            <field name="search_view_id" ref="view_equipment_maintenance_search"/>
+        </record>
+
+        <menuitem action="action_gym_equipment_maintenance"
+                  id="menu_action_gym_equipment_maintenance"
+                  sequence="3"
+                  parent="fitness_menu_gym_equipments"/>
+
+
+        <!--        Service View-->
+        <record id="view_service_product_tree" model="ir.ui.view">
+            <field name="name">service.product.tree.view</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <tree string="Service Product">
+                    <field name="name"/>
+                    <field name="default_code" optional="show"/>
+                    <field name="branch_id" groups="aspl_fitness_management_ee.group_multi_branches"
+                           optional="hide"/>
+                    <field name="company_id" optional="hide"/>
+                    <field name="list_price" string="Fees"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_service_product_form" model="ir.ui.view">
+            <field name="name">service.product.form.view</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <form string="Service Product">
+                    <sheet>
+                        <field name="image_1920" widget='image' class="oe_left oe_avatar"
+                               style="margin-right: 10px; margin-top: 15px;"
+                               options='{"zoom": true, "preview_image":"image_128"}'/>
+                        <div class="oe_title" style="width: auto;">
+                            <field name="name" required="1" placeholder="Name"
+                                   style="height:40px; width: 72%; margin-left: 5px;
+                                   margin-top: 20px;font-size:30px;"/>
+                            <field name="is_gym_service" invisible="1"/>
+                        </div>
+<!--                        <group>-->
+                            <notebook>
+                                <page string="General Information">
+                                    <group>
+                                        <group>
+                                            <field name="product_variant_count" invisible="1"/>
+                                            <field name="expense_policy" invisible="1"/>
+                                            <field name="type" string="Type"/>
+                                            <field name="categ_id" string="Category"/>
+                                            <field name="default_code"
+                                                   attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
+                                            <field name="description"/>
+                                        </group>
+                                        <group>
+                                            <field name="list_price" string="Price"/>
+                                            <field name="taxes_id" widget="many2many_tags" string="Taxes"
+                                                   context="{'default_type_tax_use':'sale', 'search_default_sale': 1, 'search_default_service': type == 'service', 'search_default_goods': type == 'consu'}"/>
+                                            <field name="company_id" options="{'no_create_edit': True}"
+                                                   optional="hide"/>
+<!--                                            <field name="branch_id" groups="aspl_fitness_management_ee.group_multi_branches"/>-->
+                                            <field name="branch_id" domain="[('company_id','=',company_id)]"
+                                                   groups="aspl_fitness_management_ee.group_multi_branches"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Exercises">
+                                    <field name="exercise_ids" mode="kanban">
+                                        <kanban class="o_kanban_mobile">
+                                            <field name="id"/>
+                                            <field name="image"/>
+                                            <field name="name"/>
+                                            <templates>
+                                                <t t-name="kanban-box">
+                                                    <div class="oe_kanban_global_click">
+                                                        <div class="oe_kanban_details" style="text-align: center; border-block: inherit; margin-bottom: 5px;">
+                                                            <strong class="o_kanban_record_title" style="font-weight: bold; font-size: medium;">
+                                                                <field name="name"/>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="o_kanban_image" style="width: inherit; display: grid; height: 125px;">
+                                                            <img t-att-src="kanban_image('gym.exercise', 'image', record.id.value)" class="oe_kanban_picture center rounded" alt="Product" widget="image" style="max-height: 120px; max-width: 280px; margin: auto;"/>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </templates>
+                                        </kanban>
+                                        <tree>
+                                            <field name="name" required="1"/>
+                                            <field name="description"/>
+                                        </tree>
+                                        <form>
+                                            <sheet>
+                                                <field name="image" widget='image' class="oe_left oe_avatar"
+                                                       style="margin-left: 5px; margin-top: 5px;"/>
+                                                <div class="oe_title" style="width: auto;">
+                                                    <h1>
+                                                        <field name="name" required="1" placeholder="Name"
+                                                               style="height:35px; max-width:370px; margin-left: 55px; margin-top: 5px"/>
+                                                    </h1>
+                                                </div>
+                                                <group>
+                                                    <field name="description"/>
+                                                    <field name="equipment_ids" widget="many2many_tags"/>
+                                                </group>
+                                                <notebook>
+                                                    <page string="Attachments">
+                                                        <field name="attachment_ids">
+                                                            <tree string="Attachments">
+                                                                <field name="name"/>
+                                                                <field name="description"/>
+                                                                <field name="type"/>
+                                                            </tree>
+                                                        </field>
+                                                    </page>
+                                                </notebook>
+                                            </sheet>
+                                        </form>
+                                    </field>
+                                </page>
+                            </notebook>
+<!--                        </group>-->
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_service_product_search" model="ir.ui.view">
+            <field name="name">service.product.search.view</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <search string="Service Product">
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="default_code"/>
+                    <field name="categ_id"/>
+                    <field name="branch_id" groups="aspl_fitness_management_ee.group_multi_branches"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Type" name="type"
+                                context="{'group_by':'type'}"/>
+                        <filter string="Category" name="categ_id"
+                                context="{'group_by':'categ_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_service_product_kanban" model="ir.ui.view">
+            <field name="name">service.kanban.view</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="id"/>
+                    <field name="image_1920"/>
+                    <field name="name"/>
+                    <field name="currency_id"/>
+                    <field name="list_price"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="oe_kanban_details"
+                                     style="text-align: center; border-block: inherit; margin-bottom: 5px;">
+                                    <strong class="o_kanban_record_title" style="font-weight: bold; font-size: medium;">
+                                        <field name="name"/>
+                                        <span t-if="record.list_price.value">(<field name="list_price"
+                                                                                    widget="monetary"
+                                                                                    options="{'currency_field': 'currency_id',
+                                                                                  'field_digits': True}"/>)
+                                        </span>
+                                    </strong>
+                                </div>
+                                <div class="o_kanban_image" style="width: inherit; display: grid; height: 150px;">
+                                    <img t-att-src="kanban_image('product.template', 'image_1920', record.id.value)"
+                                         class="oe_kanban_picture center" alt="Product" widget="image"
+                                         style="max-height: 150px; max-width: 320px; margin: auto;"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="action_service_product" model="ir.actions.act_window">
+            <field name="name">Service</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="domain">[('is_gym_service', '=', True)]</field>
+            <field name="context">{
+                'default_is_gym_service': True,
+                'gym_service': True,
+                'default_type': 'service',
+                'fitness_categ': True,
+                'default_company_id': allowed_company_ids[0]
+                }
+            </field>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_service_product_kanban')}),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_service_product_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_service_product_form')}),
+                ]"/>
+            <field name="search_view_id" ref="view_service_product_search"/>
+        </record>
+
+        <menuitem action="action_service_product"
+                  id="menu_action_service_product"
+                  sequence="1"
+                  parent="fitness_menu_gym"/>
+
+        <!--        Membership View-->
+        <record id="view_membership_product_tree" model="ir.ui.view">
+            <field name="name">membership.product.tree.view</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <tree string="Membership Product">
+                    <field name="name"/>
+                    <field name="default_code"/>
+                    <field name="list_price" string="Fees"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_membership_product_form" model="ir.ui.view">
+            <field name="name">membership.product.form.view</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <form string="Membership Product">
+                    <sheet>
+                        <field name="image_1920" widget="image" class="oe_left oe_avatar"
+                               style="margin-right: 10px; margin-top: 15px;"
+                               options="{'zoom': true, 'preview_image':'image_128'}"/>
+                        <div class="oe_title" style="width: auto;">
+                            <field name="name" required="1" placeholder="Name"
+                                   style="height:40px; width: 72%; margin-left: 5px; margin-top: 20px;font-size:30px;"/>
+                            <field name="is_membership" invisible="1"/>
+                        </div>
+<!--                        <group>-->
+                            <notebook>
+                                <page string="General Information">
+                                    <group>
+                                        <group>
+                                            <field name="product_variant_count" invisible="1"/>
+                                            <field name="expense_policy" invisible="1"/>
+                                            <field name="type" string="Type"/>
+                                            <field name="categ_id" string="Category"/>
+                                            <field name="default_code"
+                                                   attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
+                                            <label for="membership_period" string="Membership Period"/>
+                                            <div>
+                                                <field name="membership_period" class="oe_inline"/>
+                                                <field name="membership_period_type" class="oe_inline"
+                                                       style="margin-left: 10px;"/>
+                                            </div>
+
+                                        </group>
+                                        <group>
+                                            <field name="list_price" string="Fees"/>
+                                            <field name="taxes_id" widget="many2many_tags"
+                                                   context="{'default_type_tax_use':'sale', 'search_default_sale': 1,
+                                                    'search_default_service': type == 'service',
+                                                    'search_default_goods': type == 'consu'}"/>
+                                            <field name="company_id" options="{'no_create_edit': True}"
+                                                  optional="hide"/>
+<!--                                            <field name="branch_id" groups="aspl_fitness_management_ee.group_multi_branches"/>-->
+                                            <field name="branch_id" domain="[('company_id','=',company_id)]"
+                                                   groups="aspl_fitness_management_ee.group_multi_branches"/>
+                                        </group>
+                                    </group>
+                                </page>
+                            </notebook>
+<!--                        </group>-->
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_membership_product_search" model="ir.ui.view">
+            <field name="name">membership.product.search.view</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <search string="Membership Product">
+                    <field name="name" filter_domain="[('name','ilike',self)]" string="Name"/>
+                    <field name="type"/>
+                    <field name="categ_id"/>
+                    <field name="company_id"/>
+                    <field name="branch_id" groups="aspl_fitness_management_ee.group_multi_branches"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Type" name="type"
+                                context="{'group_by':'type'}"/>
+                        <filter string="Category" name="categ_id"
+                                context="{'group_by':'categ_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_membership_product_kanban" model="ir.ui.view">
+            <field name="name">membership.kanban.view</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="id"/>
+                    <field name="image_1920"/>
+                    <field name="type"/>
+                    <field name="name"/>
+                    <field name="default_code"/>
+                    <field name="list_price"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban">
+                                <img alt="Avatar"
+                                     t-att-src="kanban_image('product.template', 'image_1920', record.id.value)"
+                                     class="oe_kanban_picture"
+                                     options="{'placeholder': '/base/static/img/avatar_grey.png'}" widget="image"
+                                     style="max-height: 120px; max-width: 120px;"/>
+                                <div class="oe_kanban_details" style="margin-left: 5px;">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong style="margin-left: 12px;">
+                                                <field name="name"/>&#160; [<field name="default_code"/>]
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <ul style="margin-left: 12px;">
+                                        <li>
+                                            <t t-if="record.type.raw_value">
+                                                <li>
+                                                    <b>Product&#160;Type:</b>
+                                                    <field name="type"/>
+                                                </li>
+                                            </t>
+                                        </li>
+                                    </ul>
+                                    <ul style="margin-left: 12px;">
+                                        <li>
+                                            <t t-if="record.list_price.raw_value">
+                                                <li>
+                                                    <b>Price:</b>
+                                                    <field name="list_price"/>
+                                                </li>
+                                            </t>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="action_membership_product" model="ir.actions.act_window">
+            <field name="name">Membership</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_membership', '=', True)]</field>
+            <field name="context">{
+                'default_is_membership': True,
+                'default_company_id': allowed_company_ids[0],
+                'fitness_categ': True,
+                'default_type': 'service',
+                }
+            </field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_membership_product_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_membership_product_form')}),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_membership_product_kanban')}),
+                ]"/>
+            <field name="search_view_id" ref="view_membership_product_search"/>
+        </record>
+
+        <menuitem action="action_membership_product"
+                  id="menu_action_membership_product"
+                  sequence="1"
+                  parent="fitness_menu_membership"/>
+
+    </data>
+</odoo>

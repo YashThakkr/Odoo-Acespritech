@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<template id="report_loan_summary">
+			<t t-foreach="docs" t-as="doc">
+				<t t-call="web.basic_layout">
+					<div class="page">
+						<div class="oe_structure" />
+
+            <div class="row mt-4 mb-4" id="informations">
+                <div  class="col-auto col-3 mw-100 mb-2" name="loan_id">
+                    <h2><t t-esc="doc.loan_id"/></h2>
+                </div>
+                <div  class="col-auto col-3 mw-100 mb-2" name="employee_loan">
+                   <h2>Name: <t t-esc="doc.employee_id.name"/></h2>
+                </div>
+            </div>
+
+						<br/>
+
+						<div id="informations" class="row mt-4 mb32">
+							<div class="col-3 bm-2">
+								<strong>Approved Date</strong>
+								<p t-esc="doc.approve_date.strftime('%Y-%m-%d %H:%M:%S')" class="m-0"/>
+							</div>
+							<div  class="col-3 bm-2">
+								<strong>Loan Amount</strong>
+								<p t-esc="'%.2f' % (doc.amount)" class="m-0"/>
+							</div>
+							<div  class="col-3 bm-2">
+								<strong>Interest Rate (%)</strong>
+								<p t-esc="'%.2f' % (doc.rate)" class="m-0"/>
+							</div>
+							<div class="col-3 bm-2">
+								<strong>Terms</strong>
+								<p t-field="doc.term" class="m-0"/>
+							</div>
+						</div>
+
+						<table class="table table-sm o_main_table mt-4">
+							<thead>
+								<tr>
+									<th class="text-start">Due Date</th>
+									<th class="text-end">Principal</th>
+									<th class="text-end">Interest Rate</th>
+									<th class="text-end">Monthly EMI</th>
+								</tr>
+							</thead>
+							<tbody class="loan_tbody">
+								<t t-foreach="doc.loan_payment_ids" t-as="l">
+									<tr>
+										<td class="text-start">
+											<span t-field="l.due_date" />
+										</td>
+										<td class="text-end">
+											<span t-esc="'%.2f' % (l.principal)" />
+										</td>
+										<td class="text-end">
+											<span t-esc="'%.2f' %(l.interest)" />
+										</td>
+										<td class="text-end">
+											<span t-esc="'%.2f' %(l.total)" />
+										</td>
+									</tr>
+								</t>
+							</tbody>
+						</table>
+
+						<div class="row" name="total">
+							<div class="col-xs-4 pull-right">
+								<table class="table table-condensed">
+									<tr class="border-black">
+										<td>
+											<strong>Total Without Interest</strong>
+										</td>
+										<td class="text-end">
+											<span t-field="doc.total_principal_amt"
+												t-field-options='{"widget": "monetary", "display_currency": "doc.currency_id"}' />
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<strong>Interest</strong>
+										</td>
+										<td class="text-end">
+											<span t-field="doc.total_interest_amt"
+												t-field-options='{"widget": "monetary", "display_currency": "doc.currency_id"}' />
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<strong>Pre-Payment</strong>
+										</td>
+										<td class="text-end">
+											<span t-field="doc.total_pre_payment"
+												t-field-options='{"widget": "monetary", "display_currency": "doc.currency_id"}' />
+										</td>
+									</tr>
+									<tr class="border-black">
+										<td>
+											<strong>Total</strong>
+										</td>
+										<td class="text-end">
+											<span t-field="doc.amount_total"
+												t-field-options='{"widget": "monetary", "display_currency": "doc.currency_id"}' />
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+
+						<p t-if="doc.loan_type_id.term_condition">
+							<span t-field="doc.loan_type_id.term_condition" />
+						</p>
+						<div class="oe_structure" />
+					</div>
+				</t>
+			</t>
+		</template>
+
+	</data>
+</odoo>

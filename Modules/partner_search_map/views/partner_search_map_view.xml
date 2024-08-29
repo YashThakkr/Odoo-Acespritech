@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_partner_search_map_form" model="ir.ui.view">
+            <field name="name">partner.search.map</field>
+            <field name="model">partner.search.map</field>
+            <field name="arch" type="xml">
+                <form string="Search Map" class="oe_form_configuration">
+                    <header>
+                        <button string="Submit" type="object" name="show_map" class="oe_highlight" />
+                        or
+                        <button string="Cancel" type="object" name="cancel" class="oe_link" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="Search By Type">
+                                <label for="company" />
+                                <div>
+                                    <field name="company" />
+                                </div>
+                                <label for="contact" />
+                                <div>
+                                    <field name="contact" />
+                                </div>
+                            </group>
+                            <group string="Search By Address">
+                                <label for="name" />
+                                <div>
+                                    <field name="name" />
+                                </div>
+                                <label for="postcode" />
+                                <div>
+                                    <field name="postcode" style="width: 150px;" />
+                                </div>
+                                <label for="city" />
+                                <div>
+                                    <field name="city" style="width: 150px;" />
+                                </div>
+                                <label for="state_id" />
+                                <div>
+                                    <field name="state_id" style="width:150px;" options="{'no_create': True, 'no_create_edit':True}" />
+                                </div>
+                                <label for="country_id" />
+                                <div>
+                                    <field name="country_id" style="width:150px;" options="{'no_create': True, 'no_create_edit':True}" />
+                                </div>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Map">
+                                <center>
+                                    <b>
+                                        <span id="record"></span>
+                                    </b>
+                                </center>
+                                <div id="map" style="width: 800px;height: 500px;" />
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_partner_search_map" model="ir.actions.act_window">
+            <field name="name">Partner Search Map</field>
+            <field name="res_model">partner.search.map</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+        <!--New Menu For Partner Search Map -->
+        <menuitem id="menuitem_partner_search_map" sequence="3" name="Map" parent="sale.sale_menu_root" />
+
+        <menuitem action="partner_search_map.action_partner_search_map" name="Search Map" id="menuitem_partner_search_map_view" sequence="1"
+            parent="partner_search_map.menuitem_partner_search_map" />
+
+    </data>
+</odoo>

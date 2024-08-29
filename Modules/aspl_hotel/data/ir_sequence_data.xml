@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="sequence_hotel_walk_in" model="ir.sequence">
+            <field name="name">Walk In</field>
+            <field name="code">walk.in.detail</field>
+            <field name="prefix">WKIN/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="sequence_hotel_laundry_service" model="ir.sequence">
+            <field name="name">Laundry Service</field>
+            <field name="code">hotel.laundry.service</field>
+            <field name="prefix">LS/</field>
+            <field name="padding">5</field>
+        </record>
+
+        <record id="sequence_hotel_folio" model="ir.sequence">
+            <field name="name">Hotel Folio</field>
+            <field name="code">hotel.folio</field>
+            <field name="prefix">F/</field>
+            <field name="padding">5</field>
+        </record>
+
+        <record id="sequence_hotel_pickup_drop" model="ir.sequence">
+            <field name="name">Hotel Pickup Drop</field>
+            <field name="code">hotel.pickup.drop</field>
+            <field name="prefix">PKD</field>
+            <field name="padding">5</field>
+        </record>
+
+        <record id="sequence_hotel_currency_exchange" model="ir.sequence">
+            <field name="name">Hotel Currency Exchange</field>
+            <field name="code">hotel.currency.exchange</field>
+            <field name="prefix">CE/</field>
+            <field name="padding">5</field>
+        </record>
+
+    </data>
+</odoo>

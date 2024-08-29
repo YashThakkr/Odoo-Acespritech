@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+    <t t-name="aspl_float_slider_ee.RangeField" owl="1">
+        <div>
+            <input type="range" id="customRange1" min="0" max="10"
+                   t-on-change="(ev) => this.props.record.update({ [this.props.name]: ev.target.value })"
+                   t-att-value="range" step="1" style="width: 30%;"/>
+            <label for="customRange1" class="form-label">
+                <span t-esc="props.record.data[props.name]" style="top: -7px;position: relative;left: 10px;"/>
+            </label>
+        </div>
+    </t>
+</templates>

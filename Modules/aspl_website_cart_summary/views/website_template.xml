@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="website_cart_summary">
+        <div class="cart_summary">
+            <div class="custom_side" style="margin-left: 530px;">
+                <t t-if="product_page">
+                    <span class="website_cart_summary_open">
+                        <i class="fa fa-angle-double-right sidenav_cust"
+                           style="margin-right: 20px;z-index: 9999;">
+                        </i>
+                    </span>
+                </t>
+                <t t-else="">
+                    <span class="website_cart_summary_open">
+                        <i class="fa fa-angle-double-right sidenav_cust custom_class"
+                           style="margin-right: 20px;z-index: 9999;">
+                        </i>
+                    </span>
+                </t>
+            </div>
+            <div id="mySidenav" class="sidebar" style="margin-top: 20px;z-index:9999;width: 22%;margin-right: 20px;margin-top: 17px;">
+                <t t-set="order" t-value="request.website.sale_get_order()"/>
+                <div class="container">
+                    <div class="box-inner">
+                        <p class="content">
+                            Cart Summary
+                        </p>
+                    </div>
+                </div>
+                <div class="card custom_card">
+                    <div class="card-block text-xs-center">
+                        <div class="custom_nav">
+                            <span class="d-none d-xl-block mr8" id="product_price_total">Total
+                                <span t-field="order.amount_total" style="margin-left:2px;"/>
+                            </span>
+                            <hr class="d-none d-xl-block"/>
+                        </div>
+                        <div style="overflow: auto;height: 168px;">
+                        <t t-set="product_qty_sum" t-value="0"/>
+                            <t t-foreach="order.order_line" t-as="line">
+                                <t t-value="line.product_id.id"/>
+                                <div class="row mb8 cart_line" style="width: 100%;margin-left: 1px;">
+                                    <div class="col-3 text-center" style="margin-top: 4px;margin-left: -10px;">
+                                        <span t-field="line.product_id.image_128"
+                                              t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_image_64_max mb-2'}"/>
+                                    </div>
+                                    <div class="col-9" style="margin-top: -8px;">
+                                        <t t-call="website_sale.cart_line_product_link">
+                                            <div class="col-4"
+                                                 style="word-wrap: break-word;white-space: initial;display: inline-flex;width: 210px;">
+                                                <span class="h6" style="color:#714B67;" t-esc="line.name_short"/>
+                                            </div>
+                                        </t>
+                                        <a href='#' aria-label="Remove from cart" title="Remove from cart"
+                                           class='js_delete_product no-decoration custom_product_delete'
+                                           style="margin-left: 192px; margin-top: -10px;">
+                                            <small style="color: #00A09D;font-size: 61%;">
+                                                <i class='fa fa-trash-o' style="padding-bottom: 15px;"></i>
+                                            </small>
+                                        </a>
+                                        <input type="hidden" class="custom_line" t-att-value="line.id"/>
+                                        <input type="hidden" class="custom_product" t-att-value="line.product_id.id"/>
+                                        <div class="cart_quantity_inc" style="margin-left: 5px; margin-top: -36px;">
+                                            <button t-attf-href="#"
+                                                    class="btn btn-primary float_left js_minus_cart_product d-none d-md-inline-block"
+                                                    aria-label="Remove one" title="Remove one"
+                                                    style="padding: 0px 1px;background-color: white;border: white;">
+                                                <i class="fa fa-minus" style="color: #714B67;;"></i>
+                                            </button>
+                                            <input type="text" class="js_qty" id="add_product"
+                                                   t-att-value="int(line.product_uom_qty)" name="add_qty"
+                                                   style="width: 70px; height: 25px; text-align: center;"/>
+                                            <input type="hidden" class="product_count"
+                                                   t-att-value="len(order.order_line) - 1"/>
+                                            <button t-attf-href="#"
+                                                    class="btn btn-primary float_left js_add_cart_product d-none d-md-inline-block"
+                                                    aria-label="Add one" title="Add one"
+                                                    style="padding: 0px 1px;background-color: white;border: white;">
+                                                <i class="fa fa-plus" style="color: #714B67;;"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="d-none d-xl-block" style="margin-bottom:-1px;margin-top:-2px;"/>
+                                <t t-set="product_qty_sum" t-value="product_qty_sum + line.product_uom_qty"/>
+                            </t>
+                        </div>
+                        <div class="product_qty_count" style="margin-top: 4px;margin-right: 4px;">
+                            <span class="pull-right" style="color:black;">Total Product :
+                                <span t-esc="len(order.order_line)" name="total_product"
+                                      style="width: 35px; height: 25px; text-align: center;"/>
+                            </span>
+                            <br/>
+                            <span class="pull-right" style="color:black;">Total Quantity:
+                                <span t-esc="int(product_qty_sum)" name="total_qty"
+                                      style="width: 35px; height: 25px; text-align: center;"/>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="products" inherit_id="website_sale.products" active="True" customize_show="True"
+              name="Product Cart Summary">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <div id="wrap" class="js_sale custom_sale">
+                <div class="oe_structure" id="oe_structure_website_sale_products_1"/>
+                <div class="container oe_website_sale">
+                    <div class="products_pager form-inline flex-md-nowrap justify-content-between justify-content-md-center">
+                        <t t-call="website_sale.search">
+                            <t t-set="_classes">w-100 w-md-auto mt-2</t>
+                        </t>
+                        <t t-call="website_sale.pricelist_list">
+                            <t t-set="_classes">mt-2 ml-md-2</t>
+                        </t>
+                        <t t-call="website.pager">
+                            <t t-set="_classes">mt-2 ml-md-2</t>
+                        </t>
+                    </div>
+                    <div class="row">
+                        <div t-if="enable_left_column" id="products_grid_before" class="col-lg-3">
+                            <div class="products_categories"/>
+                            <div class="products_attributes_filters"/>
+                        </div>
+                        <div id="products_grid"
+                             t-attf-class="col #{'o_wsale_layout_list' if layout_mode == 'list' else ''}">
+                            <t t-if="category">
+                                <t t-set='editor_msg'>Drag building blocks here to customize the header for "<t
+                                        t-esc='category.name'/>" category.
+                                </t>
+                                <div class="mb16" id="category_header" t-att-data-editor-message="editor_msg"
+                                     t-field="category.website_description"/>
+                            </t>
+                            <div t-if="bins" class="o_wsale_products_grid_table_wrapper">
+                                <table class="table table-borderless m-0" t-att-data-ppg="ppg" t-att-data-ppr="ppr">
+                                    <colgroup t-ignore="true">
+                                        <!-- Force the number of columns (useful when only one row of (x < ppr) products) -->
+                                        <col t-foreach="ppr" t-as="p"/>
+                                    </colgroup>
+                                    <tbody>
+                                        <tr t-foreach="bins" t-as="tr_product">
+                                            <t t-foreach="tr_product" t-as="td_product">
+                                                <t t-if="td_product">
+                                                    <t t-set="product" t-value="td_product['product']"/>
+                                                    <td t-att-colspan="td_product['x'] != 1 and td_product['x']"
+                                                        t-att-rowspan="td_product['y'] != 1 and td_product['y']">
+                                                        <!--t-attf-class="oe_product #{td_product['class']}"-->
+                                                        <div t-attf-class="o_wsale_product_grid_wrapper o_wsale_product_grid_wrapper_#{td_product['x']}_#{td_product['y']}">
+                                                            <t t-call="website_sale.products_item">
+                                                                <t t-set="product_image_big"
+                                                                   t-value="td_product['x'] + td_product['y'] &gt; 2"/>
+                                                            </t>
+                                                        </div>
+                                                    </td>
+                                                </t>
+                                                <td t-else=""/>
+                                            </t>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <t t-else="">
+                                <div class="text-center text-muted">
+                                    <t t-if="not search">
+                                        <h3 class="mt8">No product defined</h3>
+                                        <p t-if="category">No product defined in category "<strong
+                                                t-esc="category.display_name"/>".
+                                        </p>
+                                    </t>
+                                    <t t-else="">
+                                        <h3 class="mt8">No results</h3>
+                                        <p>No results for "<strong t-esc='search'/>"
+                                            <t t-if="category">in category "<strong t-esc="category.display_name"/>"
+                                            </t>
+                                            .
+                                        </p>
+                                    </t>
+                                    <p t-ignore="true" groups="sales_team.group_sale_manager">Click <i>'New'</i> in the
+                                        top-right corner to create your first product.
+                                    </p>
+                                </div>
+                            </t>
+                        </div>
+                        <t t-set="order" t-value="request.website.sale_get_order()"/>
+                        <t t-if="order.order_line">
+                            <div class="col-md-2">
+                                <t t-set="product_page" t-value="False"/>
+                                <div class="custom_uni">
+                                    <t t-call="aspl_website_cart_summary.website_cart_summary"/>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                    <div class="products_pager form-inline justify-content-center mt-3">
+                        <t t-call="website.pager"/>
+                    </div>
+                </div>
+                <div class="oe_structure mb32" id="oe_structure_website_sale_products_2"/>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="website_cart_summary_view" inherit_id="website_sale.product" active="True" customize_show="True"
+              name="Product Cart Summary">
+        <xpath expr="//div[hasclass('justify-content-between')]" position="after">
+            <t t-set="order" t-value="request.website.sale_get_order()"/>
+            <t t-if="order.order_line">
+                <t t-set="product_page" t-value="True"/>
+                <div class="custom_uni">
+                    <t t-call="aspl_website_cart_summary.website_cart_summary" style="margin-top: 190px;"/>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <record id="website_sale.products_categories" model="ir.ui.view">
+        <field name="priority">17</field>
+    </record>
+
+    <record id="website_sale.products_attributes" model="ir.ui.view">
+        <field name="priority">20</field>
+    </record>
+
+    <record id="website_sale.filter_products_price" model="ir.ui.view">
+        <field name="priority">21</field>
+    </record>
+
+</odoo>

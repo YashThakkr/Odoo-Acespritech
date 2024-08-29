@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="1">
+        <record id="hobex_credit_card" model="payment.method">
+            <field name="name">Hobex Credit Card </field>
+            <field name="code">hobex</field>
+            <field name="sequence">1</field>
+            <field name="active">True</field>
+            <field name="image" type="base64" file="aspl_payment_hobex/static/img/hobex.png"/>
+            <field name="support_tokenization">True</field>
+            <field name="support_express_checkout">False</field>
+            <field name="support_refund"></field>
+        </record>
+
+        <record id="payment_method_hobex_credit_card" model="account.payment.method">
+            <field name="name">Hobex CreditCard</field>
+            <field name="code">hobex_credit_card</field>
+            <field name="payment_type">inbound</field>
+        </record>
+        
+        <record id="payment_provider_hobex_credit_card" model="payment.provider">
+            <field name="name">Hobex CreditCard</field>
+            <field name="code">hobex_credit_card</field>
+            <field name="image_128" type="base64" file="aspl_payment_hobex/static/src/img/hobex.png"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="module_id" ref="base.module_aspl_payment_hobex"/>
+            <field name="redirect_form_view_id" ref="aspl_payment_hobex.hobex_credit_card_form"/>
+            <field name="pre_msg"><![CDATA[
+<p>You will be redirected to the Hobex CreditCard after clicking on the payment button.</p>]]></field>
+            <field name="hobex_entityId">dummy</field>
+            <field name="hobex_url">dummy</field>
+            <field name="hobex_accesstoken">dummy</field>
+            <field name="payment_method_ids"
+               eval="[Command.set([
+                         ref('aspl_payment_hobex.hobex_credit_card'),
+                     ])]"/>
+        </record>
+        
+        <record id="hobex_paypal_payment_method" model="payment.method">
+            <field name="name">Hobex Paypal </field>
+            <field name="code">hobex</field>
+            <field name="sequence">1</field>
+            <field name="active">True</field>
+            <field name="image" type="base64" file="aspl_payment_hobex/static/img/hobex.png"/>
+            <field name="support_tokenization">True</field>
+            <field name="support_express_checkout">False</field>
+            <field name="support_refund"></field>
+        </record>
+
+        <record id="payment_method_hobex_paypal" model="account.payment.method">
+            <field name="name">Hobex Paypal</field>
+            <field name="code">hobex_paypal</field>
+            <field name="payment_type">inbound</field>
+        </record>
+
+        <record id="aspl_payment_hobex.payment_provider_paypal" model="payment.provider">
+            <field name="name">Hobex Paypal</field>
+            <field name="code">hobex_paypal</field>
+            <field name="image_128" type="base64" file="aspl_payment_hobex/static/src/img/hobex_paypal.png"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="module_id" ref="base.module_aspl_payment_hobex"/>
+            <field name="redirect_form_view_id" ref="aspl_payment_hobex.hobex_paypal_form"/>
+            <field name="pre_msg"><![CDATA[
+<p>You will be redirected to the Hobex Paypal after clicking on the payment button.</p>]]></field>
+            <field name="hobex_entityId">dummy</field>
+            <field name="hobex_url">dummy</field>
+            <field name="hobex_accesstoken">dummy</field>
+            <field name="payment_method_ids"
+               eval="[Command.set([
+                         ref('aspl_payment_hobex.payment_method_hobex_paypal'),
+                     ])]"/>
+        </record>
+
+        <record id="hobex_sofort_payment_method" model="payment.method">
+            <field name="name">Hobex Sofort </field>
+            <field name="code">hobex</field>
+            <field name="sequence">1</field>
+            <field name="active">True</field>
+            <field name="image" type="base64" file="aspl_payment_hobex/static/img/hobex.png"/>
+            <field name="support_tokenization">True</field>
+            <field name="support_express_checkout">False</field>
+            <field name="support_refund"></field>
+        </record>
+
+        <record id="payment_method_hobex_sofort" model="account.payment.method">
+            <field name="name">Hobex Sofort</field>
+            <field name="code">hobex_sofort</field>
+            <field name="payment_type">inbound</field>
+        </record>
+
+        <record id="aspl_payment_hobex.payment_provider_hobex_sofort" model="payment.provider">
+            <field name="name">Hobex Sofort</field>
+            <field name="code">hobex_sofort</field>
+            <field name="image_128" type="base64" file="aspl_payment_hobex/static/src/img/SOFORTUEBERWEISUNG.png"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="module_id" ref="base.module_aspl_payment_hobex"/>
+            <field name="redirect_form_view_id" ref="aspl_payment_hobex.hobex_sofort_form"/>
+            <field name="pre_msg"><![CDATA[
+<p>You will be redirected to the Hobex Sofort after clicking on the payment button.</p>]]></field>
+            <field name="hobex_entityId">dummy</field>
+            <field name="hobex_url">dummy</field>
+            <field name="hobex_accesstoken">dummy</field>
+            <field name="payment_method_ids"
+               eval="[Command.set([
+                         ref('aspl_payment_hobex.hobex_sofort_payment_method'),
+                     ])]"/>
+        </record>
+    </data>
+
+</odoo>

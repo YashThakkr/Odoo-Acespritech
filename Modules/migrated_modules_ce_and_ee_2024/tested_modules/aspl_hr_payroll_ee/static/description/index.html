@@ -1,0 +1,131 @@
+<section class="oe_container">
+	<div>
+		<div class="text-center">
+			<a target="new" href="http://www.acespritech.com">
+				<img src="ace_logo.png" style="width:200px;">
+			</a>
+		</div>
+	</div>
+</section>
+<br/>
+<section class="oe_container oe_dark">
+	<div class="oe_row">
+		<div class="oe_span12">
+			<h2 class="oe_slogan">Odoo 17 Odoo HR Payroll (Enterprise)</h2>
+			<h3 class="oe_slogan">HR Payroll for Community Version</h3>
+			<div>
+				<h3>
+					Features
+				</h3>
+			</div>
+			<ul>
+				<li style="color:#30054D;font-weight:bold;">Salary Rule</li>
+				<li style="color:#30054D;font-weight:bold;">Manage contracts</li>
+				<li style="color:#30054D;font-weight:bold;">Manage Employee payslip</li>
+				<li style="color:#30054D;font-weight:bold;">Handle Employee payslip batches</li>
+				<li style="color:#30054D;font-weight:bold;">Contribution Register</li>
+			</ul>
+			<h4 class="oe_slogan">How to use</h4>
+			<div class="oe_screenshot" style="text-align: left; color:#30054D;font-weight:bold;">
+				<ul>
+					<li><p>Payroll  is a company&apos;s list of its employees, but the term is commonly used to refer the total amount of money that a company pays to its employees. As the word itself, it indicates the sense of &quot;money paid to employees&quot;. The primary mission of the payroll department is to ensure that all employees are paid accurately and timely with the correct holding and deductions, and that the with holding and deductions are remitted in a timely manner. It is an important factor because payroll and payroll taxes considerably affect the net income. The primary mission of the payroll department is to ensure that all employees paid accurately and timely. Human Resource management module in Odoo manages all those works. This module includes a generic payroll engine that handles everything required to compute Employee payslip, the taxes to pay, etc. And also can manage company payroll in Odoo.</p>
+					<b>How to Install your country&apos;s Payroll from setting menu In Odoo</b>
+					</li>
+					<img style="max-width: 100%;font-weight:bold;" src="1_settings_ee.png"><br /><br />
+					<li>
+						<p>After installing payroll in Odoo of your database there are some process include ,The Salary rule are uses to compute data like allowances, deductions, net, taxes, contribution registers You can define salary rules by using the expression.</p>
+						<p>To define salary structure Go to Payroll -> Configuration -> Salary Structures where you can define some rule which is useful for computing the payslip. We can use a single structure for particular departments, or for other categories. It is possible to inherit Salary structures, so we can use extra rules for particular employees.</p>
+						<p>For example: &quot;First made a structure for the employee and given name as Manager selected the base structure that we created as the parent.&quot;</p>
+					</li>
+					<img style="max-width: 100%;font-weight:bold;" src="2_salary_struct_ee.png"><br /><br />
+					<li>
+						<p>The base structure includes the basic, Gross, Net salary rules.</p>
+
+					</li>
+					<img style="max-width: 100%;font-weight:bold;" src="3_structure_ee.png"><br /><br />
+					<li>
+						<p>We can select Any salary rules from Existing rules or create new.</p>
+					<br/>
+					</li>
+					<img style="max-width: 100%;font-weight:bold;" src="4_existing_salary_rule_ee.png"><br /><br />
+					<li>
+						<b>Salary Rule:</b><br/>
+						<p>The set of rules which define the computation of salary amount of different category. That can be of Basic, Allowance, Deduction, Gross, Net. You can define salary rules by using the expression. Here usage of sequence is for calculating Gross, should always be greater than the sequence&apos;s given on Allowance&apos;s rules, else it won&apos;t be considered in the calculation of Gross value.</p>
+						<p>It includes the condition and its computation to be specified. In computation part, we can select the computation of an amount based on Percentage, Fixed Amount, and Python Code. While using the Python expressions, and then returned value has to be set in the variable result.
+						</p>
+					<br/>
+					<img style="max-width: 100%;font-weight:bold;" src="5_salary_rule_ee.png"><br /><br />
+					<li>
+						<b>Contracts:</b><br/>
+						<p>Create a contract for an employee which is possible to use during the payslip generation. In this, have a Salary structure for payslip and a Scheduled Pay by using this salary / wages are scheduled to be paid. e.g. monthly, weekly, quarterly, etc.</p>
+						<p>Here In contracts, we specify the salary structure, Basic Wage, Duration, Working Schedule and Scheduled pay.</p>
+					<br/>
+					<img style="max-width: 100%;font-weight:bold;" src="6_contract_ee.png"><br /><br />
+					<li>
+						<b>Employee payslip:</b><br/>
+						<p>Payslip is a document issue by an employer to employee. It is possible to create payslip using clicking on Employee payslip menu. We can generate a payslip for employee in a contract and hence the payslip will calculate according to the selected salary structure in the contract. After generating payslip, it can be export as PDF and that can be of rule wise report and simple payslip report. In payslip generation we can select an employee and a contractor and a salary structure for generating payslip and define a period between beginning date of pay period and last date of pay period.</p>
+						<p>When you click on the compute sheet, Payslip will calculate based on the sequence provide on salary rules. Allowances and Deductions will be in positive and negative values respectively.</p>
+						<p>Worked days &amp; inputs tab used to list out the total worked hours base on the working schedule selected on contract.</p>
+					<br/>
+					<img style="max-width: 100%;font-weight:bold;" src="7_employee_payslip_ee.png"><br /><br />
+					<img style="max-width: 100%;font-weight:bold;" src="8_employee_payslip_sal_compute_ee.png"><br /><br />
+					<li>
+						<b>Employee payslip batches:</b><br/>
+						<p>By selecting payslip batches from a payroll we can Create payslips for various employees at a time. Its like a register which holds payslips of various employees.</p>
+					<br/>
+					<img style="max-width: 100%;font-weight:bold;" src="9_payslip_batch_ee.png"><br /><br />
+					<img style="max-width: 100%;font-weight:bold;" src="10_generate_payslip_ee.png"><br /><br />
+					<li>
+						<b>Contribution Register:</b><br/>
+						<p>Contribution register which are helpful to link list of details. After creating a register you can assign it on Salary rule. When the Payslip created, payslip lines generated through salary rules, having a contribution register will link with that register.</p>
+					<br/>
+					<img style="max-width: 100%;font-weight:bold;" src="11_contribution_register_ee.png"><br /><br />
+				</ul>
+		   </div>
+		</div>
+	</div>
+</section>
+<br/>
+<section class="oe_container">
+    <h3>
+        <center>Release Notes</center>
+    </h3>
+</section>
+<section class="oe_container" style="max-height: 350px;overflow: auto;">
+    <div class="release_note_container">
+        <div class="release_note_details" style="border-bottom: 1px solid #c4c4c4;padding-top: 5px;">
+            <div class="release_note_header" style="background: #c4c4c4;height: 47px;line-height: 20px;padding: 5px;border-radius: 3px;font-weight: bold;">
+                <span>Release Update - April 18, 2024</span>
+                <br/>
+                <span>Version - 17.0.1.0.0</span>
+            </div>
+            <div class="release_note_body">
+                <ul>
+                    <li>Initial Release</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row" style="background-color:#1f567d; width:49%; float:left; height:160px; border-radius:10px">
+       <div style="margin-bottom:10px" class="oe_slogan text-center">
+           <div class="oe_span12" style="width:100%">
+               <h3 class="text-center" style="color:#FFFFFF; font-size:18px; text-align:left !important"><b>NOTE:</b> We give 60 days support for our customers. Before trying in your live db, please ask us to provide you for test link. If any other custom modules are installed and because of that some errors occurs then we charge extra.</h3>
+           </div>
+       </div>
+   </div>
+    <div class="oe_row" style="background-color:#1f567d; width:49%; float:right; height:160px; border-radius:10px">
+        <div style="margin-bottom:10px" class="oe_slogan text-center">
+            <div class="oe_span12" style="width:100%">
+                <h3 class="text-center" style="color:#FFFFFF; font-size:20px">Contact us for support, query, customization</h3>
+            </div>
+            <span style="padding:0 15px; float:left; width:100%">
+                <a style="color:#FFFFFF; float:left; width:50%; font-weight:400; text-align:left"><b style="color:yellow">Website:</b> https://acespritech.com/</a>
+                <a style="color:#FFFFFF; float:left; width:50%; font-weight:400; text-align:left"><b style="color:yellow">Blog:</b> https://acespritech.com/blog/ </a><br>
+                <a href="mailto:info@acespritech.com" style="color:#FFFFFF; font-weight:400; float:left; width:50%; text-align:left"><b style="color:yellow">Email:</b> info@acespritech.com</a>
+                <a style="color:#FFFFFF; font-weight:400; float:left; width:50%; text-align:left"><b style="color:yellow">Skype: </b>acespritech</a><br>
+            </span>
+        </div>
+    </div>
+</section>

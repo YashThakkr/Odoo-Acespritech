@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="delivery_button" inherit_id="website_sale.cart_lines" name="Delivery Button In Lines">
+        <xpath expr="//div[@id='cart_products']//div[@name='website_sale_cart_line_price']" position="inside">
+            <t t-if="not request.env.user._is_public()">
+                <div class="text-center cart-ship-add" style="width: 70px;display:inline;">
+                    <button id="shipping_id" class="btn btn-primary deliver_address" data-toggle="tooltip" title="Add shipping address"
+                            style="width: 30px;height: 30px;padding-top: 1px;" t-att-data-line-id="line.id">
+                        <i class='fa fa-truck' style="margin-left: -6px;"/>
+                    </button>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="delivery_button_cart_summary" inherit_id="website_sale.checkout_layout" name="Delivery Button In Cart Summary">
+        <xpath expr="//table[@id='cart_products']/tbody/tr/td[@name='website_sale_cart_summary_line_price']" position="after">
+            <t t-if="not request.env.user._is_public() and website_sale_order.state in ('draft')">
+                <td class="td-ship-add" align="center">
+                    <button id="shipping_id" class="btn btn-primary deliver_address" data-toggle="tooltip" title="Add shipping address" style="width: 30px;height: 30px;padding-top: 1px;" t-att-data-line-id="line.id">
+                        <i class='fa fa-truck' style="margin-left: -6px;"/>
+                    </button>
+                </td>
+            </t>
+        </xpath>
+    </template>
+    
+    <template id="portal_my_home_sale_delivery" name="Show Delivery Address" customize_show="True"
+        inherit_id="portal.portal_my_home">
+        <xpath expr="//div[@id='portal_common_category']" position="after">
+            <div class="ship_address" style="margin-top:5px;">
+                <div class="ship_add" role="button">
+                    <t t-call="portal.portal_docs_entry" t-if="False"/>
+                    <t t-call="portal.portal_docs_entry">
+                        <t t-set="icon" t-value="'/portal/static/src/img/portal-addresses.svg'"/>
+                        <t t-set="title">Shipping Addresses</t>
+                        <t t-set="text">Configure your Shipping Address</t>
+                        <t t-set="config_card" t-value="True"/>
+                    </t>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

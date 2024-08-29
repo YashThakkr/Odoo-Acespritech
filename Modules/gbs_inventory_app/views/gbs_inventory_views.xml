@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_picking_form_inherit_signature" model="ir.ui.view">
+        <field name="name">stock.picking.form.signature</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="signature" widget="signature"/>
+                <field name="in_transit"/>
+                <field name="transit_status"/>
+                <field name="expected_delivery_date"/>
+                <field name="current_location"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_form_inherit_is_product" model="ir.ui.view">
+        <field name="name">product.product.form.is.product</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sale_ok']" position="before">
+            	<group>
+            		<field name="is_product"/>
+            	</group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_aces_small_barcode_label_form">
+            <field name="name">aces.small.barcode.label.form</field>
+            <field name="model">aces.small.barcode.label</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group string="Design Template">
+                        <group style="width:100% !important;">
+                            <group>
+                                <field name="design_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="paper_format_id" invisible="1"/>
+                                <field name="make_update_existing"/>
+                            </group>
+                            <group>
+                                <button string="Save" name="save_design_template" type="object" class="oe_highlight"
+                                        context="{'from_wizard': True}"/>
+                            </group>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Label">
+                            <field name="height"/>
+                            <field name="width"/>
+                        </group>
+                        <group string="Currency">
+                            <field name="currency_id"/>
+                            <field name="currency_position"/>
+                        </group>
+                    </group>
+                    <group string="Product Image" col="4">
+                        <field name="image_height"/>
+                        <field name="image_width"/>
+                    </group>
+                    <notebook>
+                        <page string="Products">
+                            <field name="product_lines">
+                                <tree string="Product Lines" editable="top">
+                                    <field name="product_id"/>
+                                    <field name="qty"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Fields">
+                            <field name="field_lines">
+                                <tree string="Lines" editable="top">
+                                    <field name="font_size"/>
+                                    <field name="font_color"/>
+                                    <field name="sequence"/>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Barcode">
+                            <group>
+                                <field name="barcode_type" style="width:30%"/>
+                                <field name="disp_height"/>
+                                <field name="disp_width"/>
+                            </group>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="action_call_report" string="Print" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_aces_small_barcode_label" model="ir.actions.act_window">
+            <field name="name">Dynamic Product Label</field>
+            <field name="res_model">aces.small.barcode.label</field>
+            <field name="binding_model_id" ref="product.model_product_product"/>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,37 @@
+<odoo>
+    <record id="view_purchase_order_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="collection_hrs"/>
+            </xpath>
+            <xpath expr="//field[@name='picking_type_id']" position="after">
+                <field name="payment_term_id"/>
+            </xpath>
+            <xpath expr="//page[@name='purchase_delivery_invoice']/group/group[@name='invoice_info']/field[@name='payment_term_id']"
+                   position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date_order']" position="attributes">
+                <attribute name="widget">date</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date_planned']" position="attributes">
+                <attribute name="widget">date</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date_approve']" position="attributes">
+                <attribute name="widget">date</attribute>
+            </xpath>
+<!--            <xpath expr="//field[@name='partner_id']" position="attributes">-->
+<!--                <attribute name="domain">[('is_company', '=', True)]</attribute>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="route"/>
+                <field name="opening_hours"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+
+

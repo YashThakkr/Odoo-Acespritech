@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="view_work_order_categ_form" model="ir.ui.view">
+            <field name="name">view.work.order.categ.form</field>
+            <field name="model">work.order.categ</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="active" widget="boolean_button" invisible="1"/>
+                        <widget name="web_ribbon" title="Active" bg_color="bg-success" invisible="not active"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <group col="2">
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="is_cleaning"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_work_order_categ_tree" model="ir.ui.view">
+            <field name="name">view.work.order.categ.tree</field>
+            <field name="model">work.order.categ</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_work_order_categ" model="ir.actions.act_window">
+            <field name="name">Work Order Category</field>
+            <field name="res_model">work.order.categ</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="view_maintenance_block_form" model="ir.ui.view">
+            <field name="name">view.maintenance.block.form</field>
+            <field name="model">maintenance.block</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="2">
+                            <field name="room_id"/>
+                        </group>
+                        <group col="4">
+                            <field name="block_from"/>
+                            <field name="block_until"/>
+                        </group>
+                        <group col="4">
+                            <field name="blocked_by_id"/>
+                            <field name="reason_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_maintenance_block_tree" model="ir.ui.view">
+            <field name="name">view.maintenance.block.tree</field>
+            <field name="model">maintenance.block</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="room_id"/>
+                    <field name="block_from"/>
+                    <field name="block_until"/>
+                    <field name="blocked_by_id"/>
+                    <field name="reason_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_maintenance_block" model="ir.actions.act_window">
+            <field name="name">Maintenance Block</field>
+            <field name="res_model">maintenance.block</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="view_maintenance_block_reason_form" model="ir.ui.view">
+            <field name="name">view.maintenance.block.reason.form</field>
+            <field name="model">maintenance.block.reason</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="active" widget="boolean_button" invisible="1"/>
+                        <widget name="web_ribbon" title="Active" bg_color="bg-success" invisible="not active"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <group col="2">
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_maintenance_block_reason_tree" model="ir.ui.view">
+            <field name="name">view.maintenance.block.reason.tree</field>
+            <field name="model">maintenance.block.reason</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_maintenance_block_reason" model="ir.actions.act_window">
+            <field name="name">Maintenance Block Reason</field>
+            <field name="res_model">maintenance.block.reason</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="view_work_order_detail_form" model="ir.ui.view">
+            <field name="name">view.work.order.detail.form</field>
+            <field name="model">work.order.detail</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="4">
+                            <field name="user_id" domain="[('is_work_order','=', True)]"/>
+                            <field name="work_date"/>
+                        </group>
+                        <notebook>
+                            <page string="Work Order Line">
+                                <field name="work_order_line_ids" nolabel="1">
+                                    <tree editable="bottom">
+<!--                                        <field name="work_order_id" invisible="1" />-->
+                                        <field name="room_id"/>
+                                        <field name="work_order_categ_id"/>
+                                        <field name="description" />
+                                        <field name="start_time" readonly="1"/>
+                                        <field name="end_time" readonly="1"/>
+                                        <field name="work_duration" readonly="1"/>
+                                        <field name="remark" readonly="1"/>
+                                        <field name="status" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_work_order_detail_tree" model="ir.ui.view">
+            <field name="name">view.work.order.detail.tree</field>
+            <field name="model">work.order.detail</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="user_id"/>
+                    <field name="work_date"/>
+                </tree>
+            </field>
+        </record>
+
+         <record id="action_work_order_detail" model="ir.actions.act_window">
+            <field name="name">Work Order Detail</field>
+            <field name="res_model">work.order.detail</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="view_users_form_housekeeping" model="ir.ui.view">
+            <field name="name">res.users.form.housekeeping</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="action_id" position="before">
+                        <field name="is_work_order"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+        <record id="housekeeping_action" model="ir.actions.client">
+            <field name="name">House keeping Dashboard</field>
+            <field name="tag">open_housekeeping_dashboard</field>
+        </record>
+
+        <menuitem
+            action="housekeeping_action"
+            id="housekeeping_dashboard_menu"
+            parent="aspl_hotel.sub_menu_house_keeping" sequence="5"
+            groups='aspl_hotel.group_hotel_house_keeper,aspl_hotel.group_hotel_house_keeper_manager'
+            name="House Keeping Dashboard"/>
+
+        <menuitem id="menu_work_order_detail" parent="aspl_hotel.sub_menu_house_keeping"
+                  action="action_work_order_detail" sequence="4" groups="aspl_hotel.group_house_keeping,aspl_hotel.group_hotel_house_keeper,aspl_hotel.group_hotel_house_keeper_manager,aspl_hotel.group_hotel_manager"/>
+
+
+        <menuitem id="menu_work_order_categ" parent="aspl_hotel.configuration_menu_hotel"
+                  action="action_work_order_categ" sequence="6" />
+    </data>
+</odoo>

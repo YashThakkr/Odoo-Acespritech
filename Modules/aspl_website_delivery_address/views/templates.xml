@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="shipping_dialog_modal" name="Shipping Addresses">
+        <main class="modal-body">
+            <t t-call="aspl_website_delivery_address.display_shipping_dialog" />
+        </main>
+    </template>
+
+    <template id="display_shipping_dialog">
+        <div class="grid_address" style="overflow-x: hidden;padding: 15px;width:100%">
+            <t t-foreach="src" t-as="add">
+                <label class="address_card"
+                       style="max-width: 190px;max-height: 170px;min-width: 190px;min-height: 170px;word-wrap: break-word;">
+                    <t t-if="add['selected']">
+                        <input name="address" t-att-value="add['id']" t-att-data-address-id="add['id']" class="radio address_radio" type="radio" style="margin-top: -10px;margin-right: -10px;" checked='checked'/>
+                    </t>
+                    <t t-else="">
+                        <input name="address" t-att-value="add['id']" t-att-data-address-id="add['id']" style="margin-top: -10px;margin-right: -10px;" class="radio address_radio" type="radio"/>
+                    </t>
+                    <div class="address-details" style="max-width: 190px;max-height: 170px;min-width: 190px;min-height: 170px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis;">
+                        <input type="hidden" name="select_add" t-att-value="add['id']"/>
+                        <div class="row" style="margin-left:2px;">
+                            <button id="edit_address" t-att-value="add['id']" style="width: 23px;height: 25px;margin-top:-9px;"
+                                class="edit_address"><i class='fa fa-pencil' style="margin-left:-6px;"/>
+                        </button>
+                        <button id="delete_address" t-att-value="add['id']" style="width: 23px;height: 25px;margin-top:-9px;margin-left:5px;"
+                                class="delete_address"><i class='fa fa-trash' style="margin-left:-5px;"/>
+                        </button>
+                        </div>
+                        <span class="add-type" data-toggle="tooltip" t-att-title="add['name']" style="margin-top: 15px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis;">
+                            <t t-esc="add['name']"/>
+                        </span>
+                        <span style="white-space: nowrap;overflow: hidden;text-overflow:ellipsis;" data-toggle="tooltip" t-att-title="add['street']">
+                            <t t-esc="add['street']"/>
+                        </span>
+                        <span style="white-space: nowrap;overflow: hidden;text-overflow:ellipsis;" data-toggle="tooltip" t-att-title="add['street2']">
+                            <t t-esc="add['street2']"/>
+                        </span>
+                        <span style="white-space: nowrap;overflow: hidden;text-overflow:ellipsis;">
+                            <t t-esc="add['zip']"/>
+                        </span>
+                        <span style="white-space: nowrap;overflow: hidden;text-overflow:ellipsis;" data-toggle="tooltip" t-att-title="add['email']">
+                            <t t-esc="add['email']"/>
+                        </span>
+                    </div>
+                </label>
+            </t>
+            <label class="address_card" style="max-width: 190px;max-height: 170px;min-width: 190px;min-height: 170px;word-wrap: break-word;">
+                <span class="add-type">
+                    <button id="add_new_shipping_id" class="btn new_ship_add" style="padding: 56px;min-width: 190px;">
+                        <i class="fa fa-plus-square fa-4x"/>
+                    </button>
+                </span>
+            </label>
+        </div>
+    </template>
+
+    <template id="shipping_address_data">
+        <div class="container">
+            <form style="display: flex;flex-direction: row;">
+                <t t-if="source">
+                    <div class="form-group row">
+                        <input type="hidden" name="partner_id" id="partner_id" t-att-value="source['id']"/>
+                        <label for="add_name" class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-4">
+                            <input type="text" style="margin-top:5px;" class="form-control" id="add_name"
+                                   t-att-value="source['name']" placeholder="Enter Name"
+                                   required="required"
+                                   name="add_name"/>
+                        </div>
+                        <label for="street" class="col-sm-2 col-form-label">Street</label>
+                        <div class="col-sm-4">
+                            <input type="text" style="margin-top:5px;" class="form-control" id="street"
+                                   t-att-value="source['street']" placeholder="Enter Street"
+                                   required="required"
+                                   name="street"/>
+                        </div>
+                        <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+                        <div class="col-sm-4">
+                            <input type="text" style="margin-top:5px;" class="form-control" id="phone"
+                                   t-att-value="source['phone']" placeholder="Enter Phone"
+                                   required="required"
+                                   name="phone"/>
+                        </div>
+                        <label for="street2" class="col-sm-2 col-form-label">Street2</label>
+                        <div class="col-sm-4">
+                            <input type="text" style="margin-top:5px;" class="form-control" id="street2"
+                                   t-att-value="source['street2']" placeholder="Enter Street2"
+                                   required="required"
+                                   name="street2"/>
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-4">
+                            <input type="email" style="margin-top:5px;" class="form-control" id="email"
+                                   t-att-value="source['email']" placeholder="Enter Email"
+                                   required="required"
+                                   name="email"/>
+                        </div>
+                        <label for="zip" class="col-sm-2 col-form-label">Zip</label>
+                        <div class="col-sm-4">
+                            <input type="text" style="margin-top:5px;" class="form-control" id="zip"
+                                   t-att-value="source['zip']" placeholder="Enter Zip"
+                                   required="required"
+                                   name="zip"/>
+                        </div>
+                        <label for="city" class="col-sm-2 col-form-label">City</label>
+                        <div class="col-sm-4">
+                            <input type="text" style="margin-top:5px;" class="form-control" id="city"
+                                   t-att-value="source['city']" placeholder="Enter City"
+                                   required="required"
+                                   name="zip"/>
+                        </div>
+                        <label for="select_state" class="col-sm-2 col-form-label" style="margin-top: 5px;">State
+                        </label>
+                        <div class="col-sm-4" style="margin-top: 5px;">
+                            <input type="hidden" name="select_state" t-att-value="select_state"/>
+                            <select placeholder="state" name="select_state" class="form-control multiple-state-select"
+                                    id="select_state" required="required">
+                                <t t-if="state_ids">
+                                    <t t-foreach="state_ids" t-as="state">
+                                        <t t-if="source and state['id'] == source['state_id'][0]">
+                                            <option t-att-value="state['id']" selected='selected'>
+                                                <span t-esc="state['name']"/>
+                                            </option>
+                                        </t>
+                                        <t t-else="">
+                                            <option t-att-value="state['id']">
+                                                <span t-esc="state['name']"/>
+                                            </option>
+                                        </t>
+                                    </t>
+                                </t>
+                            </select>
+                        </div>
+                        <label for="select_country" class="col-sm-2 col-form-label" style="margin-top: 5px;">Country
+                        </label>
+                        <div class="col-sm-4" style="margin-top: 5px;">
+                            <input type="hidden" name="select_country" t-att-value="select_country"/>
+                            <select placeholder="Country" name="select_country"
+                                    class="form-control multiple-country-select"
+                                    id="select_country" required="required">
+                                <t t-if="country_ids">
+                                    <t t-foreach="country_ids" t-as="country">
+                                        <t t-if="source and country['id'] == source['country_id'][0]">
+                                            <option t-att-value="country['id']" selected='selected'>
+                                                <span t-esc="country['name']"/>
+                                            </option>
+                                        </t>
+                                        <t t-else="">
+                                            <option t-att-value="country['id']">
+                                                <span t-esc="country['name']"/>
+                                            </option>
+                                        </t>
+                                    </t>
+                                </t>
+                            </select>
+                        </div>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="form-group row">
+                        <label for="add_name" class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-4">
+                            <input type="text" style="margin-top:5px;" class="form-control" id="add_name"
+                                   placeholder="Enter Name"
+                                   required="required"
+                                   name="add_name"/>
+                        </div>
+                        <label for="street" class="col-sm-2 col-form-label">Street</label>
+                        <div class="col-sm-4">
+                            <input type="text" style="margin-top:5px;" class="form-control" id="street"
+                                   placeholder="Enter Street"
+                                   required="required"
+                                   name="street"/>
+                        </div>
+                        <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+                        <div class="col-sm-4">
+                            <input type="text" style="margin-top:5px;" class="form-control" id="phone"
+                                   placeholder="Enter Phone"
+                                   required="required"
+                                   name="phone"/>
+                        </div>
+                        <label for="street2" class="col-sm-2 col-form-label">Street2</label>
+                        <div class="col-sm-4">
+                            <input type="text" style="margin-top:5px;" class="form-control" id="street2"
+                                   placeholder="Enter Street2"
+                                   required="required"
+                                   name="street2"/>
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-4">
+                            <input type="email" style="margin-top:5px;" class="form-control" id="email"
+                                   placeholder="Enter Email"
+                                   required="required"
+                                   name="email"/>
+                        </div>
+                        <label for="zip" class="col-sm-2 col-form-label">Zip</label>
+                        <div class="col-sm-4">
+                            <input type="text" style="margin-top:5px;" class="form-control" id="zip"
+                                   placeholder="Enter Zip"
+                                   required="required"
+                                   name="zip"/>
+                        </div>
+                        <label for="city" class="col-sm-2 col-form-label">City</label>
+                        <div class="col-sm-4">
+                            <input type="text" style="margin-top:5px;" class="form-control" id="city"
+                                   placeholder="Enter City"
+                                   required="required"
+                                   name="zip"/>
+                        </div>
+                        <label for="select_state" class="col-sm-2 col-form-label" style="margin-top: 5px;">State
+                        </label>
+                        <div class="col-sm-4" style="margin-top: 5px;">
+                            <input type="hidden" name="select_state" t-att-value="select_state"/>
+                            <select placeholder="state" name="select_state" class="form-control multiple-state-select"
+                                    id="select_state" required="required">
+                                <t t-if="state_ids">
+                                    <t t-foreach="state_ids" t-as="state">
+                                        <option t-att-value="state['id']">
+                                            <span t-esc="state['name']"/>
+                                        </option>
+                                    </t>
+                                </t>
+                            </select>
+                        </div>
+                        <label for="select_country" class="col-sm-2 col-form-label" style="margin-top: 5px;">Country
+                        </label>
+                        <div class="col-sm-4" style="margin-top: 5px;">
+                            <input type="hidden" name="select_country" t-att-value="select_country"/>
+                            <select placeholder="Country" name="select_country"
+                                    class="form-control multiple-country-select"
+                                    id="select_country" required="required">
+                                <t t-if="country_ids">
+                                    <t t-foreach="country_ids" t-as="country">
+                                        <option t-att-value="country['id']">
+                                            <span t-esc="country['name']"/>
+                                        </option>
+                                    </t>
+                                </t>
+                            </select>
+                        </div>
+                    </div>
+                </t>
+            </form>
+        </div>
+    </template>
+</odoo>

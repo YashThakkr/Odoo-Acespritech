@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="account_invoice_form_signature" model="ir.ui.view">
+        <field name="name">account.move.form.signature</field>
+        <field name="model">account.move</field>
+        <field name="priority">20</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//page[@name='other_info']" position="after">
+<!--                    attrs="{'invisible': [('signature', '=', False)]}"-->
+                    <page string="Customer Signature" invisible="not signature">
+                        <group>
+                            <group>
+                                <field name="signed_by"/>
+                                <field name="signed_on"/>
+                                <field name="signature" widget="image"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </data>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="loan_summary_report" model="ir.actions.report">
+            <field name="name">Loan Summary</field>
+            <field name="model">loan.application</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">aspl_employee_loan.report_loan_summary</field>
+            <field name="report_file">aspl_employee_loan.report_loan_summary</field>
+            <field name="binding_model_id" ref="model_loan_application"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="loan_contract_report" model="ir.actions.report">
+            <field name="name">Contract</field>
+            <field name="model">loan.application</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">aspl_employee_loan.report_loan_contract</field>
+            <field name="report_file">aspl_employee_loan.report_loan_contract</field>
+            <field name="binding_model_id" ref="model_loan_application"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="summery_paperformat_euro" model="report.paperformat">
+            <field name="name">Loan European A4</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">50</field>
+            <field name="margin_bottom">33</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">50</field>
+            <field name="dpi">90</field>
+            <field name="report_ids" eval="[(6,0,[
+                                ref('aspl_employee_loan.loan_contract_report'),
+                                ref('aspl_employee_loan.loan_summary_report')])]"/>
+        </record>
+
+    </data>
+</odoo>

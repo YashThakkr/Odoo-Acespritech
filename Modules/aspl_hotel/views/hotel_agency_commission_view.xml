@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="view_hotel_agency_commission_form" model="ir.ui.view">
+            <field name="name">view.hotel.agency.commission.form</field>
+            <field name="model">hotel.agency.commission</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Agency Commission">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="walk_in_id"/>
+                            </group>
+                            <group>
+                                <field name="agency_id" domain="[('is_agent','=', True)]"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hotel_agency_commission_tree" model="ir.ui.view">
+            <field name="name">view.hotel.agency.commission.tree</field>
+            <field name="model">hotel.agency.commission</field>
+            <field name="arch" type="xml">
+                <tree string="Hotel Agency Commission">
+                    <field name="walk_in_id"/>
+                    <field name="agency_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_hotel_agency_commission" model="ir.actions.act_window">
+            <field name="name">Agency Commissions</field>
+            <field name="res_model">hotel.agency.commission</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_hotel_agency_commission" parent="aspl_hotel.configuration_menu_hotel"
+                  action="action_hotel_agency_commission" sequence="31"/>
+
+    </data>
+</odoo>

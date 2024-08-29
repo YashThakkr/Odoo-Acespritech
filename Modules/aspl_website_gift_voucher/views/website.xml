@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Website Config Setting -->
+        <record id="aspl_website_gift_voucher_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="website.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//block[@id='website_settings'][2]" position="before">
+                    <block title="Gift Voucher" id="website_gift_voucher_setting">
+                        
+                        <setting id="gift_voucher_setting" help="Enable Gift Voucher">
+                            <field name="gift_voucher" class="o_light_label" />
+                        </setting>
+
+                        <setting id="product_id_setting" invisible="not gift_voucher">
+                            <field name="product_id" class="o_light_label" />
+                        </setting>
+
+                        <setting id="child_cate_setting" help="Enable Discount For Child Category" 
+                            invisible="not gift_voucher">
+                            <field name="child_cate" string="Child Category" class="o_light_label" />
+                        </setting>
+
+                        <setting id="voucher_show_option_setting" help="Voucher display options" 
+                            invisible="not gift_voucher">
+                            <field name="voucher_show_option" widget="radio" class="o_light_label" />
+                        </setting>
+
+                        <setting id="voucher_show_option_setting" help="Display Notification On" 
+                            invisible="voucher_show_option == 'slider'">
+                            <field name="voucher_notification_show" class="o_light_label" />
+                        </setting>
+
+                         <setting id="voucher_show_option_setting" help="Interval Time" 
+                            invisible="voucher_notification_show == 'pageload' or voucher_show_option == 'slider'">
+                            <field name="interval_time" class="o_light_label" />
+                        </setting>
+
+                        <setting id="interval_time_setting" help="Delay Time" 
+                            invisible="voucher_show_option == 'slider'">
+                            <field name="delay_time" class="o_light_label" />
+                        </setting>
+
+                    </block>
+                </xpath>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

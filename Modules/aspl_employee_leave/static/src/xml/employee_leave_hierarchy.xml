@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- Hierarchy Menu -->
+     <t t-name="aspl_employee_leave.HierarchyMenu" owl="1">
+        <div class="HierarchyMenuContainer o-dropdown--no-caret">
+            <a class="o_EmployeeLeave_toggler  o-dropdown dropdown dropdown-toggle o-dropdown--no-caret"
+               href="#" role="button"
+               t-on-click="toggleDropDown">
+                <i class="o_EmployeeLeave_icon fa fa-id-badge" role="img"/>
+                <span class="Employee_leave_badge badge"><t t-esc="state.leave_count"/></span>
+                <div t-if="state.isOpen"
+                     class="o_EmployeeLeaveHierarchy_dropdownMenu dropdown-menu dropdown-menu-right"
+                     id="EmployeeLeaveToggle"
+                    t-att-class="state.isOpen ? 'show' : ''" role="menu">
+                     <div class="o_MessagingMenu_dropdownMenuHeader" style="margin:5px;">
+                         <h4 style="text-align: center;">Employee Leaves</h4>
+                     </div>
+                    <div>
+                        <t t-if="state.EmployeeData[0]">
+                            <t t-set="EmployeeData" t-value="state.EmployeeData[0]"/>
+                        </t>
+                        <t t-else="">
+                            <div id="request">
+                                 No leave requests found!
+                            </div>
+                        </t>
+                        <table>
+                            <t t-if="EmployeeData">
+                                <t t-foreach="EmployeeData" t-as="leave" t-key="leave.id">
+                                    <tr class="o_employee_data">
+                                        <td width="2%"> </td>
+                                        <td width="5px" class="o_employee_image">
+                                            <img t-att-src="image(leave.emp_id)" alt="User"
+                                                 class="rounded-circle o_user_avatar"/>
+                                        </td>
+                                        <div class="flex-parent-element">
+                                            <div class="flex-child-element">
+                                                <p><b><t t-esc="leave['employee_ids']"/></b></p>
+                                                <p> Resaon : <t t-esc="leave['holiday_status_id']"/></p>
+                                                <p><t t-esc="leave['start_date']"/>
+                                                    To
+                                                    <t t-esc="leave['end_date']"/></p>
+                                            </div>
+                                            <div class="flex-child-element">
+                                                <p><a class="leave_days" role="button"
+                                                     t-on-click.prevent="() =&gt; this._on_leave_days(leave.id)" title="Leave Open"
+                                                         aria-lable="Leave Open"><t t-esc="leave['days']"/> Days</a></p>
+                                                <p>
+                                                    <button name="button_approve" id="button_approve"
+                                                            title="Approve"
+                                                            aria-lable="Approve"
+                                                            t-on-click.prevent="() =&gt; this._on_approve(leave.id)"
+                                                            class="o_approve_button">
+                                                          <i class="fa fa-check"/>
+                                                    </button>
+                                                    <button name="action_reject" string="Reject" id="button_reject"
+                                                            title="Reject" aria-lable="Reject"
+                                                            t-on-click.prevent="() =&gt; this._on_reject(leave.id)"
+                                                            class="o_reject_button">
+                                                        <i class="fa fa-times"/>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-divider" role="separator"/>
+                                    </tr>
+                                </t>
+                            </t>
+                        </table>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </t>
+</templates>

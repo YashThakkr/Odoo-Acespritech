@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.actions.act_window" id="consignee_location_quants">
+            <field name="context">{'search_default_productgroup': 1}</field>
+            <field name="name">Current Stock</field>
+            <field name="domain">[('location_id', '=', context.get('location_id'))]</field>
+            <field name="res_model">stock.quant</field>
+        </record>
+
+        <record id="view_users_form_inherit" model="ir.ui.view">
+            <field name="name">res.users.form.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/field[@name='partner_id']" position="after">
+                    <field name="is_consignee"/>
+                </xpath>
+                <!-- <xpath expr="//page/field[@name='groups_id']" position="after">
+                    <field name="is_consignee"/>
+                </xpath> -->
+            </field>
+        </record>
+
+        <record id="view_partner_form_inherit" model="ir.ui.view">
+            <field name="name">view.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='sales_purchases']" position="inside">
+                    <group>
+                        <field name="is_consignee"/>
+                        <field name="location_id" options="{'no_create':True,'no_create_edit':True}"/>
+                    </group>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="after">
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" string="On hand" type="action"
+                                name="%(consignee_location_quants)d" icon="fa-building-o"
+                                invisible="not is_consignee"
+                                context="{'location_id': location_id}"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

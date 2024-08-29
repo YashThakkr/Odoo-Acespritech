@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_menu_sale" name="Portal layout : sales menu entries" inherit_id="sale.sale_order_portal_content_totals_table">
+        <xpath expr="//table" position="inside">
+            <tr class="border-black 0px;">
+                <td>
+                    <strong>Discount</strong>
+                </td>
+                <td class="text-end">
+                    <span t-field="sale_order.discount" t-options='{"widget": "monetary", "display_currency": sale_order.pricelist_id.currency_id}' />
+                </td>
+            </tr>
+            <tr class="border-black">
+                <td>
+                    <strong>Net Total</strong>
+                </td>
+                <td class="text-end">
+                    <span t-field="sale_order.net_total" t-options='{"widget": "monetary", "display_currency": sale_order.pricelist_id.currency_id}' />
+                </td>
+            </tr>
+        </xpath>
+    </template>
+</odoo>

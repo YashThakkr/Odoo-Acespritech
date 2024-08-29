@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_account_payment_register_form_inherit_discount" model="ir.ui.view">
+        <field name="name">account.payment.register.form.inherit</field>
+        <field name="model">account.payment.register</field>
+        <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='group3']" position="replace">
+                <group name="group3"
+                       invisible="payment_difference == 0.0 or not can_edit_wizard or (can_group_payments and not group_payment)">
+                    <label for="payment_difference"/>
+                    <div>
+                        <field name="payment_difference"/>
+                        <field name="payment_difference_handling" widget="radio" nolabel="1"/>
+                        <div invisible="payment_difference == 'open'">
+                            <label for="discount_type" class="oe_edit_only" string="Discount Type"
+                                    invisible="payment_difference_handling != 'discount' and payment_difference != 0.0"
+                            />
+                            <field name="discount_type" widget="radio"
+                                   required="payment_difference_handling == 'discount' and payment_difference != 0.0"
+                                   invisible="payment_difference_handling != 'discount' and payment_difference != 0.0"
+                            />
+                            <span invisible="not discount_type or payment_difference_handling != 'discount' and payment_difference != 0.0">Discount</span>
+                            <field name="discount_amount"
+                                   required="payment_difference_handling == 'discount' and payment_difference != 0.0"
+                                   invisible="discount_type != 'fix_amount' or payment_difference_handling != 'discount' and payment_difference != 0.0"
+                            />
+<!--                            <label for="discount_percentage" class="oe_edit_only" string="Discount Percentage"-->
+<!--                                    invisible="payment_difference_handling != 'discount' and payment_difference != 0.0"-->
+<!--                            />-->
+                            <field name="discount_percentage"
+                                   required="payment_difference_handling == 'discount' and payment_difference != 0.0"
+                                   invisible="discount_type != 'percentage' or payment_difference_handling != 'discount' and payment_difference != 0.0"
+                            />
+                            <label for="writeoff_account_id" string="Post Difference In" class="oe_edit_only"/>
+                            <field name="writeoff_account_id"
+                                   string="Post Difference In"
+                                   options="{'no_create': True}"
+                                   required="payment_difference_handling == 'reconcile'"
+                            />
+                            <label for="writeoff_label" class="oe_edit_only" string="Label"/>
+                            <field name="writeoff_label" required="payment_difference_handling == 'reconcile'"/>
+                        </div>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
+

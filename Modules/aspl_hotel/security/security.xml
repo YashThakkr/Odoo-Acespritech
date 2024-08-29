@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record model="res.groups" id="group_multi_branches">
+            <field name="name">Multi Branches</field>
+            <field name="category_id" ref="base.module_category_usability"/>
+        </record>
+
+<!--        Hotel custom objects-->
+<!--        <record id="company_branch_rule_work_order_categ" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Work Order category</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_work_order_categ"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_maintenance_block" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Maintenance Block</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_maintenance_block"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_maintenance_block_reason" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Maintenance Block Reason</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_maintenance_block_reason"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_house_status" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel House Status</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_house_status"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_work_order_detail" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Work Order Detail</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_work_order_detail"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_work_order_line" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Work Order Line</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_work_order_line"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_agent_commission" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Agent Commission</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_agent_commission"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_report_commission_analysis" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Report Commission Analysis</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_report_commission_analysis"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_commission_payment" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Commission Payment</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_commission_payment"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_agency_commission" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Agency Commission</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_agency_commission"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_account_payment" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Account Payment</field>-->
+<!--            <field name="model_id" ref="account.model_account_payment"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_cancellation_policy" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Cancellation Policy</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_cancellation_policy"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_cancellation_policy_line" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Cancellation Policy Line</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_cancellation_policy_line"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_event" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Events</field>-->
+<!--            <field name="model_id" ref="event.model_event_event"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_folio" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Folio</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_folio"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_laundry_service_type" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Laundry Service Type</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_laundry_service_type"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_laundry_item" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Laundry Item</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_laundry_item"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_laundry_item_service" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Laundry Item Service</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_laundry_item_service"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_laundry_service" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Laundry Service</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_laundry_service"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_laundry_service_line" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Laundry Service Line</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_laundry_service_line"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_laundry_assign_agency" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Laundry Assign Agency</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_laundry_assign_agency"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_laundry_hotel_receive_cloth" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Laundry Received Clothes</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_laundry_hotel_receive_cloth"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_wizard_hotel_receive_cloth_line" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Wizard Hotel Received Clothe Line</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_wizard_hotel_receive_cloths_line"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_wizard_hotel_receive_cloth" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Wizard Hotel Received Clothe</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_wizard_hotel_receive_cloths"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_amenities" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Amenities</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_amenities"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_room_amenities_type" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Room Amenities Type</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_room_amenities_type"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_room_type" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Room Type</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_room_type"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_room_amenities" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Room Amenities</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_room_amenities"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_room_type_image" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Room Type Image</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_room_type_image"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_room_pricelist" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Room Pricelist</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_room_pricelist"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_room_pricelist_item" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Room Pricelist Item</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_room_pricelist_item"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_room" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Room</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_room"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_walk_in_detail" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Walk In Details</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_walk_in_detail"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_hotel_floor" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Hotel Floor</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_hotel_floor"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_billing_information" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Billing Information</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_billing_information"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_room_transfer" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Room Transfer</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_room_transfer"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_stay_information" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Stay Information</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_stay_information"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_res_partner_commission" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Partner Commission</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_res_partner_commission"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_discount_detail" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Discount Detail</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_discount_detail"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_discount_rule" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Discount Rule</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_discount_rule"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_vip_status" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Vip Status</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_vip_status"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="company_branch_rule_visitor_identity" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Visitor Identity</field>-->
+<!--            <field name="model_id" ref="aspl_hotel.model_visitor_identity"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Partner (Contact) &ndash;&gt;-->
+<!--        <record id="company_branch_rule_res_partner" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Partner (Contact)</field>-->
+<!--            <field name="model_id" ref="base.model_res_partner"/>-->
+<!--            <field name="domain_force">['|', '|', ('partner_share', '=', False), ('branch_id', 'in', branch_ids), ('branch_id', '=', False)]</field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Record Rules for Multi Branch &ndash;&gt;-->
+<!--        &lt;!&ndash; Sale Order &ndash;&gt;-->
+<!--        <record id="company_branch_rule_sale_order" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Sale Order</field>-->
+<!--            <field name="model_id" ref="sale.model_sale_order"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Purchase Order &ndash;&gt;-->
+<!--        <record id="company_branch_rule_purchase_order" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Purchase Order</field>-->
+<!--            <field name="model_id" ref="purchase.model_purchase_order"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Stock Picking &ndash;&gt;-->
+<!--        <record id="company_branch_rule_stock_picking" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Stock Picking</field>-->
+<!--            <field name="model_id" ref="stock.model_stock_picking"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Stock Move &ndash;&gt;-->
+<!--        <record id="company_branch_rule_stock_move" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Stock Move</field>-->
+<!--            <field name="model_id" ref="stock.model_stock_move"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Stock Move Line &ndash;&gt;-->
+<!--        <record id="company_branch_rule_stock_move_line" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Stock Move Line</field>-->
+<!--            <field name="model_id" ref="stock.model_stock_move_line"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Stock Warehouse &ndash;&gt;-->
+<!--        <record id="company_branch_rule_stock_warehouse" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Stock Warehouse</field>-->
+<!--            <field name="model_id" ref="stock.model_stock_warehouse"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Stock Location &ndash;&gt;-->
+<!--        <record id="company_branch_rule_stock_location" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Stock Location</field>-->
+<!--            <field name="model_id" ref="stock.model_stock_location"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Product Template &ndash;&gt;-->
+<!--        <record id="company_branch_rule_product_template" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Product Template</field>-->
+<!--            <field name="model_id" ref="product.model_product_template"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Account Move (Journal Entry) &ndash;&gt;-->
+<!--        <record id="company_branch_rule_account_move" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Account Move (Journal Entry)</field>-->
+<!--            <field name="model_id" ref="account.model_account_move"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Account Move Line (Journal Item) &ndash;&gt;-->
+<!--        <record id="company_branch_rule_account_move_line" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Account Move Line (Journal Items)</field>-->
+<!--            <field name="model_id" ref="account.model_account_move_line"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Sale Report &ndash;&gt;-->
+<!--        <record id="company_branch_rule_sale_report" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Sale Report</field>-->
+<!--            <field name="model_id" ref="sale.model_sale_report"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Purchase Report &ndash;&gt;-->
+<!--        <record id="company_branch_rule_purchase_report" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Purchase Report</field>-->
+<!--            <field name="model_id" ref="purchase.model_purchase_report"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Account Invoice Report &ndash;&gt;-->
+<!--        <record id="company_branch_rule_account_invoice_report" model="ir.rule">-->
+<!--            <field name="name">Multi Branch : Account Invoice Report</field>-->
+<!--            <field name="model_id" ref="account.model_account_invoice_report"/>-->
+<!--            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>-->
+<!--        </record>-->
+
+        <record id="group_laundry" model="res.groups">
+            <field name="name">Laundry</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+        <record id="group_pickup_drop" model="res.groups">
+            <field name="name">Pickup &amp; Drop</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+        <record id="group_house_keeping" model="res.groups">
+            <field name="name">House keeping</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+        <record model="ir.rule" id="housing_rule">
+            <field name="name">housekepping dashboard</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('group_house_keeping'))]"/>
+            <field name="perm_read" eval="True"/>
+        </record>
+
+        <record model="res.groups" id="group_multi_branches">
+            <field name="name">Multi Branches</field>
+            <field name="category_id" ref="base.module_category_usability" />
+        </record>
+
+        <record id="aspl_hotel.module_category_hotel" model="ir.module.category">
+            <field name="name">Hotel</field>
+            <field name="description">Helps you handle Hotel.</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record id="group_hotel_house_keeper" model="res.groups">
+            <field name="name">House Keeper</field>
+            <field name="category_id" ref="aspl_hotel.module_category_hotel"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_hotel_house_keeper_manager" model="res.groups">
+            <field name="name">House Keeper Manager</field>
+            <field name="implied_ids" eval="[(4, ref('group_hotel_house_keeper'))]"/>
+            <field name="category_id" ref="aspl_hotel.module_category_hotel"/>
+            <field name="users" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_vahicle_driver" model="res.groups">
+            <field name="name">Driver</field>
+            <field name="category_id" ref="aspl_hotel.module_category_hotel"/>
+            <field name="users" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_hotel_manager" model="res.groups">
+            <field name="name">Hotel Manager</field>
+            <field name="implied_ids" eval="[(4, ref('group_hotel_house_keeper'))]"/>
+            <field name="category_id" ref="aspl_hotel.module_category_hotel"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+    </data>
+</odoo>

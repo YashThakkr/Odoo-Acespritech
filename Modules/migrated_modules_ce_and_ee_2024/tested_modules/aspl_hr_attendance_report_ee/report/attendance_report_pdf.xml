@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="attendance_report_pdf">
+        <t t-call="web.html_container">
+            <t t-foreach="doc_ids" t-as="doc">
+                <t t-if="doc.report_by == 'department'" t-call="aspl_hr_attendance_report_ee.department_attendance_report_pdf" t-lang="lang"/>
+                <t t-elif="doc.report_by == 'employee'" t-call="aspl_hr_attendance_report_ee.employee_attendance_report_pdf" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="department_attendance_report_pdf">
+        <t t-call="web.external_layout">
+            <center>
+                <h2>Attendance Report</h2>
+            </center>
+            <div>
+                <div t-if="doc.start_date and doc.end_date" class="col-xs-50">
+                    <strong>From Date:</strong>
+                    <span t-field="doc.start_date" style="margin-right:20px"/>
+                    <strong>To Date:</strong>
+                    <span t-field="doc.end_date"/>
+                </div>
+            </div>
+            <br/>
+            <t t-foreach="employee_data(doc)" t-as="l">
+                <table class="table table-condensed table-striped table-bordered" name="invoice_line_table">
+                    <strong class="oe_center">
+                      <span t-esc="l_value[0].get('department_name').get('en_US')"/>
+                    </strong>
+                    <thead>
+                        <tr style="font-weight:bold;">
+                            <td style="border:1px solid black">Name/Employee</td>
+                            <td class="text-right" style="border:1px solid black">Work(Day)</td>
+                            <td class="text-right" style="border:1px solid black">Late(Day)</td>
+                            <td class="text-right" style="border:1px solid black">Late(min)</td>
+                            <td class="text-right" style="border:1px solid black">Absent(Day)</td>
+                            <td class="text-right" style="border:1px solid black">Total Checkin</td>
+                            <td class="text-right" style="border:1px solid black">Total Checkout</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="l_value" t-as="emp">
+                            <tr>
+                                <td>
+                                    <span t-esc="emp.get('employee_name')"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="emp.get('work_day_count')"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="emp.get('late_count')"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="'%.2f' %(emp.get('diff'))"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="emp.get('absent_count')"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="emp.get('count_check_in')"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="emp.get('count_check_out')"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </t>
+        </t>
+    </template>
+
+    <template id="employee_attendance_report_pdf">
+        <t t-call="web.external_layout">
+            <center>
+                <h2>Attendance Report</h2>
+            </center>
+            <div>
+                <div t-if="doc.start_date and doc.end_date" class="col-xs-50">
+                    <strong>From Date:</strong>
+                    <span t-field="doc.start_date" style="margin-right:20px"/>
+                    <strong>To Date:</strong>
+                    <span t-field="doc.end_date"/>
+                </div>
+            </div>
+            <br/>
+
+            <table class="table table-condensed table-striped table-bordered" name="invoice_line_table">
+                <thead>
+                    <tr style="font-weight:bold;">
+                        <td style="border:1px solid black">Name/Employee</td>
+                        <td class="text-right" style="border:1px solid black">Work(Day)</td>
+                        <td class="text-right" style="border:1px solid black">Late(Day)</td>
+                        <td class="text-right" style="border:1px solid black">Late(min)</td>
+                        <td class="text-right" style="border:1px solid black">Absent(Day)</td>
+                        <td class="text-right" style="border:1px solid black">Total Checkin</td>
+                        <td class="text-right" style="border:1px solid black">Total Checkout</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="employee_data(doc)" t-as="l">
+                        <tr>
+                            <t t-esc="emp_data"/>
+                            <td>
+                                <span t-esc="employee_data(doc)[l][0].get('employee_name')"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="employee_data(doc)[l][0].get('work_day_count')"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="employee_data(doc)[l][0].get('late_count')"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="'%.2f' %(employee_data(doc)[l][0].get('diff'))"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="employee_data(doc)[l][0].get('absent_count')"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="employee_data(doc)[l][0].get('count_check_in')"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="employee_data(doc)[l][0].get('count_check_out')"/>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </t>
+    </template>
+
+</odoo>

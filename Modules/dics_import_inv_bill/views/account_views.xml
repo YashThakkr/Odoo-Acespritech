@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="dics_import_inv_bill_view_move_form" model="ir.ui.view">
+        <field name="name">dics.account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_date']" position="after">
+                <field name="document_date"/>
+                <field name="is_xlsx_data" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_subtotal']" position="after">
+                <field name="log" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

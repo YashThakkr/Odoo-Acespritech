@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="aspl_delete_order_res_users_form_view" model="ir.ui.view">
+	        <field name="name">res.users.form.view</field>
+	        <field name="model">res.users</field>
+	        <field name="inherit_id" ref="base.view_users_form"/>
+	        <field name="arch" type="xml">
+                <xpath expr="//page[2]" position="after">
+                    <page string="Point of Sale">
+                        <group>
+                            <group>
+                                <field name="pin"/>
+                                <field name="allow_delete"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+	        </field>
+        </record>
+
+    </data>
+</odoo>

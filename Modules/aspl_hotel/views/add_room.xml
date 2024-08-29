@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="test_template" t-name="aspl_hotel.test_template">
+        <div class="book-room">
+            <div class='row select_room'>
+                <div class='col'>Rooms</div>
+                <div class='col col_class'><button class='RmvRoom'>-</button></div>
+                <div data-value="1" id='qtyRoom' class='qtyAdult col col_class addQty'>1</div>
+                <div class='col col_class'><button class='AddRoom'>+</button></div>
+            </div>
+
+            <div class='row select_adult'>
+                <div class='col'>Adults</div>
+                <div class='col col_class'><button type="button" class='RmvAdult'>-</button></div>
+                <div data-value="1" id='qtyAdult' class='qtyAdult col col_class addQty'>1</div>
+                <div class='col col_class'><button type="button" class='AddAdult'>+</button></div>
+            </div>
+
+            <div class='row select_child'>
+                <div class='col'>Childs</div>
+                <div class='col col_class'><button class='RmvChild'>-</button></div>
+                <div data-value="1" id='qtyChild' class='qtyAdult col col_class addQty'>0</div>
+                <div class='col col_class'><button class='AddChild'>+</button></div>
+            </div>
+            
+            <div class="room row">
+                <div class='child_add '></div>
+                <div class='child_sub'></div>
+                <div class="parent_child-age"></div>
+            </div>
+            <div class="footer text-center footer-popover row" style="">
+                <button type="button" class="btn cancel" id="cancel">Cancel
+                </button>
+                <button type="button" class="btn done">Done
+                </button>
+            </div>
+        </div>
+    </template>
+
+</odoo>
+
+
+
+
+
+
+

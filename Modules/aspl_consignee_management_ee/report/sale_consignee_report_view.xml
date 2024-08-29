@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="report_sale_consignee">
+            <t t-call="web.external_layout">
+                <t t-call="web.basic_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page">
+                            <div style="text-align:center; width:100%;">
+                                <h3>
+                                    <b>
+                                        <u>
+                                            <p t-field="o.partner_id"/>
+                                        </u>
+                                    </b>
+                                </h3>
+                            </div>
+                            <h2>
+                                <span>Order #</span>
+                                <span t-field="o.name"/>
+                            </h2>
+                        </div>
+                        <div class="col-xs-3">
+                            <strong>Date Ordered:</strong>
+                            <p t-field="o.date"/>
+                        </div>
+                        <div class="col-xs-3">
+                            <strong>Salesperson:</strong>
+                            <p t-field="user.name"/>
+                        </div>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Product_name</th>
+                                    <th>Consumed Qty</th>
+                                    <th>Unit Price</th>
+                                </tr>
+                            </thead>
+                            <tbody class="sale_tbody">
+                                <t t-foreach="o.customers_consignee_line" t-as="page">
+                                    <t t-foreach="page" t-as="layout_category">
+                                        <t t-foreach="layout_category" t-as="l">
+                                            <tr>
+                                                <td>
+                                                    <span t-field="l.product_id"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="l.consumed_qty"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="l.uom_id"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="aspl_provider_form_hobex" model="ir.ui.view">
+        <field name="name">payment.provider.form.inherit</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form"/>
+        <field name="arch" type="xml">
+            <xpath expr='//group[@name="provider_credentials"]' position='after'>
+                <group invisible="code not in ('hobex_credit_card','hobex_paypal','hobex_sofort')">
+                    <field name="hobex_accesstoken" groups="base.group_user"/>
+                    <field name="hobex_entityId" groups="base.group_user"/>
+                    <field name="hobex_url" groups="base.group_user"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

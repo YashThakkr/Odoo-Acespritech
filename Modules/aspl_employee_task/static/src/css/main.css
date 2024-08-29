@@ -1,0 +1,49 @@
+.o_EmployeeTask_dropdownMenu {
+    right: 0;
+    left: auto;
+    display: none;
+    width: 280px;
+    top: 100%;
+    height: 300px;
+    overflow:hidden;
+}
+
+.o_MessagingMenu_dropdownMenuHeader{
+    margin:5px;
+}
+
+.task_scroll{
+    overflow:auto;
+    height: 250px;
+    overflow-x: hidden;
+}
+
+.task_name {
+    line-height: 18px;
+    top: 5px;
+    position: relative;
+}
+
+.task_name_dotted {
+    width: 195px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 15px;
+    font-weight: 500;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.display_task {
+    margin-left: 10px;
+    color: #3366CC;
+}
+
+#header {
+    text-align: center;
+}
+
+.data-info{
+    line-height:17px;
+}
+

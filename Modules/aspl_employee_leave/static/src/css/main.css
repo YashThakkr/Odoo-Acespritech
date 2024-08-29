@@ -1,0 +1,66 @@
+.o_EmployeeLeaveHierarchy_dropdownMenu {
+    display: none;
+    width: 307px;
+    left: auto;
+    right: 0;
+    top: 46px;
+}
+
+.o_approve_button {
+    margin-right: 5px;
+    color: green;
+    background: transparent;
+    border: transparent;
+    font-size: 15px;
+}
+
+.o_reject_button {
+    color: red;
+    background: transparent;
+    border: transparent;
+    padding-left: 0px;
+    font-size: 15px;
+}
+
+.o_employee_data {
+    position: relative;
+    line-height: 1;
+}
+
+.o_user_avatar {
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    margin:5px;
+}
+
+.o_employee_image {
+    bottom: 10px;
+    position: relative;
+}
+
+.o_employee_image {
+    bottom: 5px;
+    position: relative;
+}
+
+.leave_days {
+    top: 10px;
+    position: relative;
+    padding-left: 7px;
+}
+
+.flex-parent-element {
+  display: flex;
+}
+
+.flex-child-element:first-child {
+  margin-right: 20px;
+  position: relative;
+  top: 10px;
+  line-height: 0.5;
+}
+
+#request {
+    text-align: center;
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="report_mass_payment" model="ir.actions.report">
+            <field name="name">Mass Payment</field>
+            <field name="model">mass.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mass_payment_ee.report_mass_payment_temp</field>
+            <field name="report_file">mass_payment_ee.report_mass_payment_temp</field>
+            <field name="binding_model_id" ref="model_mass_payment"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="aspl_sequence_consignee_transfer" model="ir.sequence">
+            <field name="name">Consignee Transfer</field>
+            <field name="code">aspl_consignee_management.sequence_consignee_transfer</field>
+            <field name="prefix">CT</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="sequence_consignee_return_transfer" model="ir.sequence">
+            <field name="name">Consignee Return Transfer</field>
+            <field name="code">aspl_consignee_management.sequence_consignee_return_transfer</field>
+            <field name="prefix">CRT</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="sequence_consignee_internal_transfer" model="ir.sequence">
+            <field name="name">Consignee Internal Transfer</field>
+            <field name="code">aspl_consignee_management.sequence_consignee_internal_transfer</field>
+            <field name="prefix">CIT</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="sequence_consignee_consume_items" model="ir.sequence">
+            <field name="name">Consignee Consume Items</field>
+            <field name="code">aspl_consignee_management.sequence_consignee_consume_items</field>
+            <field name="prefix">CCT</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

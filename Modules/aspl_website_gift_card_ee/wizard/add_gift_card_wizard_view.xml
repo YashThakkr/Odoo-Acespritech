@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="add_gift_card_form" model="ir.ui.view">
+        <field name="name">add.gift.card.form</field>
+        <field name="model">add.gift.card</field>
+        <field name="arch" type="xml">
+            <form string="Gift Card">
+                <sheet>
+                    <group col="4">
+                        <field name="type" widget="radio"/>
+                        <field name="receiver_name" invisible="type == 'recharge'"/>
+                        <field name="receiver_email"/>
+                        <field name="partner_id"/>
+                        <field name="card_no" invisible="type == 'add_new'" required="type == 'recharge'"
+                               domain="[('customer_id', '=', partner_id)]"/>
+<!--                               attrs="{'invisible': [('type', '=', 'add_new')], 'required': [('type', '=', 'recharge')]}"-->
+                        <field name="pin_no" password="True" invisible="type == 'add_new'" required="type == 'recharge'"/>
+<!--                               attrs="{'invisible': [('type', '=', 'add_new')], 'required': [('type', '=', 'recharge')]}"/>-->
+                        <field name="gift_card_value_id" widget="selection" invisible="type == 'recharge'" required="type == 'add_new'"/>
+<!--                               attrs="{'invisible': [('type', '=', 'recharge')], 'required': [('type', '=', 'add_new')]}"/>-->
+                        <field name="amount" invisible="type == 'add_new'" required="type == 'recharge'"/>
+<!--                               attrs="{'invisible': [('type', '=', 'add_new')], 'required': [('type', '=', 'recharge')]}"/>-->
+                        <field name="gift_card_qty" invisible="type == 'recharge'"/>
+<!--                               attrs="{'invisible': [('type', '=', 'recharge')]}"/>-->
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Add Gift Card" name="add_gift_card" type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel" type="object" class="btn btn-secondary oe_inline"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_add_gift_card" model="ir.actions.act_window">
+        <field name="name">Add Gift Card</field>
+        <field name="res_model">add.gift.card</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_add_gift_card" name="Add Gift Card"
+              parent="gift_card_view"
+              action="action_add_gift_card" groups="base.group_erp_manager" sequence="115"/>
+
+</odoo>

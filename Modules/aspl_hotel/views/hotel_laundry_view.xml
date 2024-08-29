@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <record id="view_hotel_laundry_service_type_form" model="ir.ui.view">
+            <field name="name">view.hotel.laundry.service.type.form</field>
+            <field name="model">hotel.laundry.service.type</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Laundry Service Type">
+                    <sheet>
+                        <field name="active" widget="boolean_button" invisible="1"/>
+                        <widget name="web_ribbon" title="Active" bg_color="bg-success" invisible="not active"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hotel_laundry_service_type_tree" model="ir.ui.view">
+            <field name="name">view.hotel.laundry.service.type.tree</field>
+            <field name="model">hotel.laundry.service.type</field>
+            <field name="arch" type="xml">
+                <tree string="Hotel Laundry Service Type">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hotel_laundry_item_form" model="ir.ui.view">
+            <field name="name">view.hotel.laundry.item.form</field>
+            <field name="model">hotel.laundry.item</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Laundry Item">
+                    <sheet>
+                        <field name="active" widget="boolean_button" invisible="1"/>
+                        <widget name="web_ribbon" title="Active" bg_color="bg-success" invisible="not active"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="service_for"/>
+                        </group>
+                        <notebook>
+                            <page string="Service Line">
+<!--                                <group>-->
+                                    <field name="item_service_ids" nolabel="1">
+                                        <tree editable="bottom">
+                                            <field name="item_id" invisible="1"/>
+                                            <field name="service_type_id" options="{'no_create':True}"/>
+                                            <field name="amount"/>
+                                        </tree>
+                                    </field>
+<!--                                </group>-->
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hotel_laundry_item_tree" model="ir.ui.view">
+            <field name="name">view.hotel.laundry.item.tree</field>
+            <field name="model">hotel.laundry.item</field>
+            <field name="arch" type="xml">
+                <tree string="Hotel Laundry Item">
+                    <field name="name"/>
+                    <field name="service_for"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_wizard_hotel_receive_cloths_tree_view" model="ir.ui.view">
+            <field name="name">view.wizard.hotel.receive.cloths.form</field>
+            <field name="model">wizard.hotel.receive.cloths</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Laundry Agency">
+                    <field name="receive_cloth_ids">
+                        <tree editable="bottom" create="false" delete="false">
+                            <field name="receive_cloth_id" invisible="1"/>
+                            <field name="item_name"/>
+                            <field name="deliver_quantity"/>
+                            <field name="receive_quantity"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button name="do_receive" string="Save" type="object" default_focus="1" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hotel_laundry_service_form" model="ir.ui.view">
+            <field name="name">view.hotel.laundry.service.form</field>
+            <field name="model">hotel.laundry.service</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Laundry Service">
+                    <header>
+                        <button type="object" name="action_collect" class="btn-primary"
+                                string="Collect" invisible="state not in ['draft']"/>
+                        <button type="object" name="action_receive" class="btn-primary"
+                                string="Receive" invisible="state not in ['assigned']"/>
+                        <button string="Assign" type="object" name="action_assign" class="btn-primary"
+                                invisible="state not in ['collected']"/>
+                        <button string="Deliver" type="object" name="action_deliver" class="btn-primary"
+                                invisible="state not in ['received']"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,collected,received,assigned,delivered"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="service_no" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="room_id" options="{'no_create': True}"
+                                   readonly="state == 'delivered'"/>
+                            <field name="folio_id" options="{'no_create': True}"
+                                   readonly="state == 'delivered'"/>
+                            <field name="date" readonly="state == 'delivered'"/>
+                            <field name="no_of_cloth" readonly="state == 'delivered'"/>
+                            <field name="laundry_agancy_id" domain="[('is_agency','=',True)]"
+                                   options="{'no_create':True}"
+                                   readonly="state == 'delivered'"
+                                   invisible="state in ['draft','collected','received']"/>
+                            <field name="count_laundry_cloth" invisible='1'/>
+                        </group>
+                        <notebook>
+                            <page string="Services Line" readonly="state == 'delivered'">
+                                <field name="service_ids" mode="tree" nolabel="1"
+                                       readonly="state in ['delivered','assigned']"/>
+                                <group col="2" class="oe_subtotal_footer oe_right">
+                                    <field name="untax_amount"/>
+                                    <field name="tax_amount" readonly="1"/>
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="total_amount"/>
+                                    </div>
+                                    <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator" readonly="1"/>
+                                </group>
+                            </page>
+                            <page string="Agency Assign"
+                                  invisible="state in ['draft','collected']">
+                                <form>
+                                    <group>
+                                        <button string="Receive" class="btn-primary" type="object"
+                                            name="action_agency_receive_cloths"
+                                            invisible="state in ['draft','collected'] or count_laundry_cloth >= 1"/>
+                                    </group>
+                                    <br/>
+                                    <field name="agency_assign_ids" nolabel="1"
+                                           readonly="state == 'delivered'">
+                                        <tree create="0">
+                                            <field name="assign_id" invisible="1"/>
+                                            <field name="item_id"/>
+                                            <field name="quantity"/>
+                                            <field name="date"/>
+                                            <field name="state"/>
+                                        </tree>
+                                    </field>
+                                </form>
+                            </page>
+                            <page string="Hotel Receive Cloth"
+                                  invisible="state in ['draft','collected']">
+                                <form>
+                                    <field name="hotel_receive_cloth_ids" nolabel="1">
+                                        <tree create="0">
+                                            <field name="assign_id" invisible="1"/>
+                                            <field name="item_id"/>
+                                            <field name="item_quantity"/>
+                                            <field name="receive_quantity"/>
+                                            <field name="date"/>
+                                            <field name="state"/>
+                                        </tree>
+                                    </field>
+                                </form>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hotel_laundry_service_line_tree" model="ir.ui.view">
+            <field name="name">view.hotel.laundry.service.line.tree</field>
+            <field name="model">hotel.laundry.service.line</field>
+            <field name="arch" type="xml">
+                <tree string="Hotel Laundry Service Line" editable="bottom">
+                    <field name="service_id" invisible="1"/>
+                    <field name="item_id" options="{'no_create': True}"/>
+                    <field name="item_service_ids" widget="many2many_tags" options="{'no_create': True}"
+                           domain="[('item_id','=',item_id)]"/>
+                    <field name="quantity"/>
+                    <field name="amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hotel_laundry_service_tree" model="ir.ui.view">
+            <field name="name">view.hotel.laundry.service.tree</field>
+            <field name="model">hotel.laundry.service</field>
+            <field name="arch" type="xml">
+                <tree string="Hotel Laundry Service">
+                    <field name="room_id"/>
+                    <field name="service_no"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_hotel_laundry_service_type" model="ir.actions.act_window">
+            <field name="name">Type</field>
+            <field name="res_model">hotel.laundry.service.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_hotel_laundry_item" model="ir.actions.act_window">
+            <field name="name">Items</field>
+            <field name="res_model">hotel.laundry.item</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_hotel_laundry_service" model="ir.actions.act_window">
+            <field name="name">Laundry</field>
+            <field name="res_model">hotel.laundry.service</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_laundry" parent="aspl_hotel.configuration_menu_hotel" name="Laundry" sequence="14"/>
+
+        <menuitem id="menu_hotel_laundry_service_type" name="Type" parent="menu_laundry"
+                  action="action_hotel_laundry_service_type" sequence="2"/>
+
+        <menuitem id="menu_hotel_laundry_item" name="Items" parent="menu_laundry"
+                  action="action_hotel_laundry_item" sequence="1"/>
+
+        <menuitem id="menu_hotel_laundry_service" name="Laundry" parent="aspl_hotel.sub_menu_laundry"
+                  action="action_hotel_laundry_service" sequence="3"/>
+
+    </data>
+</odoo>

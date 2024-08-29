@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+
+        <template id="portal_my_home_menu_payments" name="Portal layout : payments menu entries" inherit_id="portal.portal_breadcrumbs" priority="10">
+            <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+                <li t-if="page_name == 'Payment'" t-attf-class="breadcrumb-item #{'active ' if not Payment else ''}">
+                    <a t-if="payment" t-attf-href="/my/payment?{{ keep_query() }}">Payments</a>
+                    <t t-else="">Payments</t>
+                </li>
+                <li t-if="payment" class="breadcrumb-item active">
+                    <t t-esc="payment.name" t-if="payment.name != '/'"/>
+                </li>
+            </xpath>
+        </template>
+
+         <template id="portal_my_home_payment" name="Portal My Home : payment entries" customize_show="True" inherit_id="portal.portal_my_home" priority="10">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <t t-call="aspl_website_account_payment_ee.portal_docs_entry">
+                    <t t-set="title">Payments</t>
+                    <t t-set="url" t-value="'/my/payment'"/>
+                    <t t-set="count" t-value="payment_count"/>
+                </t>
+            </xpath>
+        </template>
+
+        <template id="portal_my_payment" name="My Payments">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">Payments</t>
+                </t>
+                <t t-if="not payments">
+                    <p>There are currently no payments for your account.</p>
+                </t>
+                <t t-if="payments" t-call="portal.portal_table">
+                    <thead>
+                        <tr class="active">
+                            <th>Payment #</th>
+                            <th>Payment Date</th>
+                            <th/>
+                            <th/>
+                            <th class="text-right">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="payments" t-as="payment">
+                            <tr>
+                                <td>
+                                    <a t-att-href="payment.get_portal_url()" t-att-title="payment.name">
+                                        <t t-esc="payment.name" t-if="payment.name != '/'"/>
+                                    </a>
+                                </td>
+                                <td><span t-field="payment.date"/></td>
+                                <td></td>
+                                <td class="tx_status">
+                                    <t t-esc="payment.state"/>
+                                </td>
+                                <td class="text-right"><span t-esc="payment.amount" t-options='{"widget": "monetary", "display_currency": payment.currency_id}'/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </t>
+            </t>
+        </template>
+
+        <template id="portal_payment_page" name="Payment Portal Template" inherit_id="portal.portal_sidebar" primary="True">
+            <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+
+                <div class="row mt16 o_portal_payment_sidebar">
+                    <!-- Sidebar -->
+                    <t t-call="portal.portal_record_sidebar">
+                        <t t-set="classes" t-value="'col-lg-auto d-print-none'"/>
+                        <t t-set="title">
+                            <h2 class="mb-0">
+                                <b t-if="payment.amount > 0" t-field="payment.amount"/>
+                                <b t-else="1" t-field="payment.amount"/>
+                            </h2>
+                        </t>
+
+                        <t t-set="entries">
+                            <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                                <li class="list-group-item flex-grow-1">
+                                    <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                        <div class="btn-group  flex-grow-1 mr-1 mb-1">
+                                            <a class="btn btn-secondary btn-block o_download_btn"
+                                               t-att-href="payment.get_portal_url(report_type='pdf', download=True)"
+                                               title="Download" style="margin-right: 5px;"><i class="fa fa-download"/> Download</a>
+                                        </div>
+                                        <div class="btn-group flex-grow-1 mb-1">
+                                            <a class="btn btn-secondary btn-block o_print_btn o_portal_payment_print"
+                                               t-att-href="payment.get_portal_url(report_type='pdf')" id="print_payment_report"
+                                               title="Print" target="_blank"><i class="fa fa-print"/> Print</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </t>
+                    </t>
+
+                    <!-- Page Content -->
+                    <div id="payment_content" class="col-12 col-lg">
+                        <div class="o_portal_html_view shadow p-3">
+                            <div t-attf-class="header o_company_#{payment.company_id.id}_layout">
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                        <img t-if="payment.company_id.logo" t-att-src="image_data_uri(payment.company_id.logo)" style="max-height: 45px;" alt="Logo"/>
+                                    </div>
+                                    <div class="col-9 text-right" style="margin-top:22px;" t-field="payment.company_id.report_header" name="moto"/>
+                                </div>
+                                <div t-if="payment.company_id.logo or payment.company_id.report_header" class="row zero_min_height">
+                                    <div class="col-12">
+                                        <div style="border-bottom: 1px solid black;"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6" name="company_address">
+                                        <div t-field="payment.company_id.partner_id"
+                                             t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <h3><strong>Payment Receipt: <span t-field="payment.name"/></strong></h3>
+                            <div class="row mt64">
+                                <div class="col-6" t-if="payment.date">
+                                    <strong>Payment Date: </strong> <span t-field="payment.date"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6" t-if="payment.partner_type">
+                                    <t t-if="payment.partner_type == 'customer'">
+                                        <strong>Customer: </strong>
+                                    </t>
+                                    <t t-if="payment.partner_type == 'supplier'">
+                                        <strong>Vendor: </strong>
+                                    </t><span t-field="payment.partner_id"/>
+                                </div>
+                                <div class="col-6" t-if="payment.payment_method_id">
+                                    <strong>Payment Method: </strong><span t-field="payment.payment_method_id.name"/>
+                                </div>
+                            </div>
+                            <div class="row mb64">
+                                <div class="col-6" t-if="payment.amount">
+                                    <strong>Payment Amount: </strong><span t-field="payment.amount" t-options="{'widget': 'monetary', 'display_currency': payment.currency_id}"/>
+                                </div>
+                                <div class="col-6" t-if="payment.ref">
+                                    <strong>Memo: </strong><span t-field="payment.ref"/>
+                                </div>
+                            </div>
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th><span>Invoice Date</span></th>
+                                        <th><span>Invoice Number</span></th>
+                                        <th><span>Reference</span></th>
+                                        <th class="text-right"><span>Original Amount</span></th>
+                                        <th class="text-right"><span>Amount Paid</span></th>
+                                        <th class="text-right"><span>Balance</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="payment.reconciled_invoice_ids" t-as="inv">
+                                        <td><span t-field="inv.invoice_date"/></td>
+                                        <td><span t-field="inv.name"/></td>
+                                        <td><span t-field="inv.ref"/></td>
+                                        <td class="text-right"><span t-field="inv.amount_total"/></td>
+                                        <td class="text-right"><span t-esc="payment._get_invoice_payment_amount(inv)" t-options="{'widget': 'monetary', 'display_currency': inv.currency_id}"/></td>
+                                        <td class="text-right"><span t-field="inv.amount_residual"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div t-attf-class="footer o_standard_footer o_company_#{payment.company_id.id}_layout">
+                                <div class="text-center" style="border-top: 1px solid black; margin-top:120px;">
+                                    <ul class="list-inline mb4">
+                                        <li t-if="payment.company_id.phone" class="list-inline-item d-inline">Phone: <span t-field="payment.company_id.phone"/></li>
+                                        <li t-if="payment.company_id.email" class="list-inline-item d-inline">Email: <span t-field="payment.company_id.email"/></li>
+                                        <li t-if="payment.company_id.website" class="list-inline-item d-inline">Web: <span t-field="payment.company_id.website"/></li>
+                                        <li t-if="payment.company_id.vat" class="list-inline-item d-inline"><t t-esc="payment.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="payment.company_id.vat"/></li>
+                                    </ul>
+
+                                    <div name="financial_infos">
+                                        <span t-field="payment.company_id.report_footer"/>
+                                    </div>
+
+                                    <div t-if="report_type == 'pdf'" class="text-muted">
+                                        Page: <span class="page"/> / <span class="topage"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-set="attachments" t-value="request.env['ir.attachment'].sudo().search([('res_model', '=', 'account.payment'), ('res_id', '=', payment.id)], order='id')"/>
+                        <t t-if="attachments">
+                            <div class="panel panel-default mt8 p-4" style="background: white;">
+                                <div class="panel-heading">
+                                    <h4>Related Attachments</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row col-12">
+                                        <t t-foreach="attachments" t-as="attachment">
+                                            <div class="col-3 o_attachment_wrap">
+                                                <div class="row o_image_box" >
+                                                    <div class="col-4">
+                                                        <a t-att-href="'/attachment/download?attachment_id=%i' % attachment.id">
+                                                            <div class='oe_attachment_embedded o_image' t-att-title="attachment.name" t-att-data-mimetype="attachment.mimetype" t-attf-data-src="/web/image/#{attachment.id}/50x50"/>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-8" style="margin: 0;padding: 0px;">
+                                                        <div t-attf-class="o_image_overlay o_attachment_view" style="word-wrap: break-word;" t-att-data-id="attachment.id">
+                                                            <a class="o_attachment_download" t-att-href="'/attachment/download?attachment_id=%i' % attachment.id">
+                                                                <span t-esc="attachment.name"/>
+                                                                <i class="fa fa-download" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        <!-- chatter -->
+                        <div id="payment_communication" class="mt-4">
+                            <h2>History</h2>
+                            <t t-call="portal.message_thread">
+                                <t t-set="object" t-value="payment"/>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="portal_docs_entry" name="My Portal Docs Entry">
+            <a t-att-href="url" t-att-title="title" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+                <t t-esc="title"/>
+                <t t-if='count'>
+                    <span class="badge text-bg-secondary rounded-pill" t-esc="count"/>
+                </t>
+                <t t-elif="placeholder_count">
+                    <span class="badge text-bg-secondary rounded-pill" t-att-data-placeholder_count="placeholder_count">
+                        <i class="fa fa-spin fa-circle-o-notch"></i>
+                    </span>
+                </t>
+            </a>
+        </template>
+    </data>
+</odoo>

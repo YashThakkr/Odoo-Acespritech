@@ -1,0 +1,7 @@
+ORDER,CUSTOMER,PRICELIST,PRODUCT,QUANTITY,UOM,DESCRIPTION ,PRICE,SALESPERSON,TAX,DATE
+SO/2020/05/20,Lumber Inc,Public Pricelist,Large Desk,3,Unit(s),Large Desk,2840,Mitchell Admin,"IGST 12%,GST 18%",2020-05-18
+SO/2020/05/20,Lumber Inc,Public Pricelist,Office Chair,5,Unit(s),Office Chair,3350,Mitchell Admin,,2020-05-18
+SO/2020/05/20,Lumber Inc,Public Pricelist,Office Lamp,1,Unit(s),Office Lamp,10500,Mitchell Admin,GST 18%,2020-05-18
+SO/2020/PR/026,Gemini Furniture,Public Pricelist,Pedal Bin,4,Unit(s),Pedal Bin,1800,Mitchell Admin,IGST 5%,2020-05-12
+SALE/018/R58,Deco Addict,Public Pricelist,Storage Box,1,Unit(s),Storage Box,5846,Mitchell Admin,"IGST 28%,GST 2%",2020-05-14
+SO033,Azure Interior,Public Pricelist,Large Cabinet,2,Unit(s),Large Cabinet,50000,Mitchell Admin,GST 5%,2020-05-15

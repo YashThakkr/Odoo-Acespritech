@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="restrict_custom_res_users_form">
+        <field name="name">restrict_custom_res_users_form</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page" position="after">
+                <page string="History Login">
+                    <field name="session_ids" widget="section_and_note_one2many" readonly="1" >
+                        <tree>
+                            <field name="create_date" string="Date Login"/>
+                            <field name="name"/>
+                            <field name="city"/>
+                            <field name="region"/>
+                            <field name="country" string="Country Code"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

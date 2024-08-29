@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+
+<!--        <record id="main_branch" model="company.branch">-->
+<!--            <field name="name">My Branch</field>-->
+<!--            <field name="company_id" ref="base.main_company"/>-->
+<!--        </record>-->
+
+        <record id="agent_commission_sequence" model="ir.sequence">
+            <field name="name">Agent Commission Number</field>
+            <field name="code">agent.commission.number</field>
+            <field name="prefix">COMM/2019/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="agent_commission_cron" model="ir.cron">
+            <field name="name">Agent Commission Payment</field>
+            <field name="model_id" ref="model_res_partner"/>
+            <field name="state">code</field>
+            <field name="code">model.payment_cron()</field>
+            <field name='interval_number'>1</field>
+            <field name='interval_type'>days</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+<!--        <record id="cog" model="account.account">-->
+<!--            <field name="code">AGCM1010</field>-->
+<!--            <field name="name">Agent Commission</field>-->
+<!--            <field name="user_type_id" ref="account.data_account_type_direct_costs"/>-->
+<!--        </record>-->
+
+    <!--        <record id="cleaning_work_order_categ" model="work.order.categ">-->
+    <!--            <field name="name">Cleaning</field>-->
+    <!--            <field name="is_cleaning">True</field>-->
+    <!--        </record>-->
+
+    </data>
+</odoo>

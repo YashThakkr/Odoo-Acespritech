@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <record id="room_advance_payment_wizard" model="ir.ui.view">
+            <field name="name">room.advance.payment.form</field>
+            <field name="model">room.advance.payment</field>
+            <field name="arch" type="xml">
+                <form string="Room Advance Payment">
+                    <group>
+                        <field name="amount"/>
+                    </group>
+                    <footer>
+                        <button string="Confirm" name="confirm_payment" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="btn-default oe_highlight" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

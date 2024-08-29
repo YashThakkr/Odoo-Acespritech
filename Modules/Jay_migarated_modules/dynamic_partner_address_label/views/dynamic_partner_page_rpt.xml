@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    <data>-->
+
+        <template id="dynamic_partner_page_rpt">
+            <t t-call="web.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <div class="page">
+                        <table width="100%" style="margin:0px;padding:0px;table-layout:fixed !important;">
+                            <span t-as="f" t-foreach="draw_table(data)">
+                                <span t-as="c" t-foreach="f">
+                                    <tr>
+                                        <span t-as="partner" t-foreach="f[c]">
+                                            <t t-if="partner != False">
+                                                <!-- here label height,width and margin will be set.below draw_style function will set style for td -->
+                                                <t t-set="style" t-value="draw_style(data)" />
+                                                <td t-att-style="style" align="center">
+                                                    <div style="overflow: hidden;">
+                                                        <!-- do your design into this block only -->
+                                                        <!-- partner name style can be change here -->
+                                                        <div style="color:black;font-size:20px;">
+                                                            <b>
+                                                                <h3>
+                                                                    <span t-field="partner.name" />
+                                                                </h3>
+                                                            </b>
+                                                        </div>
+                                                        <!-- partner internal code style can be change here -->
+                                                        <div style="color:black;">
+                                                            <div t-field="partner.email" />
+                                                            <div t-field="partner.mobile" />
+                                                        </div>
+                                                        <div style="color:black;">
+                                                            <span t-field="partner.street" />
+                                                            <span t-field="partner.street2" />
+                                                        </div>
+                                                        <div style="color:black;">
+                                                            <span t-field="partner.state_id" />
+                                                            <span t-field="partner.zip" />
+                                                        </div>
+                                                        <div style="color:black;">
+                                                            <span t-field="partner.country_id" />
+                                                        </div>
+                                                        <!-- partner barcode is created using get_barcode function.you can pass related parameters from 
+                                                            barcode tab only -->
+                                                        <t t-if="data['form']['with_barcode']">
+                                                            <t t-if="partner.ref">
+                                                                <div style="color:black;margin-top:15px;font-size:9px;">
+                                                                    <!-- get_barcode(barcode_number, type, data)" -->
+                                                                    <t t-set="style" t-value="get_style(data)" />
+                                                                    <img
+                                                                        t-att-src="'data:image/png;base64,%s' % to_text(get_barcode(partner.ref, 'EAN13', data))"
+                                                                        t-att-style="style" />
+                                                                </div>
+                                                            </t>
+                                                        </t>
+                                                        <!-- to print custom logo into label -->
+                                                        <t t-if="data['form']['label_logo']">
+                                                            <div align="center" style="color:black;font-size:12px;">
+                                                                <img t-att-src="'data:image/png;base64,'+ data['form']['label_logo']" style="max-height: 50px;max-width: 50px;" />
+                                                            </div>
+                                                        </t>
+                                                        <!-- design only above part for label -->
+                                                    </div>
+                                                </td>
+                                            </t>
+                                            <!-- Do not remove this lines , this is for blank td. -->
+                                            <t t-if="partner == False">
+                                                <t t-set="style_td" t-value="draw_style(data)" />
+                                                <td t-att-style="style_td">
+                                                </td>
+                                            </t>
+                                            <!-- Do not remove this lines -->
+                                        </span>
+                                    </tr>
+                                </span>
+                            </span>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+<!--    </data>-->
+</odoo>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_inherit_res_partner" model="ir.ui.view">
+        <field name="name">inherit res partner</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_title')]" position="inside">
+                <field name="chinese" placeholder="Chinese Field" nolabel="0"/>
+            </xpath>
+            <xpath expr="//field[@name='function']" position="before">
+                <field name="contact"/>
+            </xpath>
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="route"/>
+                <field name="fax"/>
+                <field name="opening_hours"/>
+                <field name="multiple_invoice"/>
+            </xpath>
+            <xpath expr="//notebook/page[@name='contact_addresses']//form//field[@name='mobile']" position="after">
+                <field name="route"/>
+                <field name="opening_hours"/>
+            </xpath>
+           <xpath expr="//field[@name='vat']" position="after">
+                <field name="customer_code" attrs="{'required': [('is_company', '=', True)]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+
+

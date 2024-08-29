@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.website.slides</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="website.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <block id="website_info_settings" position="after">
+                    <h2>Fast Order</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="fast_order_setting">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <label class="o_form_label" for="fast_order_qty"></label>
+                                <div class="text-muted">
+                                    Fast Order Default Quantity
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="fast_order_qty" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </block>
+            </field>
+        </record>
+
+        <record id="website_menu_fast_order" model="website.menu">
+            <field name="name">Fast Order</field>
+            <field name="url">/fast_order</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">50</field>
+        </record>
+
+        <template id="fast_order">
+            <t t-call="website.layout">
+                <div class="container">
+                    <div class="col-md-12" id="website_fast_order">
+                        <h3>Fast Order</h3>
+                        <div class="panel-group wrap" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-bs-toggle="collapse" data-bs-parent="#accordion"
+                                           href="#collapseOne"
+                                           aria-expanded="true" aria-controls="collapseOne">
+                                            <i class="more-less fa fa-plus"></i>
+                                            Option #1
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <form id="paper" method="post">
+                                                <input type="hidden" t-att-value="request.csrf_token()"/>
+                                                <textarea placeholder="Product Code, Quantity" id="text" name="text"
+                                                          rows="4"
+                                                          style="overflow: hidden; word-wrap: break-word; resize: none; height: 175px; "></textarea>
+                                                <br/>
+                                                <div class="col-md-6" style="padding-right:25px;">
+                                                    <button class="btn btn-primary"
+                                                            style="padding-top: 2px;padding-bottom: 2px;background: rgb(51, 122, 183);color: white;margin-bottom: 5px;float:right;border-radius: 0;">
+                                                        Add to Cart
+                                                        <i class="fa fa-shopping-cart"/>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end of panel -->
+
+                            <div class="panel">
+                                <div class="panel-heading" role="tab" id="headingTwo">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-bs-toggle="collapse"
+                                           data-bs-parent="#accordion"
+                                           href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            <i class="more-less fa fa-plus"></i>
+                                            Option #2
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="headingTwo">
+                                    <div class="panel-body">
+                                        <div class="col-md-12 quick_list_view" id="products_grid"
+                                             style="margin-top:30px;">
+                                            <div class="row">
+                                                <div class="col-md-9">
+                                                    <div id="table_quick_view" class="table-editable">
+                                                        <table class="table">
+                                                            <tr>
+                                                                <th style="width:400px">Name</th>
+                                                                <th style="width: 50px;"></th>
+                                                                <th style="width:100px">Qty</th>
+                                                                <th style="width:100px">Unit Price</th>
+                                                                <th style="display:none;">Unit Tax</th>
+                                                                <th style="width:100px">Sub Total</th>
+                                                                <th></th>
+                                                            </tr>
+                                                            <tbody class="add_row_table" style="border:unset;">
+                                                                <tr class="hide ac-row-data-list">
+                                                                    <td>
+                                                                        <input type="text" name="product_name"
+                                                                               class="form-control ac_product_name"
+                                                                               product-id="" length=""/>
+                                                                    </td>
+                                                                    <td class="product_img"
+                                                                        style="width:60px;height:45px;">
+                                                                        <img src=""/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="css_quantity input-group oe_website_spinner">
+                                                                            <a t-attf-href="#"
+                                                                               class="mb8 input-group-addon js_add_cart_json hidden-xs qty-min">
+                                                                                <i class="fa fa-minus"
+                                                                                   style="line-height: 1.9;margin: 10px 5px 0px 0px;"/>
+                                                                            </a>
+                                                                            <input type="text"
+                                                                                   style="width: 45px;text-align: center;"
+                                                                                   class="js_quantity form-control quantity ac_product_qty"
+                                                                                   value="0"/>
+                                                                            <a t-attf-href="#"
+                                                                               class="mb8 input-group-addon float_left js_add_cart_json hidden-xs qty-plus">
+                                                                                <i class="fa fa-plus"
+                                                                                   style="line-height: 1.9;margin: 10px 0px 0px 5px;"/>
+                                                                            </a>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="padding-top:13px;">
+                                                                        <lable name="unit_price"
+                                                                               class="ac_product_unit_price">0.00
+                                                                            <span t-esc="website.currency_id.symbol"/>
+                                                                        </lable>
+                                                                    </td>
+                                                                    <td style="width:0px;display:none;padding-top:13px;">
+                                                                        <lable name="tax" style="display:none;"
+                                                                               class="ac_product_tax">0.00
+                                                                            <span t-esc="website.currency_id.symbol"/>
+                                                                        </lable>
+                                                                        <lable name="product_tax" class="product_tax">
+                                                                            0.00
+                                                                            <span t-esc="website.currency_id.symbol"/>
+                                                                        </lable>
+                                                                    </td>
+                                                                    <td style="padding-top:13px;">
+                                                                        <lable name="total_price"
+                                                                               class="ac_product_total_price">0.00
+                                                                            <span t-esc="website.currency_id.symbol"/>
+                                                                        </lable>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="table-remove fa fa-trash"/>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <span class="table-add fa fa-plus">Add an Item</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="panel panel-primary">
+                                                        <div class="panel-heading"
+                                                             style="text-align: center;color:black;border-bottom: 2px solid #337ab7 !important;">
+                                                            <p>
+                                                                <strong>TOTAL</strong>
+                                                            </p>
+                                                        </div>
+                                                        <div class="panel-body" style="padding-bottom:0;">
+                                                            <p>
+                                                                <strong>Untaxed Amount</strong>
+                                                                <lable class="ac_product_subtotal" style="float:right;">
+                                                                    0.00
+                                                                    <span t-esc="website.currency_id.symbol"/>
+                                                                </lable>
+                                                            </p>
+                                                            <p>
+                                                                <strong>Taxes</strong>
+                                                                <lable class="ac_product_taxes" style="float:right;">
+                                                                    0.00
+                                                                    <span t-esc="website.currency_id.symbol"/>
+                                                                </lable>
+                                                            </p>
+                                                            <hr style="margin:unset;padding:unset;"/>
+                                                            <p>
+                                                                <strong>Total</strong>
+                                                                <lable class="ac_product_all_total"
+                                                                       style="float:right;">
+                                                                    0.00
+                                                                    <span t-esc="website.currency_id.symbol"/>
+                                                                </lable>
+                                                            </p>
+                                                            <button class="btn btn-primary confirm_order_to_deliver"
+                                                                    style="padding-top: 2px;padding-bottom: 2px;background: rgb(51, 122, 183);color: white;margin-bottom: 5px;display: block;width: 100%;border-radius: 0;">
+                                                                Add to Cart
+                                                                <i class="fa fa-shopping-cart"/>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end of panel -->
+
+                            <div class="panel">
+                                <div class="panel-heading" role="tab" id="headingThree">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-bs-toggle="collapse"
+                                           data-bs-parent="#accordion"
+                                           href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            <i class="more-less fa fa-plus"></i>
+                                            Option #3
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="headingThree">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <form id="file_upload" method="post" enctype='multipart/form-data'>
+                                                <input type="hidden" t-att-value="request.csrf_token()"/>
+                                                <div class="col-md-3" style="float:left;">
+                                                    <select class="form-control" name="file_type">
+                                                        <option value="csv">CSV</option>
+                                                        <option value="xls">XLS / XLSX
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6"
+                                                     style="float:left;margin-left: 20px;width: 46% !important;">
+                                                    <input type="file" class="form-control" name="csv_file"
+                                                           accept=".csv"
+                                                           id="csv_file"/>
+                                                    <input type="file" class="form-control" name="xls_file"
+                                                           accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                                           style="display:none;"
+                                                           id="xls_file"/>
+                                                </div>
+                                                <div class="col-md-3" style="padding-right:25px;float:right;">
+                                                    <button class="btn btn-primary"
+                                                            style="padding-top: 2px;padding-bottom: 2px;background: rgb(51, 122, 183);color: white;margin-top: 5px;border-radius: 0;">
+                                                        Add to Cart
+                                                        <i class="fa fa-shopping-cart"/>
+                                                    </button>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <h3>Data Format</h3>
+                                                    <Strong>CSV File</Strong>
+                                                    -
+                                                    <span>Product Code , Quantity</span>
+                                                    <br/>
+                                                    <Strong>XLS/ XLSX File</Strong>
+                                                    -
+                                                    <span>Col-1(Product Code), Col-2(Quantity)</span>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end of panel -->
+                            <div class="panel">
+                                <div class="panel-heading" role="tab" id="headingFour">
+                                    <h4 class="panel-title">
+                                        <a class="tables" role="button" data-bs-toggle="collapse"
+                                           data-bs-parent="#accordion"
+                                           href="#tableFour" aria-expanded="false" aria-controls="tableFour">
+                                            <i class="more-less fa fa-plus"></i>
+                                            Option #4
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="tableFour" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="headingFour">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <div id="table_view" class="table-editable">
+                                                <table class="table">
+                                                    <tr>
+                                                        <th style="width:350px">Name</th>
+                                                        <th style="width: 50px;"></th>
+                                                        <th style="width:100px">Qty</th>
+                                                        <th style="width:100px">Unit Price</th>
+                                                        <th style="display:none;">Unit Tax</th>
+                                                        <th style="width:120px">Sub Total</th>
+                                                        <th></th>
+                                                    </tr>
+                                                    <tbody class="add_row_table" style="border:unset;">
+                                                        <t t-foreach="product_dict" t-as="record_id">
+                                                            <t t-set="record_set"
+                                                               t-value="request.env['product.product'].browse(record_id)"/>
+                                                            <tr>
+                                                                <td>
+                                                                    <span class="ac_product_names"
+                                                                          t-att-product-id="record_set.id">
+                                                                        <t t-esc="record_set.name"/>
+                                                                    </span>
+                                                                </td>
+                                                                <td class="product_img"
+                                                                    style="width:60px;height:45px;">
+                                                                    <t t-if='record_set.image_1920'>
+                                                                        <img t-att-src="image_data_uri(record_set.image_1920)"
+                                                                             style="width:60px;height:45px;"/>
+                                                                    </t>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="css_quantity input-group oe_website_spinner">
+                                                                        <a t-attf-href="#"
+                                                                           class="mb8 input-group-addon js_add_cart_json hidden-xs qty-min">
+                                                                            <i class="fa fa-minus"
+                                                                               style="line-height: 1.9;margin: 10px 5px 0px 0px;"/>
+                                                                        </a>
+                                                                        <input type="text"
+                                                                               style="width: 45px;text-align: center;"
+                                                                               class="js_quantity form-control quantity ac_product_qty"
+                                                                               value="1" t-att-id="record_set.id"/>
+                                                                        <a t-attf-href="#"
+                                                                           class="mb8 input-group-addon float_left js_add_cart_json hidden-xs qty-plus">
+                                                                            <i class="fa fa-plus"
+                                                                               style="line-height: 1.9;margin: 10px 0px 0px 5px;"/>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                                <td style="padding-top:13px;">
+                                                                    <lable name="unit_price"
+                                                                           class="ac_product_unit_price">
+                                                                        <t t-esc="record_set.list_price"/>
+                                                                        <span t-esc="website.currency_id.symbol"/>
+                                                                    </lable>
+                                                                </td>
+                                                                <td style="width:0px;display:none;padding-top:13px;">
+                                                                    <lable name="tax" style="display:none;"
+                                                                           class="ac_product_tax">0.00
+                                                                        <span t-esc="website.currency_id.symbol"/>
+                                                                    </lable>
+                                                                    <lable name="product_tax" class="product_tax">
+                                                                        0.00
+                                                                        <span t-esc="website.currency_id.symbol"/>
+                                                                    </lable>
+                                                                </td>
+                                                                <td style="padding-top:13px;">
+                                                                    <lable name="total_price"
+                                                                           class="ac_product_total_price">
+                                                                        <!-- <t t-esc="product_dict.get(record_id) * record_set.list_price"/> -->
+                                                                        <t t-esc="record_set.list_price"/>
+                                                                    </lable>
+                                                                    <span t-esc="website.currency_id.symbol"/>
+                                                                </td>
+                                                                <td style="width: 55px;">
+                                                                    <a class="add_product"
+                                                                       t-att-data-qty="product_dict.get(record_id)"
+                                                                       t-att-data-product-id="record_set.id" line_id="">
+                                                                        <i class="fa fa-shopping-cart"
+                                                                           style="display: block; width: 30px;"/>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- end of panel -->
+
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

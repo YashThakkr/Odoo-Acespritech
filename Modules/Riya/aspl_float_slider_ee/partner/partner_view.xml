@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="aspl_slider_view_partner_form">
+        <field name="name">aspl.slider.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="ref" position="after">
+                <field name="rating" widget="range"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_import_saleorder_wiz,import_saleorder_wiz,model_import_saleorder_wiz,base.group_user,1,1,1,1
+access_not_imp_so_wiz,not_imp_so_wiz,model_not_imp_so_wiz,base.group_user,1,1,1,1

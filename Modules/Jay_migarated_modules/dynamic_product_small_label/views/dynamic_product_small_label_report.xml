@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="product_small_fields_label_report" model="ir.actions.report">
+            <field name="name">Dynamic Product Small Label</field>
+            <field name="model">wizard.product.small.label.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dynamic_product_small_label.product_small_fields_label</field>
+            <field name="report_file">dynamic_product_small_label.product_small_fields_label</field>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="dynamic_product_page_report" model="ir.actions.report">
+            <field name="name">Dynamic Product Small Label</field>
+            <field name="model">wizard.product.small.label.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dynamic_product_small_label.prod_small_lbl_rpt</field>
+            <field name="report_file">dynamic_product_small_label.prod_small_lbl_rpt</field>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="paperformat_dynamic_product_small_label" model="report.paperformat">
+            <field name="name">Dynamic Label Paper Format</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_height">70</field>
+            <field name="page_width">43</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">4</field>
+            <field name="margin_bottom">1</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+            <field name="report_ids" eval="[(6,0,[ref('dynamic_product_small_label.dynamic_product_page_report'),
+                                                 ref('dynamic_product_small_label.product_small_fields_label_report')])]"/>
+        </record>
+
+    </data>
+</odoo>

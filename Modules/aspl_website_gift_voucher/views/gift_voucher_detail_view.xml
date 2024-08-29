@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="gift_voucher_tree_view" model="ir.ui.view">
+            <field name="name">gift.voucher.tree</field>
+            <field name="model">gift.voucher.detail</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="expiry_date" />
+                    <field name="code" />
+                    <field name="redemption_customer" />
+                    <field name="voucher_type" />
+                    <field name="category_type" />
+                    <field name="discount_type" />
+                    <field name="minimum_qty" />
+                    <field name="minimum_amount" />
+                    <field name="discount" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="gift_voucher_form_view" model="ir.ui.view">
+            <field name="name">gift.voucher</field>
+            <field name="model">gift.voucher.detail</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="voucher_image" widget="image" class="oe_avatar" options="{'size':[90   ,90]}" />
+                        <group col="4">
+                            <field name="name" />
+                            <field name="expiry_date" />
+                            <field name="code" />
+                            <field name="redemption_customer" />
+                            <field name="voucher_type" />
+                            <field name="category_type" widget="many2many_tags" invisible="voucher_type == 'order_total'" required="voucher_type == 'category'"/>   
+                            <field name="minimum_qty" invisible="voucher_type == 'category' or voucher_type == 'order_total'"/>
+                            <field name="minimum_amount" invisible="voucher_type == 'category'" required="voucher_type == 'order_total'"/>
+                            <field name="discount_type" />
+                            <field name="discount" />
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <group>
+                                    <field name="description" string="Description" />
+                                </group>
+                            </page>
+                            <page string="Redeem Voucher">
+                                <field name="redeem_voucher_ids" readonly="1">
+                                    <tree>
+                                        <field name="customer_id" />
+                                        <field name="used_date" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="gift_redeem_voucher_tree" model="ir.ui.view">
+            <field name="name">Gift Redeem Voucher</field>
+            <field name="model">redeem.voucher</field>
+            <field name="arch" type="xml">
+                <tree create="0">
+                    <field name="voucher_name" />
+                    <field name="voucher_code" />
+                    <field name="order_name" />
+                    <field name="order_amount" />
+                    <field name="voucher_amount" />
+                    <field name="used_date" />
+                    <field name="customer_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="sale_order_vouchercode" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <field name="payment_term_id" position="after">
+                    <field name="sale_vouchercode" />
+                </field>
+            </field>
+        </record>
+
+        <record id="action_gift_voucher" model="ir.actions.act_window">
+            <field name="name">Voucher</field>
+            <field name="res_model">gift.voucher.detail</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_gift_redeem_voucher_tree" model="ir.actions.act_window">
+            <field name="name">Redeem Voucher</field>
+            <field name="res_model">redeem.voucher</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem id="menu_website_global_gift_voucher" parent="website.menu_website_configuration" sequence="11" name="Gift Voucher" groups="aspl_website_gift_voucher.group_voucher" />
+        <menuitem id="gift_voucher" sequence="10" parent="menu_website_global_gift_voucher" action="action_gift_voucher" name="Voucher" groups="aspl_website_gift_voucher.group_voucher" />
+        <menuitem id="gift_redeem_voucher" sequence="11" parent="menu_website_global_gift_voucher" action="action_gift_redeem_voucher_tree" name="Redeem Voucher" groups="aspl_website_gift_voucher.group_voucher" />
+    </data>
+
+</odoo>

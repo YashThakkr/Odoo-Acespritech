@@ -1,0 +1,61 @@
+.o_employee_data {
+    border-left: 1px solid gray;
+    margin-left: 30px;
+}
+
+td.o_EmployeeData:before {
+    content: '-';
+    background: #000;
+    line-height: 1px;
+    width: 11%;
+    position: absolute;
+}
+
+.o_EmployeeHierarchy_dropdownMenu {
+    display: none;
+    width: 277px;
+    left: auto;
+    right: 0;
+    top: 46px;
+}
+
+.header_td {
+    line-height:1;
+    padding-top: 10px;
+}
+
+.o_jobtitle {
+  width: 150px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-wrap: nowrap;
+}
+
+.employee_child_count {
+    line-height: 1;
+}
+
+.icon_button {
+    font-size: 20px;
+    padding-left: 10px;
+    line-height: 0.4;
+}
+
+.font_size_h5 {
+    font-size: 13.28px;
+}
+
+#check_in {
+    font-size: 15px;
+    margin-left: 2px
+}
+
+#check_out {
+    font-size: 15px;
+    margin-left: 2px
+}
+
+.btn_badge {
+    position: relative;
+    top: 1px;
+}

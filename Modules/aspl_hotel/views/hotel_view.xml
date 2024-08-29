@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_hotel_floor_form" model="ir.ui.view">
+            <field name="name">view.hotel.floor.form</field>
+            <field name="model">hotel.floor</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Floor">
+                    <sheet>
+                        <field name="active" widget="boolean_button" invisible="1"/>
+                        <widget name="web_ribbon" title="Active" bg_color="bg-success" invisible="not active"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <group col="4">
+<!--                            <field name="branch_id" readonly="1" force_save="1" required="1"/>-->
+                            <field name="name"/>
+                            <field name="color" widget="color"/>
+                        </group>
+                        <notebook>
+                            <page string="Room">
+                                <field name="room_ids" mode="tree">
+                                    <tree editable="bottom">
+                                        <field name="room_category"/>
+                                        <field name="room_type_id"/>
+                                        <field name="room_no"/>
+                                        <field name="rate"/>
+<!--                                        <field name="branch_id" readonly="1" force_save="1" invisible="1"/>-->
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hotel_floor_tree" model="ir.ui.view">
+            <field name="name">view.hotel.floor.tree</field>
+            <field name="model">hotel.floor</field>
+            <field name="arch" type="xml">
+                <tree string="Hotel Floor">
+                    <field name="name"/>
+                    <field name="color"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_hotel_floor" model="ir.actions.act_window">
+            <field name="name">Floors</field>
+            <field name="res_model">hotel.floor</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="walk_in_form_view" model="ir.ui.view">
+            <field name="name">walk.in.form.view</field>
+            <field name="model">walk.in.detail</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button class="btn btn-primary" name="reservation_action" string="Reserve" type="object"
+                                invisible="state in ['reserve','check_in','cancel', 'check_out']"/>
+                        <button class="btn btn-primary" name="check_in_action" string="Check In" type="object"
+                                invisible="state in ['walk_in','check_in','cancel', 'check_out']"/>
+                        <button class="btn btn-primary" name="check_out_action" string="Check Out" type="object"
+                                invisible="state in ['walk_in','reserve','cancel', 'check_out']"/>
+                        <button class="btn btn-primary" name="reservation_cancel_action" string="Cancel" type="object"
+                                invisible="state in ['cancel', 'check_in','check_out']"/>
+                        <button class="btn btn-primary" name="create_folio" string="Create Folio" type="object"
+                                invisible="state in ['walk_in','reserve','cancel', 'check_out'] or folio_count > 0"/>
+                        <button class="btn btn-primary" name="advance_payment" string="Advance Payment" type="object"
+                                invisible="state not in ['walk_in','reserve']"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="open_folio" icon="fa-pencil-square-o"
+                                    type="object" context="{'default_walk_in_id': active_id}">
+                                <field name="folio_count" widget="statinfo" string="Folio"/>
+                            </button>
+                        </div>
+
+                        <div class="oe_title">
+                            <h1>
+                                <field name="number"/>
+                            </h1>
+                        </div>
+                        <div class="title" style="float:left;width: 180px;margin-top:15px;">
+                            <h1>
+                                <field name="title_id" default_focus="1" placeholder="Title" style="height:45px;"/>
+                            </h1>
+                        </div>
+
+                        <div class="oe_title" style="float:left; margin-top:15px;margin-left:10px;">
+                            <h1>
+                                <field name="name" placeholder="Name"/>
+                            </h1>
+                            <h1>
+<!--                                <field name="branch_id" readonly="1" force_save="1" required="1" options="{'no_create': True}"/>-->
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Guest Information">
+                                <label for="street" string="Address"/>
+                                <div class="o_address_format">
+                                    <field name="street" placeholder="Street..." class="o_address_street"/>
+                                    <field name="city" placeholder="City" class="o_address_city"/>
+                                    <field name="state_id" class="o_address_state" placeholder="State"/>
+                                    <field name="zip_code" placeholder="ZIP" class="o_address_zip"/>
+                                    <field name="country_id" placeholder="Country" class="o_address_country"/>
+                                </div>
+                            </group>
+
+                            <group string="Contact Information">
+                                <field name="email" required="not event_id"/>
+                                <field name="phone_no"/>
+                                <field name="mobile_no" required="not event_id"/>
+                                <field name="fax"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Room Transfer">
+                                <form>
+                                    <field name="room_transfer_ids">
+                                        <tree create="false">
+                                            <field name="walk_in_id" invisible="1"/>
+                                            <field name="from_room_id"/>
+                                            <field name="to_room_id"/>
+                                            <field name="room_transfer_date"/>
+                                            <field name="transfer_reason"/>
+                                        </tree>
+                                    </field>
+                                </form>
+                            </page>
+                            <page string="Other Information">
+                                <group>
+                                    <group>
+                                        <field name="identity" required="not event_id"/>
+                                        <field name="identity_no" required="not event_id"/>
+                                        <field name="nationality"/>
+                                        <field name="gender" widget="radio" options="{'horizontal': true}"/>
+                                    </group>
+                                    <group>
+                                        <field name="vip_status_id" options="{'no_create': True}"/>
+                                        <field name="agent_id"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Stay Information">
+                                <group>
+                                    <group>
+                                        <field name="event_id"/>
+                                        <field name="reservation_type"/>
+                                        <field name="total_room"/>
+                                        <field name="total_adult"/>
+                                        <field name="total_childs"/>
+                                        <field name="total_night"/>
+                                        <field name="room_capacity"/>
+                                    </group>
+                                    <group>
+                                        <field name="room_category"/>
+                                        <field name="arrival_date"/>
+                                        <field name="departure_date"/>
+                                        <field name="room_ids" context="{'walk_in': True, 'arrival_date': arrival_date, 'departure_date': departure_date}"
+                                               domain="[('room_category', '=', room_category)]"/>
+<!--                                        <field name="room_ids" context="{'walk_in': True, 'arrival_date': arrival_date, 'departure_date': departure_date}"-->
+<!--                                               domain="[('room_category', '=', room_category),('branch_id','=', branch_id)]"/>-->
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="walk_in_tree_view" model="ir.ui.view">
+            <field name="name">walk.in.tree.view</field>
+            <field name="model">walk.in.detail</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="room_floor_id"/>
+                    <field name="room_type_id"/>
+                    <field name="room_id"/>
+                    <field name="arrival_date"/>
+                    <field name="departure_date"/>
+                    <field name="reservation_type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="walk_in_kanban_view" model="ir.ui.view">
+            <field name="name">walk.in.kanban.view</field>
+            <field name="model">walk.in.detail</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_card oe_kanban_global_click"
+                                 style="box-shadow: 2px 2px grey;">
+
+                                <span style="font-size:  24px;font-weight:  600;">
+                                    <a  type="open">
+                                        <field name="number"/>
+                                    </a>
+                                    <div style="float: right;font-size: 15px;font-weight: 600;color: #555487;">
+                                        <field name="room_id"/>
+                                    </div>
+                                    <br/>
+                                    <a type="open">
+                                        <field name="title_id"/>
+                                        <field name="name"/>
+                                    </a>
+                                </span>
+                                <table style="margin-top:12px;">
+                                    <tr>
+                                        <th style="width:50%;">Arrival Date</th>
+                                        <td>
+                                            <field name="arrival_date"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th style="width:50%;">Departure Date</th>
+                                        <td>
+                                            <field name="departure_date"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th style="width:50%;">Email</th>
+                                        <td>
+                                            <field name="email"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th style="width:50%;">Mobile No</th>
+                                        <td>
+                                            <field name="mobile_no"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="walk_in_detail_view_search" model="ir.ui.view">
+            <field name="model">walk.in.detail</field>
+            <field name="arch" type="xml">
+                <search string="Views">
+                    <field name="name"/>
+                    <field name="number"/>
+                    <field name="mobile_no"/>
+                    <group expand="0" string="Group By">
+
+                        <filter string="Today" name="Today"
+                                domain="[('arrival_date', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00')),
+                            ('arrival_date', '&lt;=', context_today().strftime('%Y-%m-%d 23:59:59'))]"
+                                help="Opportunities with a date of Expected Closing which is in the past"/>
+
+                        <filter string="Yesterday" name="Yesterday"
+                                domain="[('arrival_date', '&gt;=', (context_today()-datetime.timedelta(days=1)).strftime('%Y-%m-%d 00:00:00')),
+                            ('arrival_date', '&lt;=', (context_today()-datetime.timedelta(days=1)).strftime('%Y-%m-%d 23:59:59'))]"/>
+                        <filter string="Floor" name="group_by_floor" domain="[]"
+                                context="{'group_by':'room_floor_id'}"/>
+                        <filter string="Reserve" name="group_by_reserve_state" domain="[('state','=','reserve')]"
+                                context="{'group_by':'state'}"/>
+                        <filter string="State Wise" name="group_by_state_wise" domain="[]"
+                                context="{'group_by':'state'}"/>
+<!--                        <filter string="Branch" name="group_by_branch" domain="[]"-->
+<!--                                context="{'group_by':'branch_id'}"/>-->
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="hotel_room_resource_view_ids" model="ir.actions.client">
+            <field name="name">Hotel Room Booking</field>
+            <field name="tag">tag_resource_view</field>
+            <field name="target">current</field>
+        </record>
+
+        <menuitem id="menu_room_book_appointment" action="aspl_hotel.hotel_room_resource_view_ids"
+                  name="Room Booking" parent="aspl_hotel.sub_menu_hotel"
+                  sequence="3"/>
+
+        <record id="action_walk_in" model="ir.actions.act_window">
+            <field name="name">Walk In</field>
+            <field name="res_model">walk.in.detail</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name='context'>{'search_default_group_by_state_wise':1}</field>
+            <field name="search_view_id" ref="walk_in_detail_view_search"/>
+        </record>
+
+        <record id="discount_detail_tree_view" model="ir.ui.view">
+            <field name="name">discount.detail.tree.view</field>
+            <field name="model">discount.detail</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="discount_detail_form_view" model="ir.ui.view">
+            <field name="name">discount.detail.form.view</field>
+            <field name="model">discount.detail</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="active" widget="boolean_button" invisible="1"/>
+                        <widget name="web_ribbon" title="Active" bg_color="bg-success" invisible="not active"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <group>
+                            <field name="type"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_discount_detail" model="ir.actions.act_window">
+            <field name="name">Discount</field>
+            <field name="res_model">discount.detail</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="discount_rule_tree_view" model="ir.ui.view">
+            <field name="name">discount.rule.tree.view</field>
+            <field name="model">discount.rule</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="discount_id"/>
+                    <field name="discount_rule"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="discount_rule_form_view" model="ir.ui.view">
+            <field name="name">discount.rule.form.view</field>
+            <field name="model">discount.rule</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="active" widget="boolean_button" invisible="1"/>
+                        <widget name="web_ribbon" title="Active" bg_color="bg-success" invisible="not active"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <group>
+                            <field name="discount_id"/>
+                            <field name="discount_rule"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_discount_rule" model="ir.actions.act_window">
+            <field name="name">Discount Rule</field>
+            <field name="res_model">discount.rule</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="vip_status_tree_view" model="ir.ui.view">
+            <field name="name">vip.status.tree.view</field>
+            <field name="model">vip.status</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="vip_status_form_view" model="ir.ui.view">
+            <field name="name">vip.status.form.view</field>
+            <field name="model">vip.status</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="active" widget="boolean_button" invisible="1"/>
+                        <widget name="web_ribbon" title="Active" bg_color="bg-success" invisible="not active"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_vip_status" model="ir.actions.act_window">
+            <field name="name">VIP Status</field>
+            <field name="res_model">vip.status</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="visitor_identity_form_view" model="ir.ui.view">
+            <field name="name">visitor.identity.form.view</field>
+            <field name="model">visitor.identity</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="active" widget="boolean_button" invisible="1"/>
+                        <widget name="web_ribbon" title="Active" bg_color="bg-success" invisible="not active"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_visitor_identity" model="ir.actions.act_window">
+            <field name="name">Identity</field>
+            <field name="res_model">visitor.identity</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="view_wizard_find_customer_tree_view" model="ir.ui.view">
+            <field name="name">view.wizard.find.customer.form</field>
+            <field name="model">wizard.customer.check</field>
+            <field name="arch" type="xml">
+                <form string="Customer" edit="1">
+                    <group>
+                        <field name="customer_type" widget="radio" options="{'horizontal': true}"/>
+                        <field name="partner_id" invisible="customer_type == 'new'"/>
+                        <field name="customer_name" invisible="customer_type == 'existing'"/>
+                        <field name="mobile_no" invisible="customer_type == 'existing'"/>
+                        <field name="email" invisible="customer_type == 'existing'"/>
+                    </group>
+                    <footer>
+                        <button name="do_create" string="Save" type="object" default_focus="1" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <menuitem id="walk_in_menu" sequence="1" parent="aspl_hotel.sub_menu_hotel" action="action_walk_in"/>
+
+        <menuitem id="menu_customers" name="Customers" parent="aspl_hotel.sub_menu_hotel"
+                  action="base.action_partner_form" sequence="2"/>
+
+        <menuitem id="menu_hotel_vip_status" parent="aspl_hotel.configuration_menu_hotel"
+                  action="action_vip_status" sequence="9"/>
+
+        <menuitem id="menu_hotel_visitor_identity" parent="aspl_hotel.configuration_menu_hotel"
+                  action="action_visitor_identity" sequence="30"/>
+
+        <menuitem id="menu_hotel_floor" name="Floors" parent="aspl_hotel.configuration_menu_hotel"
+                  action="action_hotel_floor" sequence="5"/>
+
+    </data>
+</odoo>

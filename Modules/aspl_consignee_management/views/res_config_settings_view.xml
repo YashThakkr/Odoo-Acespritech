@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="res_config_settings_view_form_inherit" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.in</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//app[@name='stock']" position="inside">
+                    <h2>Create Consignee Location</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="is_create_location"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="is_create_location"/>
+                                <div class="text-muted">
+                                    Create consignee location when consignee is created.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Consignee Transfer</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="is_send_mail_request"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="is_send_mail_request"/>
+                                <div class="text-muted">
+                                    Send mail notification to store manager on consignee transfer or consignee return
+                                    transfer and to
+                                    consignee when consignee to consignee transfer is requested.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="is_send_mail_confirm"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="is_send_mail_confirm"/>
+                                <div class="text-muted">
+                                    Send mail notification to consignee when consignee transfer, consignee return
+                                    transfer and consignee to
+                                    consignee transfer is confirmed.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="is_send_alert_for_product_expired"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="is_send_alert_for_product_expired"/>
+                                <div class="text-muted">
+                                    Send mail notification to consignee when product is going to expire in consignee
+                                    location.
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16"
+                                         invisible="not is_send_alert_for_product_expired">
+                                        <span>
+                                            Send mail product expire before
+                                            <field name="days" class="oe_inline"/>
+                                            day(s).
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+                <xpath expr="//app[@name='sale_management']" position="inside">
+                    <h2>Consume Sales Orders</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="is_create_sale_order"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="is_create_sale_order"/>
+                                <div class="text-muted">
+                                    Creates confirm sales order when Consume Items record is confirm.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="is_on_consume_item_import"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="is_on_consume_item_import"/>
+                                <div class="text-muted">
+                                    When consume items are imported from excel sheet, it creates consume items record
+                                    into done state and
+                                    create sale order automatically.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Send Mail</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="is_send_mail"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="is_send_mail"/>
+                                <div class="text-muted">
+                                    Send mail notification to consignee when sale order is created from consume items.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

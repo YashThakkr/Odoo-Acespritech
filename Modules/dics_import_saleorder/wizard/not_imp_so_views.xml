@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="not_imp_so_wiz_form" model="ir.ui.view">
+        <field name="name">not.imp.so.wiz.form</field>
+        <field name="model">not.imp.so.wiz</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="not_import_so" nolabel="1" readonly="1"/>
+                <footer>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

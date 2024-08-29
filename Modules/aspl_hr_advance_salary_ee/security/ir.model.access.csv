@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_advance_salary_request,access_hr_advance_salary_request,model_hr_advance_salary_request,base.group_user,1,1,1,0
+access_salary_payment,access_salary_payment,model_salary_payment,base.group_user,1,1,0,0
+access_disburse_amt_wiz,access_disburse_amt_wiz,model_disburse_amt_wiz,base.group_user,1,1,0,0
+access_hr_job_user,access_hr_job_user,hr.model_hr_job,base.group_user,1,1,0,0
+access_salary_payment_mag,access_salary_payment_mag,model_salary_payment,hr.group_hr_manager,1,1,1,0
+access_hr_advance_salary_request_acc,access_hr_advance_salary_request_acc,model_hr_advance_salary_request,account.group_account_manager,1,1,1,0
+access_disburse_amt_wiz_acc,access_disburse_amt_wiz_acc,model_disburse_amt_wiz,account.group_account_manager,1,1,1,0
+access_summary_wiz,access_summary_wiz,model_summary_wiz,base.group_user,1,1,1,0
+access_hr_payslip,access_hr_payslip,model_hr_payslip,account.group_account_manager,1,1,1,0
+access_hr_employee,access_hr_employee,model_hr_employee,base.group_user,1,1,1,0
+aspl_hr_advance_salary_ee.access_reject_request_reason,access_reject_request_reason,aspl_hr_advance_salary_ee.model_reject_request_reason,base.group_user,1,1,1,0
+aspl_hr_advance_salary_ee.access_aspl_salary_sheet,access_aspl_salary_sheet,aspl_hr_advance_salary_ee.model_aspl_salary_sheet,base.group_user,1,1,1,1
+aspl_hr_advance_salary_ee.access_aspl_hr_payslip,access_aspl_hr_payslip,aspl_hr_advance_salary_ee.model_aspl_hr_payslip,base.group_user,1,1,1,0

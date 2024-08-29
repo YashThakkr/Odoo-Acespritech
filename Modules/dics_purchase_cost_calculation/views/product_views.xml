@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_product_template_form_dics_purchase_cost" model="ir.ui.view">
+        <field name="name">product.template.form.view.dics</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='uom_po_id']" position="after">
+                <field name="po_uom_categ_id" invisible="1"/>
+            </xpath>
+            <xpath expr="//label[@for='standard_price']" position="before">
+                <label for="purchase_cost_price"
+                       attrs="{'invisible': [('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}"/>
+                <div name="purchase_cost_price_uom"
+                     attrs="{'invisible': [('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}">
+                    <field name="purchase_cost_price" class="oe_inline" widget='monetary'
+                           options="{'currency_field': 'cost_currency_id', 'field_digits': True}"/>
+                    <span groups="uom.group_uom">per
+                        <field name="po_uom_name" class="oe_inline"/>
+                    </span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_product_form_dics_purchase_cost" model="ir.ui.view">
+        <field name="name">product.product.form.view.dics</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='uom_po_id']" position="after">
+                <field name="po_uom_categ_id" invisible="1"/>
+            </xpath>
+            <xpath expr="//label[@for='standard_price']" position="before">
+                <label for="purchase_cost_price"/>
+                <div name="purchase_cost_price_uom">
+                    <field name="purchase_cost_price" class="oe_inline" widget='monetary'
+                           options="{'currency_field': 'cost_currency_id', 'field_digits': True}"/>
+                    <span groups="uom.group_uom">per
+                        <field name="po_uom_name" class="oe_inline"/>
+                    </span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

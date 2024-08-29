@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_contract_view_form_inherit_aces" model="ir.ui.view">
+            <field name="name">hr.contract.form</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='salary_info']//label[@for='wage']" position="before">
+                    <label for="is_hourly_pay"/>
+                    <div class="o_row" name="is_hourly_pay">
+                        <field name="is_hourly_pay"/>
+                    </div>
+                </xpath>
+                <field name="wage" position="after">
+                    <span id="hour">/ hour</span>
+                </field>
+                 <xpath expr="//page[@name='information']//div[@name='wage']/div" position="replace">
+                    <span id="month">/ month</span>
+                 </xpath>
+                <xpath expr="//page[@name='information']//span[@id='month']" position="attributes">
+                    <attribute name="invisible">is_hourly_pay == True</attribute>
+                </xpath>
+                <xpath expr="//page[@name='information']//span[@id='hour']" position="attributes">
+                   <attribute name="invisible">is_hourly_pay != True</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_hr_payslip_form_inherit_aces" model="ir.ui.view">
+            <field name="name">hr.payslip.form</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="aspl_hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <field name="credit_note" position="after">
+                    <field name="total_hours" readonly="1"/>
+                </field>
+                 <xpath expr="//field[@name='contract_id']" position="attributes">
+                    <attribute name="readonly">state != 'draft'</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

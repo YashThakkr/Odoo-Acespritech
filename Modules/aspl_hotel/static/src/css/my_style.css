@@ -1,0 +1,99 @@
+.box_outer.col3.guest-info {
+    width: 30%;
+}
+.bottommargin {
+    margin-bottom: 13px !important;
+}
+.contact-info, .guest-info, .stay-info {
+    margin-bottom: 15px;
+}
+.billinginfo, .col3, .ressum, .shainc {
+    width: 32%;
+    float: left;
+    padding: 0;
+}
+.box_outer {
+    border: none;
+    box-shadow: 0 0 3px rgba(0,0,0,.3);
+    margin-bottom: 0;
+}
+.box_outer, .v-select {
+    position: relative;
+    float: left;
+}
+.box_head, .box_outer {
+    background: #fff;
+    width: 100%;
+}
+.col1, .col10, .col2, .col3, .col4, .col5, .col6, .col7, .col8, .col9 {
+    float: left;
+}
+.box_outer {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.box3, .box_outer, .sortby {
+    -webkit-box-sizing: border-box;
+}
+.box_head, .box_outer {
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+
+#myMenu li a, *, .fooright, .fooright>ul, .guest_name, .guest_status, .logoff_outer ul li a, .logoff_outer ul li a.logoff, .oemcompany, .rclicknav li span, .searchboxleft .term-search .term-btn::before, .sortby select, .title {
+    box-sizing: border-box;
+}
+user agent stylesheet
+div {
+    display: block;
+}
+
+.box_head, .box_container, .walkTabbing .ui-tabs .ui-tabs-nav li a {
+    padding: 10px !important;
+}
+.box_head {
+    box-shadow: none;
+    border-bottom: 1px solid #b8bfca;
+    float: left;
+    padding: 11px 15px 9px;
+    font-weight: 400;
+    font-size: 18px;
+    color: #000;
+    line-height: 20px;
+    text-indent: 0;
+}
+.box_head, .box_outer {
+    background: #fff;
+    width: 100%;
+}
+.box_head, .title, footer li {
+    text-shadow: none;
+}
+.box_head {
+    background-color: #f7f7f7;
+}
+.box_head, .box_outer {
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+.box_head, footer li {
+    font-family: DroidSansRegular;
+}
+
+.box_head, .box_container, .walkTabbing .ui-tabs .ui-tabs-nav li a {
+    padding: 10px !important;
+}
+.box_container {
+    width: 100%;
+    padding: 15px;
+}
+.box_container {
+    float: left;
+}
+
+.o_form_view.o_xxl_form_view .o_form_sheet_bg > .o_form_sheet {
+    width: 100%;
+    max-width: 1320px;
+    height: 60%;
+}
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_confirm_wiz" model="ir.ui.view">
+        <field name="name">confirm.wiz</field>
+        <field name="model">confirm.so.wiz</field>
+        <field name="arch" type="xml">
+            <form>
+                <span>
+                    Are you sure you want to confirm these records?
+                </span>
+                <footer>
+                    <button string="OK" class="btn-primary" type="object" name="action_save"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

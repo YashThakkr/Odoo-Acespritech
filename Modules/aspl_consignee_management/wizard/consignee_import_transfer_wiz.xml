@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="form_view_consignee_import" model="ir.ui.view">
+            <field name="name">form.view.consignee.import</field>
+            <field name="model">consignee.import.transfer</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="partner_id"
+                                   invisible="import_type == 'consignee_to_consignee_transfer'"
+                                   required="import_type != 'consignee_to_consignee_transfer'"/>
+                            <field name="import_type" invisible="1"/>
+                            <field name="source_location_id"
+                                   invisible="import_type != 'consignee_transfer'"
+                                   domain="[('usage', '=', 'internal')]"/>
+                            <field name="destination_location_id"
+                                   invisible="import_type != 'consignee_return_transfer'"
+                                   domain="[('usage', '=', 'internal')]"/>
+                            <field name="partner_id" string="From Consignee"
+                                   invisible="import_type != 'consignee_to_consignee_transfer'"/>
+                            <field name="to_partner_id"
+                                   invisible="import_type != 'consignee_to_consignee_transfer'"/>
+                        </group>
+                        <group>
+                            <field name="import_by" required="1"/>
+                            <field name="data_file"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="import_consignee" string="Import" class="btn_primary" type="object"/>
+                        <button string="Cancel" class="btn_default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!--Consigeee Transfer -->
+        <record id="action_import_consignee_transfer" model="ir.actions.act_window">
+            <field name="name">Import Consignee Transfer</field>
+            <field name="res_model">consignee.import.transfer</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_import_type':'consignee_transfer'}</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="import_consignee_transfer_menu" name="Import Consignee Transfer"
+                  action="action_import_consignee_transfer" parent="stock.menu_stock_warehouse_mgmt"
+                  sequence="7" groups="stock.group_stock_manager"/>
+
+        <!--Consigeee Return Transfer -->
+        <record id="action_import_consignee_return_transfer" model="ir.actions.act_window">
+            <field name="name">Import Consignee Return Transfer</field>
+            <field name="res_model">consignee.import.transfer</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_import_type':'consignee_return_transfer'}</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="import_consignee_return_transfer_menu" name="Import Consignee Return Transfer"
+                  action="action_import_consignee_return_transfer"
+                  parent="stock.menu_stock_warehouse_mgmt" sequence="9" groups="stock.group_stock_manager"/>
+
+        <!--Consigeee to Consignee Transfer -->
+        <record id="action_import_consignee_to_consignee_transfer" model="ir.actions.act_window">
+            <field name="name">Import Consignee to Consignee Transfer</field>
+            <field name="res_model">consignee.import.transfer</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_import_type':'consignee_to_consignee_transfer'}</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="import_consignee_to_consignee_transfer_menu" name="Import Consignee to Consignee Transfer"
+                  action="action_import_consignee_to_consignee_transfer"
+                  parent="stock.menu_stock_warehouse_mgmt" sequence="11" groups="stock.group_stock_manager"/>
+
+        <!--Consume Items Transfer -->
+        <record id="action_import_consume_item" model="ir.actions.act_window">
+            <field name="name">Import Consume Items</field>
+            <field name="res_model">consignee.import.transfer</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_import_type':'consume_item'}</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="import_consignee_menu" name="Import Consume Items" action="action_import_consume_item"
+                  parent="sale.sale_order_menu"
+                  sequence="2" groups="stock.group_stock_manager"/>
+
+    </data>
+</odoo>

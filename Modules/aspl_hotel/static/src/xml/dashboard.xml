@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="aspl_hotel.HouseKeepingDashboard" owl="1">
+    <div class="container-fluid header">
+            <div data-command-category="actions" class="o_control_panel" style="margin-top: 15px;"><div class="o_cp_top"><div class="o_cp_top_left"><ol role="navigation" class="breadcrumb"><li class="breadcrumb-item active"><span class="text-900" style="font-size: 17px;margin-top: ;">House keeping Dashboard</span></li></ol></div><div
+                    class="o_cp_top_right"><div role="search" class="o_cp_searchview"></div></div></div>
+                <div class="o_cp_bottom"><div class="o_cp_bottom_left"><div role="toolbar" aria-label="Control panel buttons" class="o_cp_buttons"></div></div>
+                    <div class="o_cp_bottom_right"><div role="search" class="btn-group o_search_options position-static"></div>
+                        <div role="search" class="o_cp_pager"></div></div></div></div>
+        <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="col-md-12 title">
+                        <div class="col-md-9" style="float:left;margin-top: 10px;">
+                            <strong style="margin-left: 15px;">Date:</strong>
+                            <span style="margin-left: 15px;" t-esc="today_date"/>
+                        </div>
+                        <div class="col-md-3" style="float:left;margin-top: 10px;">
+                            <strong>User:</strong>
+                            <span class="welcome-text" style="margin-left: 15px;">
+                                <t t-esc="currentUser"/>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="container-fluid body" style="margin-top:15px;">
+        <t t-if="data.task_list_len">
+            <table class="table table-bordered work_order_table_data" style="width:100%">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Room Number</th>
+                        <t t-foreach="data.task_list" t-as="each_task" t-key="each_task">
+                            <th>
+                                <span t-esc="each_task"/>
+                            </th>
+                        </t>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <t t-foreach="data['task_dict']" t-as="each_data" t-key="each_data">
+                        <tr>
+                            <t t-if="each_data">
+                                <td>
+                                    <span t-esc="each_data"/>
+                                </td>
+                            </t>
+                            <t t-foreach="data['task_list']" t-as="each_task" t-key="each_task">
+                                <td>
+                                    <t t-foreach="each_data_value" t-as="each_data_task" t-key="each_data_task">
+                                        <t t-if="each_data_task == 'pending'">
+                                            <t t-foreach="each_data_task_value" t-as="task_val" t-key="task_val">
+                                                <t t-if="task_val == each_task">
+                                                    <button class="btn btn-primary service_order"
+                                                            t-att-data-user_id="data['user_id']"
+                                                            t-att-data-room_id="each_data"
+                                                            t-att-data-task_name="task_val"
+                                                            t-att-data-work_order_id="data['work_order_id']"
+                                                            t-on-click="(ev) => this.work_service(ev, data['user_id'], each_data, task_val, data['work_order_id'])">
+                                                        <span>Start</span>
+                                                    </button>
+                                                    <button class="btn btn-primary service_order_finish"
+                                                            t-att-data-user_id="data['user_id']"
+                                                            t-att-data-room_id="each_data"
+                                                            t-att-data-task_name="task_val"
+                                                            t-att-data-work_order_id="data['work_order_id']"
+                                                            style="display:none;"
+                                                            t-on-click="(ev) => this.end_work_service(ev, data['user_id'], each_data, task_val, data['work_order_id'])">
+                                                        <span>Finish</span>
+                                                    </button>
+                                                </t>
+                                            </t>
+                                        </t>
+
+                                        <t t-if="each_data_task == 'start'">
+                                            <t t-foreach="each_data_task_value" t-as="task_val" t-key="task_val">
+                                                <t t-if="task_val == each_task">
+                                                    <button class="btn btn-primary service_order_finish"
+                                                            t-att-data-user_id="data['user_id']"
+                                                            t-att-data-room_id="each_data"
+                                                            t-att-data-task_name="task_val"
+                                                            t-att-data-work_order_id="data['work_order_id']"
+                                                            t-on-click="(ev) => this.end_work_service(ev, data['user_id'], each_data, task_val, data['work_order_id'])">
+                                                        <span>Finish</span>
+                                                    </button>
+                                                    <button class="btn btn-primary service_order_done"
+                                                            t-att-data-user_id="data['user_id']"
+                                                            t-att-data-room_id="each_data"
+                                                            t-att-data-task_name="task_val"
+                                                            t-att-data-work_order_id="data['work_order_id']"
+                                                            style="display:none;">
+                                                        <span>Done</span>
+                                                    </button>
+                                                </t>
+                                            </t>
+                                        </t>
+
+                                        <t t-if="each_data_task == 'done'">
+                                            <t t-foreach="each_data_task_value" t-as="task_val" t-key="task_val">
+                                                <t t-if="task_val == each_task">
+                                                    <button class="btn btn-primary service_order_done"
+                                                            t-att-data-user_id="data['user_id']"
+                                                            t-att-data-room_id="each_data"
+                                                            t-att-data-task_name="task_val"
+                                                            t-att-data-work_order_id="data['work_order_id']">
+                                                        <span>Done</span>
+                                                    </button>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </t>
+                                </td>
+                            </t>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </t>
+        <t t-else="">
+            <div class="alert alert-danger">
+                <span>There is no work order!</span>
+            </div>
+        </t>
+    </div>
+</t>
+
+</templates>
+

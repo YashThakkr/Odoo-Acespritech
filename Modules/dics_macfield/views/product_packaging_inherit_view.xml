@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_packaging_template_form_inherit" model="ir.ui.view">
+        <field name="name">packaging.form.inherit</field>
+        <field name="model">product.packaging</field>
+        <field name="inherit_id" ref="product.product_packaging_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_row')]" position="inside">
+
+                <field name="uom_po_id" groups="uom.group_uom"/>
+            </xpath>
+            <xpath expr="//div[hasclass('o_row')]//field[@name='product_uom_id']" position="replace">
+                <field name="product_uom_id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom"
+                       invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_packaging_template_tree_inherit" model="ir.ui.view">
+        <field name="name">packaging.tree.inherit</field>
+        <field name="model">product.packaging</field>
+        <field name="inherit_id" ref="product.product_packaging_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom_id']" position="after">
+                <field name="uom_po_id" groups="uom.group_uom"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

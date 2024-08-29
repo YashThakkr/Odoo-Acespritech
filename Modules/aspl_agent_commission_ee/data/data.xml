@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <record id="agent_commission_sequence" model="ir.sequence">
+            <field name="name">Agent Commission Number</field>
+            <field name="code">agent.commission.number</field>
+            <field name="prefix">COMM/%(year)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="agent_commission_cron" model="ir.cron">
+            <field name="name">Agent Commission Payment</field>
+            <field name="model_id" ref="model_res_partner"/>
+            <field name="state">code</field>
+            <field name="code">model.payment_cron()</field>
+            <field name='interval_number'>1</field>
+            <field name='interval_type'>days</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+        <record id="agent_commmission_account" model="account.account">
+            <field name="name">Sales Commission</field>
+            <field name="code">SO1010</field>
+            <field name="account_type">expense_direct_cost</field>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

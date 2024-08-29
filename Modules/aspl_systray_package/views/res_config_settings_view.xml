@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_extend" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.stock</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="30"/>
+            <field name="inherit_id" ref="project.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//block[@name='project_time']" position="after">
+                    <div class="row o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+<!--                            <div class="o_setting_left_pane">-->
+<!--                                <field name="time_count"/>-->
+<!--                            </div>-->
+                            <div class="content-group">
+                                <label for="time_count" style="width:125px; float:left;"/>
+                                <field name="time_count" style="width: 50px; margin-left:15px;"/>Seconds
+                            </div>
+                            <div class="text-muted">
+                                Set time limit for notifications on assigning new task.
+                            </div>
+<!--                            </div>-->
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

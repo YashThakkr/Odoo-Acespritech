@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!--        Subscriber Membership-->
+        <record id="view_subscriber_membership_history_tree" model="ir.ui.view">
+            <field name="name">subscriber.membership.history.tree.view</field>
+            <field name="model">subscriber.membership.history</field>
+            <field name="arch" type="xml">
+                <tree string="Membership History" create="0">
+                    <field name="subscriber_id"/>
+                    <field name="membership_id"/>
+                    <field name="branch_id" optional="hide"/>
+                    <field name="company_id" optional="hide"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="fees" widget='monetary'
+                           options="{'currency_field': 'cost_currency_id'}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_subscriber_membership_history_form" model="ir.ui.view">
+            <field name="name">subscriber.membership.history.form.view</field>
+            <field name="model">subscriber.membership.history</field>
+            <field name="arch" type="xml">
+                <form string="Membership History">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="create_membership_invoice" type="object" string="Create Invoice"
+                                class="oe_highlight"
+                                attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('id', '=', False)]}"/>
+                        <button name="button_register_gym_payment" string="Register Payment" class="oe_highlight"
+                                type="object" attrs="{'invisible': [('state','!=','validated')]}"/>
+                        <button name="button_cancel" string="Cancel" class="oe_highlight"
+                                type="object" attrs="{'invisible': [('state','in',['draft','cancelled'])]}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_customer_invoice" type="object" string="Invoice"
+                                    class="oe_stat_button" icon="fa-pencil-square-o"
+                                    attrs="{'invisible': [('invoice_id', '=', False)]}"/>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="subscriber_id" required="1" context="{'form_view_ref': 'aspl_fitness_management.subscriber_view_form'}"/>
+                                <field name="membership_id" required="1"/>
+                                <field name="gym_plan_ids" widget="many2many_tags"/>
+                                <field name="fees"/>
+                                <field name="invoice_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                                <field name="company_id"/>
+                                <field name="branch_id" groups="aspl_fitness_management.group_multi_branches"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_subscriber_membership_history_search" model="ir.ui.view">
+            <field name="name">subscriber.membership.history.search.view</field>
+            <field name="model">subscriber.membership.history</field>
+            <field name="arch" type="xml">
+                <search string="Membership History">
+                    <field name="subscriber_id"/>
+                    <field name="membership_id"/>
+                    <field name="company_id"/>
+                    <field name="branch_id" groups="aspl_fitness_management.group_multi_branches"/>
+                    <filter string="To Be Expire plans" name="name"
+                        domain="[('end_date', '&gt;', context_today().strftime('%Y-%m-%d'))]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Membership" name="membership_id"
+                                context="{'group_by':'membership_id'}"/>
+                        <filter string="Active" name="active"
+                                context="{'group_by':'active'}"/>
+                        <filter string="State" name="state"
+                                context="{'group_by':'state'}"/>
+                        <filter string="Subscriber" name="subscriber_id"
+                                context="{'group_by':'subscriber_id'}"/>
+                        <filter string="Company" name="company_id"
+                                context="{'group_by':'company_id'}"/>
+                        <filter string="Branch" name="branch_id"
+                                context="{'group_by':'branch_id'}"
+                                groups="aspl_fitness_management.group_multi_branches"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_subscriber_membership_history_calendar" model="ir.ui.view">
+            <field name="name">subscriber.membership.history.calendar.view</field>
+            <field name="model">subscriber.membership.history</field>
+            <field name="arch" type="xml">
+                <calendar string="Calendar View" date_start="start_date" date_stop="end_date" color="subscriber_id"
+                          hide_time="true" event_limit="5" create="false">
+                    <field name="subscriber_id"/>
+                    <field name="membership_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="action_subscriber_membership_history" model="ir.actions.act_window">
+            <field name="name">Membership History</field>
+            <field name="res_model">subscriber.membership.history</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_subscriber_membership_history_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_subscriber_membership_history_form')}),
+                (0, 0, {'view_mode': 'calendar', 'view_id': ref('view_subscriber_membership_history_calendar')}),
+                ]"/>
+            <field name="search_view_id" ref="view_subscriber_membership_history_search"/>
+        </record>
+
+        <menuitem action="action_subscriber_membership_history"
+                  id="menu_action_subscriber_membership_history"
+                  sequence="2"
+                  parent="fitness_menu_membership"/>
+
+        <!--        Membership Renewal-->
+        <record id="view_membership_renewal_reminder_tree" model="ir.ui.view">
+            <field name="name">membership.renewal.reminder.tree.view</field>
+            <field name="model">membership.renewal.reminder</field>
+            <field name="arch" type="xml">
+                <tree string="Membership Renewal Reminder" editable="bottom">
+                    <field name="name"/>
+                    <field name="template_id" required="1"/>
+                    <field name="branch_id" groups="aspl_fitness_management.group_multi_branches" required="1"/>
+                    <field name="days"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_membership_renewal_reminder_form" model="ir.ui.view">
+            <field name="name">membership.renewal.reminder.form.view</field>
+            <field name="model">membership.renewal.reminder</field>
+            <field name="arch" type="xml">
+                <form string="Membership Renewal Reminder">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="days"/>
+                            </group>
+                            <group>
+                                <field name="branch_id" groups="aspl_fitness_management.group_multi_branches"/>
+                                <field name="template_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_subscriber_membership_renewal_search" model="ir.ui.view">
+            <field name="name">membership.renewal.reminder.search.view</field>
+            <field name="model">membership.renewal.reminder</field>
+            <field name="arch" type="xml">
+                <search string="Membership Renewal Reminder">
+                    <field name="name"/>
+                    <field name="branch_id" groups="aspl_fitness_management.group_multi_branches"/>
+                    <field name="template_id"/>
+                    <filter string="Name" name="name"
+                            domain="[('name','ilike',self)]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Branch" name="branch_id"
+                                context="{'group_by':'branch_id'}"
+                                groups="aspl_fitness_management.group_multi_branches"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_membership_renewal_reminder" model="ir.actions.act_window">
+            <field name="name">Membership Renewal Reminder</field>
+            <field name="res_model">membership.renewal.reminder</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_membership_renewal_reminder_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_membership_renewal_reminder_form')})]"/>
+            <field name="search_view_id" ref="view_subscriber_membership_renewal_search"/>
+        </record>
+
+        <menuitem action="action_membership_renewal_reminder"
+                  id="menu_action_membership_renewal_reminder"
+                  sequence="3"
+                  parent="fitness_menu_membership"/>
+
+    </data>
+</odoo>

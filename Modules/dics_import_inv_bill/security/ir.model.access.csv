@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_import_inv_wiz,import_inv_wiz,model_import_inv_wiz,base.group_user,1,1,1,1
+access_not_imp_inv_wiz,not_imp_inv_wiz,model_not_imp_inv_wiz,base.group_user,1,1,1,1
+

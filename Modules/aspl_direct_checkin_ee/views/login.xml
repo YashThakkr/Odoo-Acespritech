@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="checkin_template" name="Check In/Out">
+        <t t-call="web.html_container">
+            <form action="/direct/checkin" method="post">
+                <div class="o_direct_checkin_kiosk_mode_container o_home_menu_background" style="display: -webkit-box;display: -webkit-flex;display: flex;-webkit-flex-flow: column nowrap;flex-flow: column nowrap;-webkit-box-pack: start;justify-content: flex-start;align-items: center;position: absolute;top: 0;left: 0;bottom: 0;right: 0;">
+                <span class="o_direct_checkin_kiosk_backdrop" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;background-color: rgba(0, 0, 0, 0.3);"/>
+                <div class="o_direct_checkin_clock text-center" style="display: none;position: relative;width: 100%;padding: 0.5em;background-color: rgba(0, 0, 0, 0.3);font: normal 1.2em SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;color: white;"/>
+                <input type="hidden" name="attendance" t-att-value="login"/>
+                <input type="hidden" name="employee_id" t-att-value="employee_id"/>
+                <div class="o_direct_checkin_kiosk_mode" style="width: 550px;text-align: center;position: relative;background-color: rgba(255, 255, 255, 0.9);top:10%;">
+                    <t t-if="employee_id">
+                        <div class="o_direct_checkin_user_badge o_home_menu_background" style="background: linear-gradient(to right bottom, #714B67, #9f90d1);">
+                            <img class="img rounded-circle" t-attf-src="/web/image?model=hr.employee.public&amp;field=avatar_128&amp;id=#{employee_id}" t-att-title="employee_name" t-att-alt="employee_name"/>
+                        </div>
+                        <h1 class="mb8" style="margin-top: .4em;"><t t-esc="employee_name"/></h1>
+                        <h3 class="mt8 mb24">Welcome!</h3>
+                        <button  style="cursor: pointer;margin: 0.1em 0 0.1em;padding: 0.15em 0.3em;border-radius: .1em;box-shadow: inset 0 -3px 0 rgb(0 0 0 / 30%);background: #714B67;width: 200px;height: 150px;font-size: 125px;" type="submit" class="fa fa-7x o_direct_checkin_sign_in_out_icon fa-sign-in btn btn-primary" t-if="login == 'in'" aria-label="Sign in" title="Sign in"/>
+                        <h3 class="mt0 mb0 text-muted">Click to <b t-if="login == 'in'">check in</b></h3>
+                    </t>
+                </div>
+            </div>
+            </form>
+        </t>
+    </template>
+
+    <record model="res.groups" id="group_direct_checkin">
+            <field name="name">Direct CheckIn</field>
+            <field name="users" eval="[Command.link(ref('base.user_root')), Command.link(ref('base.user_admin'))]"/>
+        </record>
+</odoo>

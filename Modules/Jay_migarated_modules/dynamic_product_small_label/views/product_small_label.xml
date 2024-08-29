@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <menuitem id="product_small_label_acespritech" name="Product Small Label" parent="sale.sale_menu_root" sequence="35" />
+
+    <record id="wizard_product_small_label_design_form_view" model="ir.ui.view">
+        <field name="name">Product.Small.Label.Design</field>
+        <field name="model">product.small.label.design</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Product Small Label Design">
+                <group>
+                    <field name="name" />
+                    <field name="template_label_design" invisible="1" />
+                    <field name="active" invisible="1" />
+                </group>
+                <footer>
+                    <button name="go_to_label_wizard" string="Save" type="object" class="oe_highlight" />
+                    or
+                    <button name="close_wizard" string="Cancel" type="object" class="oe_link" context="{'cancel_change' : True}" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_small_label_design_form_view" model="ir.ui.view">
+        <field name="name">Product.Small.Label.Design.Template</field>
+        <field name="model">product.small.label.design</field>
+        <field name="priority">2</field>
+        <field name="arch" type="xml">
+            <form string="Product Small Label design">
+                <group>
+                    <group>
+                        <field name="name" required="1" />
+                        <field name="report_model" />
+                        <field name="active" invisible="1" />
+                        <field name="pricelist_id" groups="product.group_sale_pricelist" widget="selection" />
+                        <field name="label_logo" widget="image" />
+                    </group>
+                    <group>
+                        <field name="design_using" required="1" />
+                        <field name="currency_id" options="{'no_create': True, 'no_open': True}" invisible="design_using == 'xml_design'"/>
+                        <field name="currency_position" invisible="design_using == 'xml_design'"/>
+                        <field name="logo_position" invisible="design_using == 'xml_design'"/>
+                        <field name="logo_height" invisible="design_using == 'xml_design'"/>
+                        <field name="logo_width" invisible="design_using == 'xml_design'"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Design" invisible="design_using == 'fields_selection'" widget="ace">
+                        <field name="template_label_design" />
+                    </page>
+                    <page string="Fields" invisible="design_using == 'xml_design'">
+                        <field name="product_field_lines">
+                            <tree string="Lines" editable="top">
+                                <field name="font_size" />
+                                <field name="font_color" />
+                                <field name="field_width" />
+                                <field name="margin_value" />
+                                <field name="with_currency" />
+                                <field name="sequence" />
+                                <field name="field_id" options="{'no_create': True, 'no_open': True}" context="{'from_wizard': True}"
+                                    domain="[('model_id.model', '=', 'product.product')]" />
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Label">
+                        <group>
+                            <group>
+                                <field name="label_width" />
+                                <field name="label_height" />
+                                <field name="dpi" />
+                            </group>
+                            <group>
+                                <field name="margin_top" />
+                                <field name="margin_left" />
+                                <field name="margin_bottom" />
+                                <field name="margin_right" />
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Barcode">
+                        <group>
+                            <group>
+                                <field name="with_barcode" />
+                                <field name="barcode_height" invisible="not with_barcode" required="with_barcode"/>
+                                <field name="barcode_width" invisible="not with_barcode" required="with_barcode"/>
+                                <field name="barcode_type" invisible="not with_barcode" required="with_barcode"/>
+                            </group>
+                            <group>
+                                <field name="humanReadable" invisible="not with_barcode" />
+                                <field name="display_height" invisible="not with_barcode" required="with_barcode"/>
+                                <field name="display_width" invisible="not with_barcode" required="with_barcode"/>
+                                <field name="barcode_field" invisible="not with_barcode" required="with_barcode"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_small_label_design_tree_view" model="ir.ui.view">
+        <field name="name">Product.Small.Label.Design</field>
+        <field name="model">product.small.label.design</field>
+        <field name="arch" type="xml">
+            <tree string="Product Label design">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_product_small_label_design" model="ir.actions.act_window">
+        <field name="name">Product Label Design</field>
+        <field name="res_model">product.small.label.design</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_product_label_design_tree" model="ir.actions.act_window.view">
+        <field eval="0" name="sequence" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="product_small_label_design_tree_view" />
+        <field name="act_window_id" ref="action_product_small_label_design" />
+    </record>
+
+    <!-- child view first -->
+    <record id="action_product_label_design_form" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="product_small_label_design_form_view" />
+        <field name="act_window_id" ref="action_product_small_label_design" />
+    </record>
+
+    <menuitem id="menuitem_product_small_label_design_template" action="action_product_small_label_design" name="Small Label Design Template"
+        parent="product_small_label_acespritech" />
+
+
+</odoo>

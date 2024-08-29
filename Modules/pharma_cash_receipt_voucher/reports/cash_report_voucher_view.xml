@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="cash_receipt_report">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        <style>
+                            .address-section {
+                                display: flex;
+                                justify-content: center; /* Align to the left side */
+                                align-items: center;
+                                margin-left: 0; 
+                            }
+                            .address-info {
+                                margin-right: 200;
+                                margin-top:10; 
+                            }
+                            .company-image {
+                                text-align: center;
+                                margin-right: 20;
+                            }
+                            .company-image img {
+                                max-width: 100%;
+                                height: 100px;
+                            }
+                            table {
+                                border-collapse: collapse;
+                                font-family: Arial, sans-serif;
+                                margin-top: 20px;
+                                border: 0px solid transparent;
+                                border-right-color: black;
+                                font-size: 13px;
+                                <!-- width: 100%;  -->
+                                <!-- table-layout: fixed;  -->
+                            }
+                            td {
+                                border: 1px solid ;
+                            }
+                            tr td:first-child{
+                                border: 0px solid transparent;
+                            }
+                            th, td {
+                                border-left: 1px solid black; 
+                                white-space: normal;
+                                word-wrap: break-word;
+                                overflow: hidden; 
+                                text-overflow: ellipsis;
+                            }
+                            td {
+                                padding: 8px;
+                                text-align: left;
+                                font-weight: normal;
+                                line-height: 1;
+                            }
+                            .box {
+                                width: 350px;
+                                height: 150px;
+                                border: 1px solid black;
+                                padding: 10px;
+                                text-align: left;
+                                <!-- margin-top: 10px; -->
+                            }
+                            .container {
+                                display: flex;
+                                text-align: center;
+                                <!-- justify-content: center; -->
+                                height: 80vh;
+                                margin-top: 150px;
+                            }
+                            .content {
+                                position: relative;                                                                                                                                                                                   text-align: center;
+                            }
+                            .content:after {
+                                content: "";
+                                display: block;
+                                width: 100%;
+                                background-color: black;
+                                height: 2px;
+                                margin-top: 30px;
+                            }
+                        </style>
+                        <div class="address-section">
+                            <div class="address-info">
+                                <span>
+                                    <t t-esc="doc.partner_id.name"/>
+                                </span>
+                            </div>
+                            <div class="company-image">
+                                <img t-att-src="image_data_uri(doc.partner_id.image_1920)" alt="company"/>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+
+                        <center>
+                            <b>Cash Receipt Voucher</b>
+                        </center>
+                        <table class="table" border="1">
+                            <tbody>
+                                <tr>
+                                    <td>Document No.</td>
+                                    <td><t t-esc="doc.move_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Date</td>
+                                    <td><t t-esc="doc.date"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Customer</td>
+                                    <td><t t-esc="doc.partner_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Amount</td>
+                                    <td><t t-esc="doc.partner_id.currency_id.symbol"/>
+                                        <t t-esc="doc.amount"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Written Amount</td>
+                                    <td><t t-esc="doc.amount_total_words"/></td>
+                                </tr>
+                                <tr>
+                                    <td>INV No.</td>
+                                    <td><t t-esc="doc.ref"/></td>
+                                </tr>
+                                <tr>
+                                    <td>INV Date</td>
+                                    <td>
+                                        <t t-if="doc.reconciled_invoice_ids">
+                                            <t t-esc="doc.reconciled_invoice_ids[0].invoice_date"/>
+                                        </t>
+                                        <t t-else=" "/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>INV Amount</td>
+                                    <td>
+                                        <t t-if="doc.reconciled_invoice_ids">
+                                            <t t-esc="doc.reconciled_invoice_ids[0].amount_total"/>
+                                        </t>
+                                        <t t-else=" "/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Discount amount</td>
+                                    <td>
+                                        <t t-esc="doc.get_discount(doc)"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Discount per(%)</td>
+                                    <td>
+                                         <t t-esc="doc.get_discount_percentage(doc)"/> %
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table> <br/>
+
+                        <div class="container">
+                            <div class="content">
+                                <b>Notes</b>
+                                <div class="box">
+                                    <t t-esc="doc.ref"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+    <record id="cash_receipt_paperformat" model="report.paperformat">
+        <field name="name">Scrap Reports</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <!-- <field name="page_height">191</field>
+        <field name="page_width">96</field> -->
+        <field name="page_height">297</field>
+        <field name="page_width">125</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="dpi">90</field>
+        <field name="disable_shrinking" eval="True"/>
+    </record>
+<!-- height: 1121 px width: 471 px -->
+
+    <record id="cash_receipt_record" model="ir.actions.report">
+        <field name="name">Cash Receipt Voucher</field>
+        <field name="model">account.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pharma_cash_receipt_voucher.cash_receipt_report</field>
+        <field name="report_file">pharma_cash_receipt_voucher.cash_receipt_report</field>
+        <field name="paperformat_id" ref="pharma_cash_receipt_voucher.cash_receipt_paperformat"/>
+        <field name="print_report_name">'Cash Receipt Voucher'</field>
+        <field name="attachment"/>
+        <field name="binding_model_id" ref="account.model_account_payment"/>
+        <field name="binding_type">report</field>
+    </record>
+
+
+</odoo>

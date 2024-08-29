@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="email_template_for_new_loan_emi" model="mail.template">
+               <field name="name">New Emi Email Template</field>
+               <field name="email_from">${(user.email or '')}</field>
+               <field name="subject">New Loan EMI - Based On Extra Amount</field>
+               <field name="email_to">${object.employee_id.work_email}</field>
+               <field name="model_id" ref="aspl_employee_loan.model_loan_application"/>
+               <field name="auto_delete" eval="False"/>
+                <field name="report_template_ids" eval="[(4, ref('aspl_employee_loan.loan_summary_report'))]"/>
+<!--               <field name="report_name">Loan Summary</field>-->
+                   <field name="body_html"></field>
+        </record>
+        <record id="email_template_for_new_loan_rate" model="mail.template">
+               <field name="name">New Emi Email Template</field>
+               <field name="email_from">${(user.email or '')}</field>
+               <field name="subject">New Loan EMI - Based On Rate</field>
+               <field name="email_to">${object.employee_id.work_email}</field>
+               <field name="model_id" ref="aspl_employee_loan.model_loan_application"/>
+               <field name="auto_delete" eval="False"/>
+                <field name="report_template_ids" eval="[(4, ref('aspl_employee_loan.loan_summary_report'))]"/>
+<!--               <field name="report_name">Loan Summary</field>-->
+                   <field name="body_html"></field>
+        </record>
+    </data>
+</odoo>

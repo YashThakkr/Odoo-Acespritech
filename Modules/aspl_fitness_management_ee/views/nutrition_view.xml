@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!--        Food Group-->
+        <record id="view_gym_food_group_tree" model="ir.ui.view">
+            <field name="name">food.group.tree.view</field>
+            <field name="model">food.group</field>
+            <field name="arch" type="xml">
+                <tree string="Food group">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gym_food_group_form" model="ir.ui.view">
+            <field name="name">food.group.form.view</field>
+            <field name="model">food.group</field>
+            <field name="arch" type="xml">
+                <form string="Food group">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="gym_item_lines" string="Items">
+                                <field name="food_item_id">
+                                    <tree editable="bottom" readonly="1" force_save="1">
+                                        <field name="name" required="1"/>
+                                        <field name="description"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_food_group_search" model="ir.ui.view">
+            <field name="name">food.group.search.view</field>
+            <field name="model">food.group</field>
+            <field name="arch" type="xml">
+                <search string="Food Group">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="name" filter_domain="[('name','ilike',self)]" string="Name"/>
+                    <filter string="Name" name="name"
+                            domain="[('name','ilike',self)]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_gym_food_group" model="ir.actions.act_window">
+            <field name="name">Food group</field>
+            <field name="res_model">food.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_gym_food_group_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_gym_food_group_form')})]"/>
+            <field name="search_view_id" ref="view_food_group_search"/>
+        </record>
+
+        <menuitem action="action_gym_food_group"
+                  id="menu_action_gym_food_group"
+                  sequence="2"
+                  parent="fitness_menu_food"/>
+
+        <!--        Food Item-->
+        <record id="view_gym_food_item_tree" model="ir.ui.view">
+            <field name="name">food.item.tree.view</field>
+            <field name="model">food.item</field>
+            <field name="arch" type="xml">
+                <tree string="Food Item">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gym_food_item_form" model="ir.ui.view">
+            <field name="name">food.item.form.view</field>
+            <field name="model">food.item</field>
+            <field name="arch" type="xml">
+                <form string="Food Item">
+                    <sheet>
+                        <field name="image" widget='image' class="oe_left oe_avatar"
+                               style="margin-left: 5px; margin-top: 5px;"/>
+                        <div class="oe_title">
+                            <h1 style="margin-left: 10px; margin-top: 20px;">
+                                <field name="name" placeholder="Name" style="max-width: 500px; margin-left: 20px;"
+                                       required="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="description" style="max-width:585px;"/>
+                            <field name="group_id" style="max-width:585px;" required="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Nutrients">
+                                <field name="nutrients_value_ids">
+                                    <tree editable="bottom">
+                                        <field name="nutrients_id" required="1"
+                                               context="{'form_view_ref': 'aspl_fitness_management_ee.food_nutrients_form_view'}"/>
+                                        <field name="qty"/>
+                                        <field name="uom_id" nolabel="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_food_item_search" model="ir.ui.view">
+            <field name="name">food.item.search.view</field>
+            <field name="model">food.item</field>
+            <field name="arch" type="xml">
+                <search string="Food Item">
+                    <field name="name" filter_domain="[('name','ilike',self)]" string="Name"/>
+                    <filter string="Name" name="name"
+                            domain="[('name','ilike',self)]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Food Group" name="group_id"
+                                context="{'group_by':'group_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_gym_food_item_kanban" model="ir.ui.view">
+            <field name="name">food.item.kanban.view</field>
+            <field name="model">food.item</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="id"/>
+                    <field name="image"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="o_kanban_image">
+                                    <img alt="Avatar"
+                                         t-att-src="kanban_image('food.item', 'image', record.id.value)"
+                                         class="oe_kanban_picture"
+                                         options="{'placeholder': '/base/static/img/avatar_grey.png'}"
+                                         widget="image"/>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <div class="o_kanban_record_top">
+                                        <div>
+                                            <strong>
+                                                <field name="name"/>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="action_gym_food_item" model="ir.actions.act_window">
+            <field name="name">Food Item</field>
+            <field name="res_model">food.item</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+             (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_gym_food_item_kanban')}),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_gym_food_item_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_gym_food_item_form')}),
+                ]"/>
+            <field name="search_view_id" ref="view_food_item_search"/>
+        </record>
+
+        <menuitem action="action_gym_food_item"
+                  id="menu_action_gym_food_item"
+                  sequence="1"
+                  parent="fitness_menu_food"/>
+
+        <!--        Food Nutrients-->
+        <record id="view_gym_food_nutrients_tree" model="ir.ui.view">
+            <field name="name">food.nutrients.tree.view</field>
+            <field name="model">food.nutrients</field>
+            <field name="arch" type="xml">
+                <tree string="Food Nutrients">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="uom_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gym_food_nutrients_form" model="ir.ui.view">
+            <field name="name">food.nutrients.form.view</field>
+            <field name="model">food.nutrients</field>
+            <field name="arch" type="xml">
+                <form string="Food Nutrients">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="description"/>
+                            </group>
+                            <group>
+                                <field name="uom_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_food_nutrients_search" model="ir.ui.view">
+            <field name="name">food.nutrients.search.view</field>
+            <field name="model">food.nutrients</field>
+            <field name="arch" type="xml">
+                <search string="Food Nutrients">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="uom_id"/>
+                    <field name="name" filter_domain="[('name','ilike',self)]" string="Name"/>
+                    <filter string="Name" name="name"
+                            domain="[('name','ilike',self)]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Units" name="uom_id"
+                                context="{'group_by':'uom_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_gym_food_nutrients" model="ir.actions.act_window">
+            <field name="name">Food Nutrients</field>
+            <field name="res_model">food.nutrients</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_gym_food_nutrients_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_gym_food_nutrients_form')})]"/>
+            <field name="search_view_id" ref="view_food_nutrients_search"/>
+        </record>
+
+        <menuitem action="action_gym_food_nutrients"
+                  id="menu_action_gym_food_nutrients"
+                  sequence="3"
+                  parent="fitness_menu_food"/>
+
+        <!--        Nutrient Meal-->
+        <record id="view_gym_nutrition_meal_tree" model="ir.ui.view">
+            <field name="name">nutrition.meal.tree.view</field>
+            <field name="model">nutrition.meal</field>
+            <field name="arch" type="xml">
+                <tree string="Meals">
+                    <field name="name"/>
+                    <field name="subscriber_id"/>
+                    <field name="order"/>
+                    <field name="meal_time" widget="float_time"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gym_nutrition_meal_form" model="ir.ui.view">
+            <field name="name">nutrition.meal.form.view</field>
+            <field name="model">nutrition.meal</field>
+            <field name="arch" type="xml">
+                <form string="Meals">
+                    <sheet>
+                        <group col="4">
+                            <field name="name" required="1"/>
+                            <field name="subscriber_id" required="1" context="{'form_view_ref': 'aspl_fitness_management_ee.subscriber_view_form'}"/>
+                            <field name="order"/>
+                            <field name="meal_time" widget="float_time"/>
+                        </group>
+                        <notebook>
+                            <page string="Meals">
+                                <field name="meal_line_ids">
+                                    <tree editable="top">
+                                        <field name="food_item_id" required="1"/>
+                                        <field name="description"/>
+                                        <field name="qty"/>
+                                        <field name="uom_id" required="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_nutrition_meal_search" model="ir.ui.view">
+            <field name="name">nutrition.meal.search.view</field>
+            <field name="model">nutrition.meal</field>
+            <field name="arch" type="xml">
+                <search string="Nutrition Meal">
+                    <field name="name"/>
+                    <field name="subscriber_id"/>
+                    <field name="meal_time" widget="float_time"/>
+                    <field name="branch_id" groups="aspl_fitness_management_ee.group_multi_branches"/>
+                    <field name="name" filter_domain="[('name','ilike',self)]" string="Name"/>
+                    <filter string="Name" name="name"
+                            domain="[('name','ilike',self)]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Subscriber" name="subscriber_id"
+                                context="{'group_by':'subscriber_id'}"/>
+                        <filter string="Branch" name="branch_id"
+                                context="{'group_by':'branch_id'}"
+                                groups="aspl_fitness_management_ee.group_multi_branches"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_gym_nutrition_meal_kanban" model="ir.ui.view">
+            <field name="name">nutrition.meal.kanban.view</field>
+            <field name="model">nutrition.meal</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="branch_id" groups="aspl_fitness_management_ee.group_multi_branches"/>
+                    <field name="subscriber_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban">
+                                <div class="oe_kanban_details" style="margin-left: 5px;">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong style="margin-left: 12px;">
+                                                <field name="name"/>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <ul style="margin-left: 12px;">
+                                        <li>
+                                            <t t-if="record.branch_id.raw_value">
+                                                <li>
+                                                    <b>Branch:</b>
+                                                    <field name="branch_id"
+                                                           groups="aspl_fitness_management_ee.group_multi_branches"/>
+                                                </li>
+                                            </t>
+                                        </li>
+                                    </ul>
+                                    <ul style="margin-left: 12px;">
+                                        <li>
+                                            <t t-if="record.subscriber_id.raw_value">
+                                                <li>
+                                                    <b>Subscriber:</b>
+                                                    <field name="subscriber_id"/>
+                                                </li>
+                                            </t>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="action_gym_nutrition_meal" model="ir.actions.act_window">
+            <field name="name">Meals</field>
+            <field name="res_model">nutrition.meal</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_gym_nutrition_meal_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_gym_nutrition_meal_form')}),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_gym_nutrition_meal_kanban')}),
+                ]"/>
+            <field name="search_view_id" ref="view_nutrition_meal_search"/>
+        </record>
+
+        <menuitem action="action_gym_nutrition_meal"
+                  id="menu_action_gym_nutrition_meal"
+                  sequence="1"
+                  parent="fitness_menu_meals"/>
+
+        <!--        Nutrition Line-->
+        <record id="view_nutrition_plan_lines_form" model="ir.ui.view">
+            <field name="name">nutrition.plan.lines.form.view</field>
+            <field name="model">nutrition.plan.lines</field>
+            <field name="arch" type="xml">
+                <form string="Nutrition Plan">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="day" required="1"/>
+                            </group>
+                            <group>
+                                <field name="meal_ids" widget="many2many_tags" required="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

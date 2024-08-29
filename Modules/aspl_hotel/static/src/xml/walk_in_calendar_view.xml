@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aspl_hotel.ResourceViewId" owl="1">
+        <div class="container-fluid" style="margin-top:5px">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6" style="display:none;">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <span class="pull-right" style="width:200px; margin-left: 5px;">
+                                        <input type="text" id="cal_cust_search" class="form-control"
+                                               placeholder="Search Customer Event"/>
+                                    </span>
+                                </div>
+                                <div class="col-md-4">
+                                    <span class="pull-right" id="floor_selection" style="height:25px;"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="pull-right" id="branch_selection" style="height:25px;width: 150px;"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="o_cp_searchview" role="search">
+                                <div aria-autocomplete="list" class="o_searchview" role="search">
+                                    <span aria-label="Advanced Search..." class="o_searchview_more fa fa-search-minus"
+                                          role="img" title="Advanced Search..."/>
+                                    <div class="o_hotel_searchview_input_container">
+                                        <div class="dropdown-menu o_hotel_searchview_autocomplete" role="menu"
+                                             style="display: none;">
+                                            <li data-name="name" class="autocomplete_li o-selection-focus">Search <em>
+                                                Name
+                                            </em> for:
+                                                <strong></strong>
+                                            </li>
+                                            <li data-name="number" class="autocomplete_li">Search <em>Number</em> for:
+                                                <strong></strong>
+                                            </li>
+                                            <li data-name="contact" class="autocomplete_li">Search <em>Contact Number
+                                            </em> for:
+                                                <strong></strong>
+                                            </li>
+                                        </div>
+                                        <input accesskey="Q" aria-haspopup="true" class="o_hotel_searchview_input"
+                                               placeholder="Search..." role="searchbox" type="text"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-group o_dropdown" style="display:none;">
+                                <button data-toggle="dropdown"
+                                        class="o_dropdown_toggler_btn btn btn-secondary dropdown-toggle" tabindex="-1">
+                                    <span class="fa fa-filter"></span>
+                                    Search On
+                                </button>
+                                <div class="dropdown-menu o_dropdown_menu o_filters_menu" role="menu"
+                                     x-placement="bottom-start"
+                                     style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 30px, 0px); width: 170px;">
+
+                                    <t t-call="DropdownMenu.MenuItems"/>
+
+                                    <div role="separator" class="dropdown-divider" data-removable="1"/>
+                                    <t t-name="SearchView.extended_search.proposition">
+                                        <div role="menuitem" class="dropdown-item-text o_filter_condition">
+                                            <span class="o_or_filter">or</span>
+                                            <span>
+                                                <select class="o_input o_searchview_extended_prop_field">
+                                                    <t t-foreach="widget.attrs.fields" t-as="field">
+                                                        <option t-att="{'selected': field === widget.attrs.selected ? 'selected' : null}"
+                                                                t-att-value="field.name">
+                                                            <t t-esc="field.string"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </span>
+                                            <select class="o_input o_searchview_extended_prop_op"/>
+                                            <span class="o_searchview_extended_prop_value"/>
+                                        </div>
+                                    </t>
+
+                                    <div class="dropdown-item-text o_add_filter_menu" style="display: block;">
+                                        <button class="btn btn-primary o_apply_hotel_filter" type="button">Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row color-div">
+                        <div class="col-md-12 add-color" style="text-align:center;margin-top: 25px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 20px;">
+                <div class="col-md-12" style="padding:0">
+                    <div id='backend_resource_view'></div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="product_tmpl">
+        <select id="product_selection" class="form-control">
+            <t t-foreach="product" t-as="pro">
+                <t t-if="product">
+                    <option t-att-value="pro.id" t-att-data-time='pro.time' t-date-price="pro.price"
+                            t-data-tax="pro.tax_ids" t-att-data-discount='pro.discount'
+                            t-att-data-product="pro.product" t-att-data-price="pro.price">
+                        <t t-esc="pro.product"/>
+                    </option>
+                </t>
+            </t>
+        </select>
+    </t>
+
+    <t t-name="customer_tmpl">
+        <select id="customer_selection" class="form-control">
+            <t t-foreach="customer" t-as="cust">
+                <t t-if="customer">
+                    <option t-att-value="cust.id" t-att-data-customer="cust.customer">
+                        <t t-esc="cust.customer"/>
+                    </option>
+                </t>
+            </t>
+        </select>
+    </t>
+
+    <t t-name="floor_template">
+        <select id="room_type_ids" class="form-control" multiple="multiple" placeholder="Floor">
+            <t t-foreach="room_type" t-as="each_floor">
+                <t t-if="room_type">
+                    <option t-att-value="each_floor.id">
+                        <t t-esc="each_floor.name"/>
+                    </option>
+                </t>
+            </t>
+        </select>
+    </t>
+
+    <t t-name="filter_template">
+        <select id="select_filter" class="form-control" multiple="multiple" placeholder="Filter">
+            <option value="room">Room</option>
+            <option value="customer">Customer</option>
+        </select>
+    </t>
+
+    <t t-name="SearchView.filters">
+        <t t-foreach="widget.filters" t-as="filter">
+            <a t-if="!filter.visible || filter.visible()"
+               href="#"
+               class="dropdown-item"
+               t-att-title="filter.attrs.string ? filter.attrs.help : undefined"
+               t-att-data-index="filter_index"
+               role="menuitem">
+                <t t-esc="filter.attrs.string or filter.attrs.help or filter.attrs.name or 'Ω'"/>
+            </a>
+        </t>
+    </t>
+
+    <t t-name="SearchView.field">
+        <label t-att-class="'oe_label' + (attrs.help ? '_help' : '')"
+               t-att-title="attrs.help"
+               t-att-for="element_id"
+               t-att-style="style">
+            <t t-esc="attrs.string || attrs.name"/>
+            <span t-if="attrs.help">?</span>
+        </label>
+        <div t-att-style="style">
+            <input type="text" size="15" class="o_input"
+                   t-att-name="attrs.name"
+                   t-att-autofocus="attrs.default_focus === '1' ? 'autofocus' : undefined"
+                   t-att-id="element_id"
+                   t-att-value="defaults[attrs.name] || ''"/>
+            <t t-if="filters.length" t-raw="filters.render(defaults)"/>
+        </div>
+    </t>
+    <t t-name="SearchView.date">
+        <label t-att-class="'oe_label' + (attrs.help ? '_help' : '')"
+               t-att-title="attrs.help"
+               t-att-for="element_id"
+               t-att-style="style">
+            <t t-esc="attrs.string || attrs.name"/>
+            <span t-if="attrs.help">?</span>
+        </label>
+        <div t-att-style="style">
+            <span t-att-id="element_id"/>
+            <t t-if="filters.length" t-raw="filters.render(defaults)"/>
+        </div>
+    </t>
+    <t t-name="SearchView.field.selection">
+        <label t-att-title="attrs.help"
+               t-att-class="'oe_label' + (attrs.help ? '_help' : '')"
+               t-att-for="element_id"
+               t-att-style="style">
+            <t t-esc="attrs.string || attrs.name"/>
+            <span t-if="attrs.help">?</span>
+        </label>
+        <div t-att-style="style">
+            <select class="o_input"
+                    t-att-name="attrs.name"
+                    t-att-id="element_id"
+                    t-att-autofocus="attrs.default_focus === '1' || undefined">
+                <option t-if="prepend_empty"/>
+                <t t-foreach="attrs.selection" t-as="option">
+                    <t t-set="selected" t-value="defaults[attrs.name] === option[0]"/>
+                    <option t-if="selected"
+                            t-attf-selected="selected"
+                            t-att-value="option_index">
+                        <t t-esc="option[1]"/>
+                    </option>
+                    <option t-if="!selected" t-att-value="option_index">
+                        <t t-esc="option[1]"/>
+                    </option>
+                </t>
+            </select>
+            <t t-if="filters.length" t-raw="filters.render(defaults)"/>
+        </div>
+    </t>
+
+    <t t-name="SearchView.extended_search.proposition.float">
+        <input class="o_input"
+               t-att-type="widget.decimal_point === '.' ? 'number' : 'text'"
+               t-attf-title="Number using #{widget.decimal_point  || '.' } as decimal separator."
+               t-attf-pattern="[0-9]+([\\#{widget.decimal_point || '.' }][0-9]+)?"
+               t-attf-value="0#{widget.decimal_point || '.' }0" step="0.01"/>
+    </t>
+    <t t-name="SearchView.extended_search.proposition.selection">
+        <select class="o_input">
+            <option t-foreach="widget.field.selection" t-as="element" t-att-value="element[0]">
+                <t t-esc="element[1]"/>
+            </option>
+        </select>
+    </t>
+
+    <t t-name="HotelDropdownMenu.MenuItems">
+
+    </t>
+    <t t-name="DropdownMenu.MenuItems">
+        <t t-if="widget.items.length !== 0">
+            <t t-set="group" t-value="0"/>
+            <t t-foreach="widget.items" t-as="item">
+                <div t-if="group !== item.groupId" role="separator" class="dropdown-divider" data-removable="1"/>
+                <div class="o_menu_item"
+                     t-att-data-id="item.itemId">
+                    <a role="menuitem" href="#" t-attf-class="dropdown-item#{item.isActive ? ' selected ' : ''}">
+                        <t t-esc="item.description"/>
+                        <span t-if="item.isRemovable" t-att-data-id="item.itemId" class="o_trash_button">
+                            <span class="fa fa-trash-o"></span>
+                        </span>
+                        <span t-if="item.hasOptions" t-att-data-id="item.itemId" class="o_submenu_switcher">
+                            <span t-att-class="item.isOpen ? 'fa fa-caret-down' : 'fa fa-caret-right'"></span>
+                        </span>
+                    </a>
+                    <ul t-if="item.hasOptions &amp;&amp; item.isOpen" class="list-unstyled">
+                        <t t-set="subgroup" t-value="0"/>
+                        <t t-foreach="_.values(item.options)" t-as="option">
+                            <li t-if="subgroup !== option.groupId" role="separator" class="dropdown-divider"
+                                data-removable="1"/>
+                            <li class="o_item_option"
+                                t-att-data-item_id="item.itemId" t-att-data-option_id="option.optionId">
+                                <a role="menuitem" href="#"
+                                   t-attf-class="dropdown-item#{item.currentOptionId === option.optionId ? ' selected': ''} pl-5">
+                                    <t t-esc="option.description"/>
+                                </a>
+                            </li>
+                            <t t-set="subgroup" t-value="option.groupId"/>
+                        </t>
+                    </ul>
+                </div>
+                <t t-set="group" t-value="item.groupId"/>
+            </t>
+        </t>
+    </t>
+
+    <t t-name="branch_template">
+        <select id="branch_id_select" class="form-control o_input o_searchview_extended_prop_field"
+                placeholder="Branch">
+            <t t-foreach="branch_ids" t-as="branch_id">
+                <option t-att-branch_id="branch_id.id"
+                        t-att-value="branch_id.id">
+                    <t t-esc="branch_id.name"/>
+                </option>
+            </t>
+        </select>
+    </t>
+
+</templates>

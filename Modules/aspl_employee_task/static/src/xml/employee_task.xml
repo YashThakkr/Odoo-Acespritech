@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- Task Menu -->
+    <t t-name="aspl_employee_task.TaskMenu" owl="1">
+        <div class="TaskMenuContainer o-dropdown--no-caret">
+            <button class="o_EmployeeTask_toggler o-dropdown dropdown dropdown-toggle o-dropdown--no-caret" t-att-class="{ 'show bg-black-15': state.isOpen }"
+               href="#" role="button"
+               aria-haspopup="true" t-on-click="_onClickTasks">
+                <i class="o_EmployeeTask_icon fa fa-tasks" role="img" aria-label="Employee Task"/>
+                <span class="Employee_task badge"><t t-esc="state.task_count"/></span>
+                <div t-if="state.isOpen" class="o_EmployeeTask_dropdownMenu dropdown-menu dropdown-menu-right" id="EmployeeTaskToggle" aria-haspopup="true" role="menu" t-att-class="state.isOpen ? 'show' : ''">
+                    <div class="o_MessagingMenu_dropdownMenuHeader">
+                        <h3 id="header">Employee Tasks</h3>
+                    </div><hr/>
+                    <div class="task_scroll">
+                        <t t-if="state.EmployeeData[0]">
+                             <t t-set="EmployeeData" t-value="state.EmployeeData"/>
+                             <table>
+                                 <t t-foreach="EmployeeData" t-as="task" t-key="task.id">
+                                    <tr id="task_name" class="task_name">
+                                        <td>
+                                            <p class="task_name_dotted text-muted hover:ellipsis">
+                                                <a class="display_task" href="#" t-on-click="() => this._onClickTask(task['id'])" t-att-title="task['name']">
+                                                    <t t-esc="task['name']"/>
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <span t-if="task['priority'] == 1" style="color:#f3cc00;" widget="priority" class="o_priority_star fa fa-star" role="radio" tabindex="-1" data-tooltip="Priority: High" aria-label="Priority"/>
+                                            <span t-if="task['priority'] == 0" widget="priority" class="o_priority_star fa fa-star-o" role="radio" tabindex="-1" data-tooltip="Priority: High" aria-label="Priority"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="deadline data-info">
+                                        <td>
+                                            <span t-if="task['deadline']" style="margin-left: 10px;">Deadline: </span>
+                                            <span t-if="task['deadline']" class="o_deadline mr16 text-muted"><t t-esc="task['deadline']"/></span>
+                                        </td>
+                                    </tr>
+                                   <tr class="assignes data-info">
+                                        <td>
+                                            <span t-if="task['project']" style="margin-left: 10px;">project: </span>
+                                            <span t-if="task['project']" class="o_deadline mr16 text-muted"><t t-esc="task['project']"/></span>
+                                        </td>
+                                    </tr>
+                                    <div class="dropdown-divider" role="separator"/>
+                                 </t>
+                             </table>
+                         </t>
+                    </div>
+                </div>
+            </button>
+        </div>
+    </t>
+
+</templates>

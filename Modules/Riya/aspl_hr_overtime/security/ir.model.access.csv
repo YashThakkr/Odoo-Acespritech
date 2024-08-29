@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_employee_overtime_employee,access.hr.employee.overtime,aspl_hr_overtime.model_hr_employee_overtime,,1,1,1,1
+access_hr_employee_overtime_line,access.hr.employee.overtime.line,aspl_hr_overtime.model_overtime_line,,1,1,1,1
+access_hr_employee_overtime_hr,access.hr.employee.overtime,aspl_hr_overtime.model_hr_employee_overtime,,1,1,1,0
+access_wizard_overtime,access.wizard.overtime,aspl_hr_overtime.model_wizard_overtime,,1,1,1,0
+access_res_config,access_red_config,base.model_res_config_settings,aspl_hr_overtime.group_normal_user,1,1,1,0

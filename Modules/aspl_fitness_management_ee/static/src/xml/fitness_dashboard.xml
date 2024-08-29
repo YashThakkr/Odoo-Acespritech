@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+
+    <t t-name="FitnessDashboardMain">
+        <div class="col-md-12 fitness_dashboard_container" style="overflow:scroll; height: inherit;background: white;">
+            <div class="row header-widget-section rounded">
+                <div class="col header-widgets">
+                    <div class="header-widget total_members">
+                        <div class="header-widget-icon"><i class="fa fa-users fa-3x"/></div>
+                        <div class="header-widget-content">
+                            <div class="header-widget-digit total_members_data h2"/>
+                            <div class="header-widget-text h5">Members</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col header-widgets">
+                    <div class="header-widget membership_history">
+                        <div class="header-widget-icon"><i class="fa fa-history fa-3x"/></div>
+                        <div class="header-widget-content">
+                            <div class="header-widget-digit membership_history_data h2"/>
+                            <div class="header-widget-text h5">Membership</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col header-widgets">
+                    <div class="header-widget subscriber_plan">
+                        <div class="header-widget-icon"><i class="fa fa-tasks fa-3x"/></div>
+                        <div class="header-widget-content">
+                            <div class="header-widget-digit subscriber_plan_data h2"/>
+                            <div class="header-widget-text h5">Plans</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col header-widgets">
+                    <div class="header-widget service">
+                        <div class="header-widget-icon"><i class="fa fa-cog fa-3x"/></div>
+                        <div class="header-widget-content">
+                            <div class="header-widget-digit service_data h2"/>
+                            <div class="header-widget-text h5">Services</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col header-widgets">
+                    <div class="header-widget to_expire_plan">
+                        <div class="header-widget-icon"><i class="fa fa-hourglass-end fa-3x"/></div>
+                        <div class="header-widget-content">
+                            <div class="header-widget-digit to_expire_plan_data h2"/>
+                            <div class="header-widget-text h5">To Expire</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row middle-widget-section rounded">
+                <div class="col-md-6 middle-widgets" style="height :70%">
+                    <div class="middle-widget">
+                        <table class="table-content h4">
+                            <thead>
+                                <tr class="tr-content h3">
+                                    <th class="col-4"><span>Invoice</span></th>
+                                    <th class="col-3"><span>Membership</span></th>
+                                    <th class="col-1"><span>Amount</span></th>
+                                    <th class="col-4"><span></span></th>
+                                </tr>
+                            </thead>
+                            <tbody class="tbody-content">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row middle-sub-widget-section">
+                        <div class="col middle-widgets" style="height :30%">
+                            <div class="middle-widget">
+                                <div class="middle-widget-icon"><i class="fa fa-calendar fa-3x"/></div>
+                                <div class="middle-widget-content">
+                                    <div class="middle-widget-digit last_30_days_data h2"/>
+                                    <div class="middle-widget-text h5">Last 30 Days Collection</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col middle-widgets" style="height: 30%;margin-right: -5%;">
+                            <div class="middle-widget">
+                                <div class="middle-widget-icon"><i class="fa fa-money fa-3x"/></div>
+                                <div class="middle-widget-content">
+                                    <div class="middle-widget-digit yearly_collection_data h2"/>
+                                    <div class="middle-widget-text h5">Yearly Collection</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 middle-widgets" style="padding: 2% 5% 2% 3%">
+                    <div class="row middle-widget">
+                        <div class="col-md-12" style="text-align: center;">
+                            <div>
+                                <input class="monthly_chart" type="checkbox" id="monthly"/><span> Monthly </span>
+                                <input class="yearly_chart" type="checkbox" id="yearly"/><span> Yearly </span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <canvas id="sales_chart_monthly" style="display:block;"></canvas>
+                            <canvas id="sales_chart_yearly" style="display:none;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row bottom-widget-section rounded" style="display:block;">
+                <div class="col-md-12 bottom-widgets">
+                    <div class="bottom-widget">
+                        <div class="col-md-8" style="border-right: 1px dashed #333;">
+                            <canvas id="branch_chart"></canvas>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-12" style="text-align: center;">
+                                <div>
+                                    <input class="male_chart" type="checkbox" id="male"/><span> Male </span>
+                                    <input class="female_chart" type="checkbox" id="female"/><span> Female </span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <canvas id="branch_gender_chart_male" style="display:block;"></canvas>
+                                <canvas id="branch_gender_chart_female" style="display:none;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

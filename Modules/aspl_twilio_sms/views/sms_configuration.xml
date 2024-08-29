@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="twilio_sms_configuration_form_view" model="ir.ui.view">
+            <field name="name">Sms Configuration Form View</field>
+            <field name="model">sms.configuration</field>
+            <field name="arch" type="xml">
+                <form string="Sms Configuration">
+                    <header>
+                        <field name="status" widget="statusbar"/>
+                        <button name="test_connection" type="object" class="oe_highlight" string="Test Connection"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="account_sid"/>
+                            <field name="auth_token"/>
+                            <field name="is_active"/>
+                            <field name="sms_from"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="twilio_sms_configuration_tree_view" model="ir.ui.view">
+            <field name="name">Sms Configuration Tree View</field>
+            <field name="model">sms.configuration</field>
+            <field name="arch" type="xml">
+                <tree string="Sms Configuration">
+                    <field name="account_sid"/>
+                    <field name="auth_token"/>
+                    <field name="sms_from"/>
+                    <field name="is_active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="twilio_sms_configuration_action" model="ir.actions.act_window">
+            <field name="name">Sms Configuration</field>
+            <field name="res_model">sms.configuration</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Settings" id="main_menu_sms_configuration" parent="aspl_twilio_sms.main_menu_twilio_gateway"
+                  action="twilio_sms_configuration_action" sequence="6"/>
+
+    </data>
+</odoo>

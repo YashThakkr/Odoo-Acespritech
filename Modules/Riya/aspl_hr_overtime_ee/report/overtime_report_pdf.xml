@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="overtime_report_pdf">
+        <t t-call="web.html_container">
+            <t t-foreach="doc_ids" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <center>
+                            <h2>Over Time Employee Report</h2>
+                        </center>
+                        <table class="table table-condensed ">
+                            <thead>
+                                <tr style="font-weight:bold;">
+                                    <th>Employee</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <t t-if="doc.employee_ids">
+                                            <t t-foreach="doc.employee_ids" t-as="emp">
+                                                <span t-field="emp.name"/>,
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                            All
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="doc.start_date">
+                                            <span t-field="doc.start_date"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="doc.end_date">
+                                            <span t-field="doc.end_date"/>,
+                                        </t>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-condensed  ">
+                            <thead>
+                                <tr style="font-weight:bold;">
+                                    <td>Date</td>
+                                    <td>Description</td>
+                                    <td>Type</td>
+                                    <td>OT.Hours</td>
+                                    <td>OT.Rate</td>
+                                    <t t-if="doc.payslip_detail">
+                                        <td>OT.Payable</td>
+                                        <td>Status</td>
+                                    </t>
+                                </tr>
+                            </thead>
+                            <t t-set="count" t-value="0"/>
+                            <tbody>
+                                <t t-foreach="doc.overtime()" t-as="overtime_nm">
+                                    <tr>
+                                        <t t-if="doc.payslip_detail">
+                                            <td colspan="7">
+                                                <t t-esc="overtime_nm['name']"/>
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td colspan="5">
+                                                <t t-esc="overtime_nm['name']"/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                    <t t-foreach="doc.summary_data()" t-as="l">
+                                        <t t-if="l['name'] == overtime_nm['name']">
+                                            <tr>
+
+                                                <td>
+                                                    <t t-esc="l['date']"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="l['description']"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="l['based_on']"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="l['overtime']"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="l['ot_rate']"/>
+                                                </td>
+                                                <t t-if="doc.payslip_detail">
+                                                    <td>
+                                                        <t t-esc="l['payslip_id']"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="l['state']"/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

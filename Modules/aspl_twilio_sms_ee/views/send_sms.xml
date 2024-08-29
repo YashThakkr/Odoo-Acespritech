@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem name="Twilio Gateway" id="main_menu_twilio_gateway" parent="sale.sale_menu_root" sequence="30" />
+
+    <record id="twilio_send_sms_form_view" model="ir.ui.view">
+        <field name="name">Send Sms Form View</field>
+        <field name="model">send.sms</field>
+        <field name="arch" type="xml">
+            <form string="Send Sms">
+                <header>
+                    <button string="Send Sms" type="object" name="send_sms" class="oe_highlight" />
+                </header>
+                <sheet>
+                    <group>
+                    <group>
+                        <field name="sms_to" />
+                    </group>
+                    </group>
+                    <div class="col-md-8" style="padding:0 !important;" invisible="sms_to != 'group'">
+                        <div class="col-md-4"
+                            style="padding:0 !important;width:150px;border-right: 1px solid gainsboro;
+margin-right: 8px;float:left;">
+                            <label for="group_id"/>
+                        </div>
+                        <div class="col-md-8" style="padding:0 !important;float:left;">
+                            <field name="group_id" style="width:350px;" required="sms_to == 'group'"/>
+                        </div>
+                    </div>
+                    <div class="col-md-8" style="padding:0 !important;" invisible="sms_to != 'individual'">
+                        <div class="col-md-4"
+                            style="padding:0 !important;width:150px;border-right: 1px solid gainsboro;
+margin-right: 8px;float:left;">
+                            <label for="mobile" />
+                        </div>
+                        <div class="col-md-8" style="padding:0 !important;float:left;">
+                            <field name="mobile" required="sms_to == 'individual'"/>
+                        </div>
+                    </div>
+                    <notebook>
+                        <page string="Message">
+                            <group>
+                                <field name="track" />
+                                <field name="message" />
+                            </group>
+                        </page>
+                        <page string="Partner(s)" invisible="sms_to != 'partners'">
+                            <field name="partners_ids">
+                                <tree>
+                                    <field name="name" />
+                                    <field name="mobile" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="twilio_send_sms_tree_view" model="ir.ui.view">
+        <field name="name">Send Sms Tree View</field>
+        <field name="model">send.sms</field>
+        <field name="arch" type="xml">
+            <tree string="Send Sms">
+                <field name="sms_to" />
+                <field name="track" />
+                <field name="message" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="twilio_send_sms_action" model="ir.actions.act_window">
+        <field name="name">Send Sms</field>
+        <field name="res_model">send.sms</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Send SMS" id="main_menu_send_sms" parent="aspl_twilio_sms_ee.main_menu_twilio_gateway" action="twilio_send_sms_action"
+        sequence="1" />
+
+    <record id="twilio_sms_group_form_view" model="ir.ui.view">
+        <field name="name">Sms Groups Form View</field>
+        <field name="model">sms.group</field>
+        <field name="arch" type="xml">
+            <form string="Sms Group">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                    <notebook>
+                        <page string="Partner(s)">
+                            <field name="partners_ids">
+                                <tree>
+                                    <field name="name" />
+                                    <field name="mobile" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="twilio_sms_group_tree_view" model="ir.ui.view">
+        <field name="name">Sms Groups Tree View</field>
+        <field name="model">sms.group</field>
+        <field name="arch" type="xml">
+            <tree string="Sms Group">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="twilio_sms_group_action" model="ir.actions.act_window">
+        <field name="name">Sms Groups</field>
+        <field name="res_model">sms.group</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Groups" id="main_menu_sms_group" parent="aspl_twilio_sms_ee.main_menu_twilio_gateway" action="twilio_sms_group_action"
+        sequence="4" />
+
+    <record id="twilio_sms_queue_form_view" model="ir.ui.view">
+        <field name="name">Sms Queue Form View</field>
+        <field name="model">sms.queue</field>
+        <field name="arch" type="xml">
+            <form string="Sms Queue">
+                <header>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group col="4">
+                        <field name="mobile"/>
+                        <field name="track"/>
+                    </group>
+                    <group>
+                        <field name="message"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="twilio_sms_queue_tree_view" model="ir.ui.view">
+        <field name="name">Sms Queue Tree View</field>
+        <field name="model">sms.queue</field>
+        <field name="arch" type="xml">
+            <tree string="Sms queue">
+                <field name="mobile" />
+                <field name="track"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="twilio_sms_queue_action" model="ir.actions.act_window">
+        <field name="name">Sms Queue</field>
+        <field name="res_model">sms.queue</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="SMS Queue" id="main_menu_sms_queue" parent="aspl_twilio_sms_ee.main_menu_twilio_gateway"
+                action="twilio_sms_queue_action" sequence="5" />
+
+</odoo>

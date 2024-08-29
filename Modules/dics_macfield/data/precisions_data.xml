@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--
+             Precisions
+        -->
+        <record forcecreate="True" id="decimal_macfield_qty" model="decimal.precision">
+            <field name="name">Quantity</field>
+            <field name="digits" eval="0"/>
+        </record>
+    </data>
+</odoo>

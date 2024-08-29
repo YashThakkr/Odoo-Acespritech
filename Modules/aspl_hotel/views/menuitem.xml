@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id='main_menu' name="Hotel" sequence="1"/>
+
+        <menuitem id="sub_menu_hotel" sequence="2" parent="aspl_hotel.main_menu" name="Front Office" groups="aspl_hotel.group_hotel_manager"/>
+
+        <menuitem id="sub_menu_house_keeping" sequence="3" parent="aspl_hotel.main_menu" name="House Keeping" groups="aspl_hotel.group_hotel_house_keeper,aspl_hotel.group_hotel_house_keeper_manager,aspl_hotel.group_hotel_manager"/>
+
+        <menuitem id="sub_menu_laundry" sequence="4" parent="aspl_hotel.main_menu" name="Laundry" groups="aspl_hotel.group_laundry"/>
+
+        <menuitem id="sub_menu_invoicing" sequence="5" parent="aspl_hotel.main_menu" name="Invoicing" groups="aspl_hotel.group_hotel_manager"/>
+
+        <menuitem id="sub_menu_event" sequence="6" parent="aspl_hotel.main_menu" name="Events" action="event.action_event_view" groups="aspl_hotel.group_hotel_manager"/>
+
+        <menuitem id="menu_pickup_drop" sequence="7" parent="aspl_hotel.main_menu" name="Pickup &amp; Drop" groups="aspl_hotel.group_pickup_drop,aspl_hotel.group_vahicle_driver"/>
+
+        <menuitem id="configuration_menu_hotel" sequence="9" parent="aspl_hotel.main_menu" name="Configuration" groups="aspl_hotel.group_hotel_manager"/>
+
+        <menuitem name="Agent Commission" id="main_menu_agent_commission" parent="aspl_hotel.main_menu" sequence="8" groups="aspl_hotel.group_hotel_manager"/>
+    </data>
+</odoo>

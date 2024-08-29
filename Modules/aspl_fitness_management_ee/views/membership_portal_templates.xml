@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template id="portal_my_home_memberships" name="Portal My Home : Gym Memberships"
+              inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="gym_membership_count" t-call="portal.portal_docs_entry">
+                <t t-set="title">Memberships</t>
+                <t t-set="url" t-value="'/my/active_memberships'"/>
+                <t t-set="count" t-value="gym_membership_count"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_menu_memberships" name="Portal layout : Gym Memberships"
+              inherit_id="portal.portal_breadcrumbs" priority="32">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'active_memberships'"
+                t-attf-class="breadcrumb-item #{'active ' if not membership else ''}">
+                <t>Memberships</t>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_gym_memberships" name="My Gym Memberships">
+      <t t-call="portal.portal_layout">
+        <t t-if="not active_memberships">
+            <p>There are currently no gym memberships</p>
+        </t>
+        <t t-if="active_memberships" t-call="portal.portal_table">
+            <thead>
+                <tr class="active">
+                    <th>Membership</th>
+                    <th>Subscriber</th>
+                    <th>start Date</th>
+                    <th>End Date</th>
+                    <th class="text-right">Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-foreach="active_memberships" t-as="each_membership">
+                    <tr>
+                        <td><span t-field="each_membership.display_name"/></td>
+                        <td><span t-field="each_membership.sudo().subscriber_id.name"/></td>
+                        <td><span t-field="each_membership.start_date"/></td>
+                        <td class='d-none d-md-table-cell'><span t-field="each_membership.end_date"/></td>
+                        <td class="text-right"><span t-esc="each_membership.fees"
+                                                     t-options='{"widget": "monetary", "display_currency": each_membership.sudo().subscriber_id.currency_id}'/></td>
+                        <td class="text-center">
+                            <a t-if="each_membership.sudo().check_expiry_days() == 'renew'"
+                                t-att-href="'/my/active_memberships/%s/renew_membership' % (each_membership.id)"
+                               title="Renew Now" aria-label="Renew now" class="btn btn-sm btn-primary" role="button" >
+                                <i class="fa fa-arrow-circle-right"/><span class='d-none d-md-inline'> Renew Now</span>
+                            </a>
+                            <a t-if="each_membership.sudo().check_expiry_days() == 'payment'"
+                                t-att-href="'/my/active_memberships/%s/renew_membership' % (each_membership.id)"
+                               title="Renew Now" aria-label="Renew now" class="btn btn-sm btn-primary" role="button" >
+                                <i class="fa fa-arrow-circle-right"/><span class='d-none d-md-inline'> Pay Now</span>
+                            </a>
+                        </td>
+                    </tr>
+                </t>
+            </tbody>
+        </t>
+      </t>
+    </template>
+
+</odoo>

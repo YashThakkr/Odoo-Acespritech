@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- Hierarchy Menu -->
+    <t t-name="aspl_systray_package.SystrayPackage" owl="1">
+        <div class="HierarchyMenuContainer o-dropdown--no-caret">
+            <button class="o_EmployeeHierarchy_toggler o-dropdown dropdown dropdown-toggle o-dropdown--no-caret"
+                    t-on-click="toggleDropDown" t-att-aria-expanded="state.isOpen ? 'true' : 'false'">
+                <i class="o_EmployeeHierarchy_icon fa fa-users" role="img" aria-label="Employee"/>
+                <div t-if="state.isOpen"
+                     class="o_EmployeeHierarchy_dropdownMenu dropdown-menu dropdown-menu-right"
+                     id="EmployeeHierarchyToggle" role="menu" t-att-class="state.isOpen ? 'show' : ''">
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="o_MessagingMenu_dropdownMenuHeader">
+                                <h4 style="text-align: center;">Your Team</h4>
+                            </div>
+                                    <div id="ShowHierarchy" class="ShowHierarchy">
+                                    <t t-if="state.EmployeeData[0][0]">
+                                        <t t-set="EmployeeData" t-value="state.EmployeeData[0][0]"/>
+                                        <table>
+                                             <tr>
+                                                 <td width="5px" style="padding: 5px;">
+                                                     <img t-att-src="image(EmployeeData.current_employee.id)" alt="User"
+                                                          class="rounded-circle o_user_avatar"
+                                                          style="height: 40px;width: 40px;object-fit: cover;margin:5px;"/>
+                                                 </td>
+                                                 <td class="header_td">
+                                                     <b class="font_size_h5"><t t-esc="EmployeeData.current_employee.name" /></b>
+                                                     <t t-if="EmployeeData.current_employee.availability == 'present'">
+                                                         <div role="img"
+                                                             class="fa fa-fw fa-circle text-success o_button_icon p-1 fs-4"
+                                                             aria-label="Available" title="Available"/>
+                                                     </t>
+                                                     <t t-if="EmployeeData.current_employee.availability == 'absent'">
+                                                         <div role="img"
+                                                             class="fa fa-fw fa-circle text-warning o_button_icon p-1 fs-4"
+                                                             aria-label="Away" title="Away"/>
+                                                     </t>
+
+                                                     <t t-if="EmployeeData.current_employee.availability == 'to_define'">
+                                                         <div role="img"
+                                                             class="fa fa-fw fa-circle text-danger o_button_icon p-1 fs-4"
+                                                             aria-label="Not available" title="Not available"/>
+                                                     </t>
+<!--                                                     <t t-if="state.active">-->
+<!--                                                         <div class="fa fa-sign-out p-1 fs-4" id="check_out"-->
+<!--                                                              t-on-click.prevent="() =&gt; this._onCheckInOut(EmployeeData.current_employee.id)"-->
+<!--                                                              aria-label="Check Out" title="Check Out">-->
+<!--                                                         </div>-->
+<!--                                                     </t>-->
+<!--                                                     <t t-else="">-->
+<!--                                                         <div class="fa fa-sign-in p-1 fs-4" id="check_in"-->
+<!--                                                              t-on-click.prevent="() =&gt; this._onCheckInOut(EmployeeData.current_employee.id)"-->
+<!--                                                              aria-label="Check in" title="Check in">-->
+<!--                                                        </div>-->
+<!--                                                     </t>-->
+
+                                                     <div role="button" t-if="EmployeeData.current_employee.child_count &gt; 0"
+                                                          class="btn p-1 fs-2 btn_badge employee_child_count" tabindex="0"
+                                                          t-att-data-emp-name="EmployeeData.current_employee.name"
+                                                          t-att-data-emp-id="EmployeeData.current_employee.id"
+                                                          data-bs-trigger="focus"
+                                                          data-bs-toggle="popover">
+                                                         <a href="#"
+                                                            t-attf-class="badge rounded-pill bg-white border {{EmployeeData.current_employee.child_count &lt; 10 ? 'px-1' : 'px-1' }}"
+                                                            t-esc="EmployeeData.current_employee.child_count"
+                                                            t-on-click.prevent="() =&gt; this._onEmployeeCount(EmployeeData.current_employee.id)"/>
+                                                     </div>
+                                                     <p class="text-muted hover:ellipsis o_jobtitle flex-column">
+                                                        <t t-esc="EmployeeData.current_employee.job_title"/>
+                                                     </p>
+                                                 </td>
+                                             </tr>
+                                        </table>
+                                    </t>
+                                <t t-if="EmployeeData &amp;&amp; EmployeeData.child_ids">
+                                    <table class="o_employee_data">
+                                        <t t-foreach="EmployeeData.child_ids" t-as="child" t-key="child">
+                                            <tr>
+                                                <td width="12%" class="o_EmployeeData"> </td>
+                                                <td width="5%">
+                                                    <a t-att-href="EmployeeData.child_ids[child].link"
+                                                       t-on-click.prevent="() =&gt; this._onEmployeeRedirect(EmployeeData.child_ids[child].id)">
+                                                        <img t-att-src="image(child)" alt="User"
+                                                             class="rounded-circle o_user_avatar"
+                                                             style="height: 40px;width: 40px;object-fit: cover;margin:5px;"/>
+                                                    </a>
+                                                </td>
+                                                <td class="header_td">
+                                                    <a t-att-href="EmployeeData.child_ids[child].link"
+                                                       t-on-click.prevent="() =&gt; this._onEmployeeRedirect(EmployeeData.child_ids[child].id)">
+                                                        <b class="fs-6"><t t-esc="EmployeeData.child_ids[child].name" /></b>
+                                                    </a>
+                                                    <t t-if="EmployeeData.child_ids[child].availability == 'present'">
+                                                        <div role="img" class="fa fa-fw fa-circle text-success o_button_icon"
+                                                             aria-label="Available" title="Available"/>
+                                                    </t>
+                                                    <t t-if="EmployeeData.child_ids[child].availability == 'absent'">
+                                                        <div role="img" class="fa fa-fw fa-circle text-warning o_button_icon"
+                                                             aria-label="Away" title="Away"/>
+                                                    </t>
+                                                    <t t-if="EmployeeData.child_ids[child].availability == 'to_define'">
+                                                     <div role="img" class="fa fa-fw fa-circle text-danger o_button_icon"
+                                                          aria-label="Not available" title="Not available"/>
+                                                    </t>
+
+                                                    <div role="button" t-if="EmployeeData.child_ids[child].child_count &gt; 0"
+                                                         class="btn p-1 fs-2 btn_badge employee_child_count" tabindex="0"
+                                                         t-att-data-emp-name="EmployeeData.child_ids[child].name"
+                                                         t-att-data-emp-id="EmployeeData.child_ids[child].id"
+                                                         data-bs-trigger="focus" data-bs-toggle="popover">
+                                                     <a href="#"
+                                                        t-attf-class="badge rounded-pill bg-white border {{EmployeeData.child_ids[child].child_count &lt; 10 ? 'px-1' : 'px-1' }}"
+                                                        t-esc="EmployeeData.child_ids[child].child_count"
+                                                        t-on-click.prevent="() =&gt; this._onChildCount(EmployeeData.child_ids[child].id)"/>
+                                                    </div>
+
+                                                    <p class="text-muted o_jobtitle"
+                                                       t-att-title="EmployeeData.child_ids[child].job_title"><t t-esc="EmployeeData.child_ids[child].job_title" /></p>
+                                                    <t t-if="EmployeeData.child_ids[child].is_create_user">
+                                                        <div role="img" class="fa fa-comments o_button_icon icon_button"
+                                                             aria-label="Massage" title="Massage"
+                                                             t-on-click.prevent="() =&gt; openChat(EmployeeData.child_ids[child].id)"/>
+                                                    </t>
+                                                    <div role="img" class="fa fa-puzzle-piece o_button_icon icon_button"
+                                                         aria-label="Projects" title="Projects"
+                                                         t-on-click.prevent="() =&gt; this._projects_employee(EmployeeData.child_ids[child].id)"/>
+                                                    <div role="img" class="fa fa-list o_button_icon icon_button"
+                                                         aria-label="Timesheet" title="Timesheet"
+                                                         t-on-click.prevent="() =&gt; this._timesheet_employee(EmployeeData.child_ids[child].id)"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="o_MessagingMenu_dropdownMenuHeader">
+                                <h4 style="text-align: center;">Team Leaves</h4>
+                            </div>
+                            <div style="height: 200px; overflow: scroll;overflow-x: hidden;">
+                                <t t-if="state.EmployeeData[0]">
+                                    <t t-set="EmployeeData" t-value="state.EmployeeData[2][0]"/>
+                                </t>
+                                <table>
+                                    <t t-if="EmployeeData">
+                                        <t t-foreach="EmployeeData" t-as="leave" t-key="leave.id">
+                                            <tr class="o_employee_data_leave">
+                                                <td width="5px" class="o_employee_image">
+                                                    <img t-att-src="image(leave.emp_id)" alt="User"
+                                                         class="rounded-circle o_user_avatar"/>
+                                                </td>
+                                                <div class="flex-parent-element">
+                                                    <div class="flex-child-element">
+                                                        <p><b><t t-esc="leave['employee_ids']"/></b></p>
+                                                        <p> Resaon : <t t-esc="leave['holiday_status_id']"/></p>
+                                                        <p><t t-esc="leave['start_date']"/>
+                                                            To
+                                                            <t t-esc="leave['end_date']"/>
+                                                        </p>
+                                                    </div>
+                                                    <div class="flex-child-element">
+                                                        <p>
+                                                            <a class="leave_days" role="button"
+                                                             t-on-click.prevent="() =&gt; this._on_leave_days(leave.id)" title="Leave Open"
+                                                                 aria-lable="Leave Open"><t t-esc="leave['days']"/> Days</a></p>
+                                                        <p>
+                                                            <button name="button_approve" id="button_approve"
+                                                                    title="Approve"
+                                                                    aria-lable="Approve"
+                                                                    t-on-click.prevent="() =&gt; this._on_approve(leave.id)"
+                                                                    class="o_approve_button">
+                                                                  <i class="fa fa-check"/>
+                                                            </button>
+                                                            <button name="action_reject" string="Reject" id="button_reject"
+                                                                    title="Reject" aria-lable="Reject"
+                                                                    t-on-click.prevent="() =&gt; this._on_reject(leave.id)"
+                                                                    class="o_reject_button">
+                                                                <i class="fa fa-times"/>
+                                                            </button>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown-divider" role="separator"/>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <div id="request" class="text-muted leave_request">
+                                            No leave requests found!
+                                        </div>
+                                    </t>
+                                </table>
+                            </div>
+                            <hr/>
+                            <div>
+                                <div class="task_scroll">
+                                    <div class="o_MessagingMenu_dropdownMenuHeader">
+                                        <h4 style="text-align: center;">Your Tasks</h4>
+                                    </div>
+                                    <t t-if="state.EmployeeData[0]">
+                                         <t t-set="EmployeeData" t-value="state.EmployeeData[1]"/>
+                                    </t>
+                                    <table>
+                                         <t t-if="EmployeeData">
+                                             <t t-foreach="EmployeeData" t-as="task" t-key="task.id">
+                                            <tr id="task_name" class="task_name">
+                                                <td>
+                                                    <p class="task_name_dotted text-muted hover:ellipsis">
+                                                        <a class="display_task" href="#" t-on-click="() => this._onClickTask(task['id'])" t-att-title="task['name']">
+                                                            <t t-esc="task['name']"/>
+                                                        </a>
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <span t-if="task['priority'] == 1" style="color:#f3cc00;" widget="priority" class="o_priority_star fa fa-star" role="radio" tabindex="-1" data-tooltip="Priority: High" aria-label="Priority"/>
+                                                    <span t-if="task['priority'] == 0" widget="priority" class="o_priority_star fa fa-star-o" role="radio" tabindex="-1" data-tooltip="Priority: High" aria-label="Priority"/>
+                                                </td>
+                                            </tr>
+                                            <tr class="deadline data-info">
+                                                <td>
+                                                    <span t-if="task['deadline']" style="margin-left: 10px;">Deadline: </span>
+                                                    <span t-if="task['deadline']" class="o_deadline mr16 text-muted"><t t-esc="task['deadline']"/></span>
+                                                </td>
+                                            </tr>
+                                           <tr class="assignes data-info">
+                                                <td>
+                                                    <span t-if="task['project']" style="margin-left: 10px;">project: </span>
+                                                    <span t-if="task['project']" class="o_deadline mr16 text-muted"><t t-esc="task['project']"/></span>
+                                                </td>
+                                            </tr>
+                                            <div class="dropdown-divider" role="separator"/>
+                                         </t>
+                                         </t>
+                                         <t t-else="">
+                                            <div  class="text-muted task_request">
+                                                No Task found!
+                                            </div>
+                                         </t>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </button>
+        </div>
+    </t>
+</templates>

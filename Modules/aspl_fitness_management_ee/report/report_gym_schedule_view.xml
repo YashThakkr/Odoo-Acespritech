@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="aspl_fitness_management_ee.gym_schedule_report">
+
+               <t t-call="web.html_container">
+                   <t t-foreach="docs" t-as="o">
+                        <t t-call="web.external_layout">
+                            <div class="page">
+                                <br/><center><h4><span t-esc="o.subscriber_id.name"/> Gym Schedules</h4></center><br/>
+                                <t t-foreach="o.schedule_ids" t-as="schedule">
+                                    <table class="table table-bordered" style="font-size: 15px;border: 2px solid #010203;width: 100%;">
+                                        <tr>
+                                            <td colspan="3" style="border: 2px solid #010203;">
+                                                <strong><span t-if="schedule.day == '1'">Monday</span></strong>
+                                                <strong><span t-if="schedule.day == '2'">Tuesday</span></strong>
+                                                <strong><span t-if="schedule.day == '3'">Wednesday</span></strong>
+                                                <strong><span t-if="schedule.day == '4'">Thursday</span></strong>
+                                                <strong><span t-if="schedule.day == '5'">Friday</span></strong>
+                                                <strong><span t-if="schedule.day == '6'">Saturday</span></strong>
+                                                <strong><span t-if="schedule.day == '7'">Sunday</span></strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Activities</strong></td>
+                                            <td><strong>Exercises</strong></td>
+                                            <td><strong>Set</strong></td>
+                                        </tr>
+                                        <br/>
+                                        <tr t-foreach="o.service_line_ids" t-as="service_line">
+                                            <td><span t-esc="service_line.service_id.name"/></td>
+                                            <td><t t-foreach="schedule.line_ids" t-as="exercise_detail">
+                                                <t t-if="exercise_detail.exercise_id.service_tmpl_id.name == service_line.service_id.product_tmpl_id.name">
+                                                    <span t-esc="exercise_detail.exercise_id.name"/><br/>
+                                                </t>
+                                            </t></td>
+                                            <td><t t-foreach="schedule.line_ids" t-as="exercise_detail">
+                                                <t t-if="exercise_detail.exercise_id.service_tmpl_id.name == service_line.service_id.product_tmpl_id.name">
+                                                    <span t-esc="exercise_detail.count"/>
+                                                    <t t-if="exercise_detail.uom_id">
+                                                        <span t-esc="exercise_detail.uom_id.name"/>
+                                                    </t><br/>
+                                                </t>
+                                            </t></td>
+                                        </tr>
+                                    </table>
+                                    <p style="page-break-after: always;"/><br/>
+                                </t>
+                            </div>
+                        </t>
+                   </t>
+               </t>
+
+        </template>
+    </data>
+</odoo>

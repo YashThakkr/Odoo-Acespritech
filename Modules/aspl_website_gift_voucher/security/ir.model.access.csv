@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_gift_voucher_detail,access_gift_voucher_detail,model_gift_voucher_detail,,1,1,1,1
+access_redeem_voucher,access_redeem_voucher,model_redeem_voucher,group_voucher,1,1,1,1
+
+accesss_redeem_voucher,accesss_redeemm_voucher,model_redeem_voucher,base.group_portal,1,1,1,1
+accesss_redeem_voucherr,accesss_redeemm_voucherr,model_redeem_voucher,base.group_public,1,1,1,1

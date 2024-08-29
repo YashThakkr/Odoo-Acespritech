@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="stock_consignee_reporting" model="ir.actions.report">
+            <field name="name">Stock Report</field>
+            <field name="model">wizard.consignee.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">aspl_consignee_management.report_stock_consignee</field>
+            <field name="report_file">aspl_consignee_management.report_stock_consignee</field>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="stock_consignee_request_reporting" model="ir.actions.report">
+            <field name="name">Consignee Transfer Details Report</field>
+            <field name="model">stock.consignee.transfer</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">aspl_consignee_management.report_stock_consignee_request_transfer</field>
+            <field name="report_file">aspl_consignee_management.report_stock_consignee_request_transfer</field>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="sale_consignee_reporting" model="ir.actions.report">
+            <field name="name">Consignee Report</field>
+            <field name="model">consignee.consume.items</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">aspl_consignee_management.report_sale_consignee</field>
+            <field name="report_file">aspl_consignee_management.report_sale_consignee</field>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>

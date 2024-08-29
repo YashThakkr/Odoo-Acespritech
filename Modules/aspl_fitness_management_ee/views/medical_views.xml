@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="allergy_type_tree_view" model="ir.ui.view">
+            <field name="name">allergy.type.tree.view</field>
+            <field name="model">allergy.type</field>
+            <field name="arch" type="xml">
+                <tree string="Allergy Type" editable="top">
+                    <field name="name" required="1"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_allergy_type" model="ir.actions.act_window">
+            <field name="name">Allergy Type</field>
+            <field name="res_model">allergy.type</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+
+        <record id="medical_symptom_tree_view" model="ir.ui.view">
+            <field name="name">medical.symptom.tree.view</field>
+            <field name="model">medical.symptom</field>
+            <field name="arch" type="xml">
+                <tree string="Symptoms" editable="top">
+                    <field name="name" required="1"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_medical_symptom" model="ir.actions.act_window">
+            <field name="name">Symtoms</field>
+            <field name="res_model">medical.symptom</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+
+        <record id="medical_diagnose_tree_view" model="ir.ui.view">
+            <field name="name">medical.diagnose.tree.view</field>
+            <field name="model">medical.diagnose</field>
+            <field name="arch" type="xml">
+                <tree string="Diagnose" editable="top">
+                    <field name="name" required="1"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_medical_diagnose" model="ir.actions.act_window">
+            <field name="name">Diagnose</field>
+            <field name="res_model">medical.diagnose</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+
+        <record id="medical_surgery_tree_view" model="ir.ui.view">
+            <field name="name">medical.surgery.tree.view</field>
+            <field name="model">medical.surgery</field>
+            <field name="arch" type="xml">
+                <tree string="Surgery" editable="top">
+                    <field name="name" required="1"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_medical_surgery" model="ir.actions.act_window">
+            <field name="name">Surgery</field>
+            <field name="res_model">medical.surgery</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+
+        <record id="medication_type_tree_view" model="ir.ui.view">
+            <field name="name">medication.type.tree.view</field>
+            <field name="model">medication.type</field>
+            <field name="arch" type="xml">
+                <tree string="Medication Type" editable="top">
+                    <field name="name" required="1"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_medication_type" model="ir.actions.act_window">
+            <field name="name">Medication Type</field>
+            <field name="res_model">medication.type</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem id="menu_action_medical_config"
+                  sequence="6"
+                  name="Medical"
+                  parent="fitness_menu_Configuration"
+        />
+
+        <menuitem id="menu_action_allergy_type"
+                  action="action_allergy_type"
+                  sequence="1"
+                  parent="menu_action_medical_config"
+        />
+
+        <menuitem id="menu_action_medical_symptom"
+                  action="action_medical_symptom"
+                  sequence="2"
+                  parent="menu_action_medical_config"
+        />
+
+        <menuitem id="menu_action_medical_diagnose"
+                  action="action_medical_diagnose"
+                  sequence="3"
+                  parent="menu_action_medical_config"
+        />
+
+        <menuitem id="menu_action_medical_surgery"
+                  action="action_medical_surgery"
+                  sequence="4"
+                  parent="menu_action_medical_config"
+        />
+
+        <menuitem id="menu_action_medication_type"
+                  action="action_medication_type"
+                  sequence="5"
+                  parent="menu_action_medical_config"
+        />
+
+    </data>
+</odoo>

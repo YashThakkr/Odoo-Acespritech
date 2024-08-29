@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="scheduler_check_scheduled_sms" model="ir.cron">
+            <field name="name">Check Scheduled SMS</field>
+            <field name="model_id" ref="aspl_twilio_sms.model_schedule_sms"/>
+            <field name="state">code</field>
+            <field name="code">model.send_sms()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="True"/>
+            <field name="active" eval="True"/>
+        </record>
+
+        <record id="scheduler_sms_delivery_status" model="ir.cron">
+            <field name="name">SMS Delivery Status</field>
+            <field name="model_id" ref="aspl_twilio_sms.model_sms_delivery_report"/>
+            <field name="state">code</field>
+            <field name="code">model.check_delivery_status()</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="True"/>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- queue sms send scheduler -->
+        <record id="scheduler_sms_queue" model="ir.cron">
+            <field name="name">Send Queue SMS</field>
+            <field name="model_id" ref="aspl_twilio_sms.model_sms_queue"/>
+            <field name="state">code</field>
+            <field name="code">model.send_queue_sms()</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="True"/>
+            <field name="active" eval="True"/>
+        </record>
+
+        <record id="send_sms_on_sale_order" model="base.automation">
+            <field name="name">Send SMS on Sale Order</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="trigger">on_create</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <record id="send_sms_order_sale" model="ir.actions.server">
+            <field name="name">Send SMS on Sale Order</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="state">code</field>
+            <field name="code">env['send.sms'].send_sms_action(record)</field>
+            <field name="base_automation_id" ref="aspl_twilio_sms.send_sms_on_sale_order"/>
+        </record>
+
+    </data>
+</odoo>

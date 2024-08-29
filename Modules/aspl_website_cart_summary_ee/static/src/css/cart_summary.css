@@ -1,0 +1,142 @@
+.sidebar {
+  height: 100%;
+  width: 300px;
+  right: 0;
+  background-color: inherit;
+  transition: 0.5s;
+  margin-top: 1px;
+  margin-left: 170px;
+  float: right;
+  position: fixed;
+  color: #875A7B;
+}
+
+.box-inner{
+    background-color: #714B67;
+}
+
+.sidebar .container{
+       background-color:#00A09D;
+       color:white;
+       text-align:center;
+       font-size:17px;
+}
+.sidebar .custom_card{
+     margin-top: -16px;
+}
+
+.sidebar .custom_card .mr8{
+        font-size:16px;
+}
+.sidebar .custom_card .card-block hr{
+        margin-bottom:2px;
+        margin-top:1px;
+}
+
+.sidebar .custom_card .card-block .custom_nav{
+    background-color: #d4d5d7;
+    color: #212529;
+    text-align: center;
+}
+
+.sidebar a {
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+  white-space: nowrap;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media(max-width: 320px)  {
+   .js_sale .carousel {
+         margin-top: 130px;
+    }
+    .js_sale .custom_side .sidenav_cust{
+        position: absolute;
+        padding: 1px 1px;
+        background-color: #875A7B;
+
+    }
+    .js_sale .col-md-8 .sidebar{
+        position: absolute;
+    }
+    .js_sale #product_details .js_product #add_to_cart{
+        width: 58
+    }
+    .js_sale #product_details .container .o_carousel_product_card card h-100{
+        margin-top: 10px;
+    }
+    .js_sale .s_wsale_products_recently_viewed .container .slider{
+        margin-top: -100px;
+    }
+
+}
+
+@media(max-width: 320px){
+     .custom_sale #products_grid {
+       margin-top: 200px;
+    }
+    .custom_sale .sidebar{
+        margin-top: -5975px;
+        position: absolute;
+    }
+    .custom_sale .oe_website_sale .col-md-4 .custom_side .custom_class{
+        margin-top: -6004px;
+        position: absolute;
+    }
+}
+
+.website_cart_summary_open{
+    font-size:23px;
+    cursor:pointer;
+}
+
+/* Change the color of the toggle icon when the cart summary is open */
+/* DK Changes  */
+.website_cart_summary_open i {
+    transition: color 0.3s ease-in-out;
+    color: #000000;
+}
+
+.website_cart_summary_open i.open {
+    color: #00A09D;
+}
+
+
+
+.card .col-9 span{
+    color:#00A09D;
+}
+
+.custom_side .sidenav_cust{
+        right: 0;
+        float: right;
+        position: fixed;
+        margin-left: 400px;
+        color: #00A09D;
+        margin-top: -35px;
+        color: white;
+        background-color: #875A7B;
+        padding: 5px;
+        height: 35px;
+        border-radius: 7px;
+        margin-right: 30px;
+        margin-top: -20px;
+}
+
+.custom_side .sidenav_cust:hover{
+     background-color: #6d4c64;
+}
+
+
+
+/* Add CSS transition for smooth animation */
+#mySidenav {
+    transition: width 0.3s ease-in-out;
+    width: 0px;
+}
+
+#mySidenav.open {
+    width: 300px;
+}

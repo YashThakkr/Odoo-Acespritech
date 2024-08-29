@@ -1,0 +1,7 @@
+PURCHASE ID,SUPPLIER,CURRENCY,PRODUCT,QUANTITY,UOM,DESCRIPTION ,PRICE,TAX,DATE
+PO/2020/05/22,Azure Interior,USD,Large Desk,4,Unit(s),Large Desk,2500,"IGST 12%,GST 18%",2020-05-18
+PO/2020/05/22,Azure Interior,USD,Office Chair,2,Unit(s),Office Chair,50000,GST 5%,2020-05-18
+PO/2020/05/22,Azure Interior,USD,Office Lamp,1,Unit(s),Office Lamp,1850,,2020-05-18
+PO/2020/PR/026,Gemini Furniture,EUR,Pedal Bin,3,Unit(s),Pedal Bin,12500,"IGST 28%,GST 2%",2020-05-12
+PO000044,Ready Mat,USD,Storage Box,8,Unit(s),Storage Box,785,GST 18%,2020-05-14
+Purchase/11/R25,Wood Corner,EUR,Large Cabinet,2,Unit(s),Large Cabinet,4550,IGST 5%,2020-05-15

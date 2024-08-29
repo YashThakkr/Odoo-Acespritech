@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template id="portal_my_home_nutrition_plans" name="Portal My Home : Nutrition Plans" inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="nutrition_plan_count" t-call="portal.portal_docs_entry">
+                <t t-set="title">Nutrition Plans</t>
+                <t t-set="url" t-value="'/my/nutrition_plans'"/>
+                <t t-set="count" t-value="nutrition_plan_count"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_menu_nutrition_plans" name="Portal layout : nutrition plan menu entries" inherit_id="portal.portal_breadcrumbs" priority="30">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'nutrition_plans'" t-attf-class="breadcrumb-item #{'active ' if not nutrition_plan else ''}">
+                <a t-if="nutrition_plan" t-attf-href="/my/nutrition_plans?{{ keep_query() }}">Nutrition Plans</a>
+                <t t-else="">Nutrition Plans</t>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_nutrition_plans" name="My Nutrition Plans">
+      <t t-call="portal.portal_layout">
+        <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+        <t t-call="portal.portal_searchbar">
+            <t t-set="title">Nutrition Plans</t>
+        </t>
+        <t t-if="not nutrition_plans">
+            <p>There are currently no nutrition plans</p>
+        </t>
+        <t t-if="nutrition_plans" t-call="portal.portal_table">
+            <thead>
+                <tr class="active">
+                    <th>Nutrition Plan #</th>
+                    <th>start Date</th>
+                    <th>End Date</th>
+                    <th class="text-right">Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-foreach="nutrition_plans" t-as="nutrition_plan">
+                    <tr>
+                        <td>
+                            <a t-att-href="'/my/nutrition_plans/%s' % (nutrition_plan.id)" t-att-title="nutrition_plan">
+                                <t t-esc="nutrition_plan.name" t-if="nutrition_plan"/>
+                            </a>
+                        </td>
+                        <td><span t-field="nutrition_plan.joining_date"/></td>
+                        <td class='d-none d-md-table-cell'><span t-field="nutrition_plan.ending_date"/></td>
+                        <td class="text-right"><span t-esc="nutrition_plan.nutrition_fees"/>
+                        </td>
+
+                    </tr>
+                </t>
+            </tbody>
+        </t>
+      </t>
+    </template>
+
+    <template id="portal_my_home_menu_nutrition_plan3" name="Portal layout : nutrition plan" inherit_id="portal.portal_breadcrumbs" priority="30">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'nutrition_plan'" t-attf-class="breadcrumb-item #{'active ' if not nutrition_plan else ''}">
+                <a t-if="nutrition_plan" t-attf-href="/my/nutrition_plans{{ keep_query() }}">Nutrition Plans</a>
+                <t t-else="">Your Plans</t>
+            </li>
+            <li t-if="nutrition_plan" class="breadcrumb-item active">
+                <t t-esc="nutrition_plan.name" t-if="nutrition_plan.name"/>
+                <t t-else=""><em>No Plan Available</em></t>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_nutrition_plan_page3" name="Nutrition Plan Portal Template">
+            <t t-call="portal.portal_layout"><br/>
+                <div class="o_download_pdf btn-toolbar flex-sm-nowrap float-right">
+                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                        <a class="btn btn-primary btn-block o_download_btn"
+                           t-att-href="'/my/nutrition_plans/%s/report' % (nutrition_plan.id)" title="Download">
+                            <i class="fa fa-download"/> Download</a>
+                    </div>
+                </div>
+                <div class="container" style="background-color: white; padding: 10px 10px; border: solid; margin-top: 55px; border-width: 2px;">
+                    <center><h4 style="margin-top:20px;font-weight: bold;">Your Schedules</h4></center>
+                     <form class="form">
+                        <div class="float-right mb16">
+                            <label><strong><span t-esc="nutrition_plan.subscriber_id.name"/><br/>
+                            <span t-esc="nutrition_plan.name"/><br/>
+                            <span t-esc="nutrition_plan.branch_id.name"/></strong></label><br/>
+                        </div>
+                        <br/><br/><br/>
+                        <div class="Page">
+                            <table class="table">
+                                <tr>
+                                    <td><strong>Day</strong></td>
+                                    <td><strong>Meals</strong></td>
+                                    <td><strong>Food Items</strong></td>
+                                </tr>
+                                <br/>
+                                <tr t-foreach="nutrition_plan.nutrition_line_ids" t-as="schedule">
+                                    <td t-if="schedule.day == '1'" style="width:100px;">Monday</td>
+                                    <td t-if="schedule.day == '2'" style="width:100px;">Tuesday</td>
+                                    <td t-if="schedule.day == '3'" style="width:100px;">Wednesday</td>
+                                    <td t-if="schedule.day == '4'" style="width:100px;">Thursday</td>
+                                    <td t-if="schedule.day == '5'" style="width:100px;">Friday</td>
+                                    <td t-if="schedule.day == '6'" style="width:100px;">Saturday</td>
+                                    <td t-if="schedule.day == '7'" style="width:100px;">Sunday</td>
+                                    <td><t t-foreach="schedule.meal_ids" t-as="meal">
+                                        <span t-esc="meal.name" class="o_field_many2manytags o_field_widget"
+                                              style="border: solid 1px black;border-radius: 5px;padding: 3px;"/>
+                                    </t></td>
+                                    <td><t t-foreach="schedule.meal_ids" t-as="meal">
+                                        <t t-foreach="meal.mapped('meal_line_ids.food_item_id.name')" t-as="food_name">
+                                            <span t-esc="food_name" class="o_field_many2manytags o_field_widget"/>,
+                                        </t>
+                                    </t></td>
+                                </tr>
+                            </table>
+                        </div>
+                     </form>
+                </div>
+            </t>
+    </template>
+</odoo>

@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="product_page_barcode_form_wizard" model="ir.ui.view">
+        <field name="name">Product Page Label</field>
+        <field name="model">wizard.product.page.report</field>
+        <field name="arch" type="xml">
+            <form string="Product Page Label">
+                <group>
+                    <group>
+                        <field name="design_id" widget="selection" required="1" context="{'report_model': report_model, 'from_wizard':True}" />
+                        <field name="make_update_existing" />
+                    </group>
+                    <group>
+                        <button name="save_design" string="Save Design" type="object" context="{'from_wizard' : True}" class="oe_highlight" />
+                        <field name="report_model" invisible="1" />
+                    </group>
+                </group>
+                <group>
+                    <group>
+                        <field name="pricelist_id" groups="product.group_sale_pricelist" widget="selection"
+                               invisible="report_model not in ('wizard.product.page.report', 'product.product', 'stock.lot')"/>
+                    </group>
+                    <group>
+                        <field name="label_logo" widget="image" options="{'size': [100,100]}" />
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Products">
+                        <div>
+                            <field name="product_ids" readonly="context.get('active_model')!='sale.order'">
+                                <tree string="Products" editable="top">
+                                    <field name="prod_small_wiz_id" column_invisible="1" />
+                                    <field name="product_id" />
+                                    <field name="qty" />
+                                    <field name="line_id" column_invisible="1" />
+                                </tree>
+                            </field>
+                        </div>
+                    </page>
+                    <page string="Page">
+                        <group>
+                            <group>
+                                <field name="format" />
+                                <field name="page_width" invisible="format != 'custom'" required="format == 'custom'"/>
+                                <field name="page_height" invisible="format != 'custom'" required="format == 'custom'"/>
+                                <label for="col_no" />
+                                <div class="oe_inline">
+                                    <field name="col_no" class="oe_inline" />
+                                    <field name="col_no_float" class="oe_inline" />
+                                </div>
+                                <field name="col_width" required="True" />
+                                <field name="col_height" required="True" />
+                                <field name="orientation" />
+                                <field name="dpi" />
+                            </group>
+                            <group>
+                                <field name="from_row" />
+                                <field name="from_col" />
+                                <field name="margin_top" />
+                                <field name="margin_left" />
+                                <field name="margin_bottom" />
+                                <field name="margin_right" />
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Barcode">
+                        <group>
+                            <group>
+                                <field name="with_barcode" />
+                                <field name="barcode_height" invisible="not with_barcode" required="with_barcode"/>
+                                <field name="barcode_width" invisible="not with_barcode" required="with_barcode"/>
+                            </group>
+                            <group>
+                                <field name="humanReadable" invisible="not with_barcode"/>
+                                <field name="display_height" invisible="not with_barcode" required="with_barcode"/>
+                                <field name="display_width" invisible="not with_barcode" required="with_barcode"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Design">
+                        <field name="view_id" invisible="1" />
+                        <field name="paper_format_id" invisible="1" />
+                        <field name="column_report_design" required="1" widget="ace" />
+                    </page>
+                    <page string="Barcode Print Help">
+                        <div style="padding-left:5px;">
+                            <span>
+                                <strong>To print barcode follow below the rules.</strong>
+                            </span>
+                            <br />
+                            <span>
+                                here is the function that will generate barcode => "
+                                <strong>get_barcode_string(barcode_number, type, data)</strong>
+                                "
+                            </span>
+                            <br />
+                            <span>
+                                First parameter of Function, That is
+                                <strong>barcode_number</strong>
+                                .
+                            </span>
+                            <br />
+                            <span style="padding-left:10px;">
+                                <strong>*</strong>
+                                here you have to place the field name that contain barcode number
+                            </span>
+                            <br />
+                            <span>
+                                Second parameter of function is
+                                <strong>type</strong>
+                                .
+                            </span>
+                            <br />
+                            <span style="padding-left:10px;">
+                                <strong>*</strong>
+                                here you have to place barcode type along with single quote.
+                            </span>
+                            <br />
+                            <span>
+                                <strong>Supported barcode type are : </strong>
+                            </span>
+                            <ul>
+                                <li>EAN13</li>
+                                <li>Codabar</li>
+                                <li>Code11</li>
+                                <li>Code128</li>
+                                <li>Extended39</li>
+                                <li>EAN8</li>
+                                <li>Extended93</li>
+                                <li>USPS_4State</li>
+                                <li>I2of5</li>
+                                <li>UPCA</li>
+                                <li>QR</li>
+                            </ul>
+                        </div>
+                    </page>
+                </notebook>
+                <footer>
+                    <button name="action_print" string="Print" type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+     <record id="product_page_barcode_form_wizard_duplicate" model="ir.ui.view">
+        <field name="name">Product Page Label</field>
+        <field name="model">wizard.product.page.report</field>
+        <field name="arch" type="xml">
+            <form string="Product Page Label">
+                <group>
+                    <group>
+                        <field name="design_id" widget="selection" required="1" context="{'report_model': report_model, 'from_wizard':True}" />
+                        <field name="make_update_existing" />
+                    </group>
+                    <group>
+                        <button name="save_design" string="Save Design" type="object" context="{'from_wizard' : True}" class="oe_highlight" />
+                        <field name="report_model" invisible="1" />
+                    </group>
+                </group>
+                <group>
+                    <group>
+                        <field name="pricelist_id" groups="product.group_sale_pricelist" widget="selection"
+                               invisible="report_model not in ('wizard.product.page.report', 'product.product', 'stock.lot')"/>
+                    </group>
+                    <group>
+                        <field name="label_logo" widget="image" options="{'size': [100,100]}" />
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Products">
+                        <div>
+                            <field name="product_ids">
+                                <tree string="Products" editable="top">
+                                    <field name="prod_small_wiz_id" column_invisible="1" />
+                                    <field name="product_id" />
+                                    <field name="qty" />
+                                    <field name="line_id" column_invisible="1" />
+                                </tree>
+                            </field>
+                        </div>
+                    </page>
+                    <page string="Page">
+                        <group>
+                            <group>
+                                <field name="format" />
+                                <field name="page_width" invisible="format != 'custom'" required="format == 'custom'"/>
+                                <field name="page_height" invisible="format != 'custom'" required="format == 'custom'"/>
+                                <label for="col_no" />
+                                <div class="oe_inline">
+                                    <field name="col_no" class="oe_inline" />
+                                    <field name="col_no_float" class="oe_inline" />
+                                </div>
+                                <field name="col_width" required="True" />
+                                <field name="col_height" required="True" />
+                                <field name="orientation" />
+                                <field name="dpi" />
+                            </group>
+                            <group>
+                                <field name="from_row" />
+                                <field name="from_col" />
+                                <field name="margin_top" />
+                                <field name="margin_left" />
+                                <field name="margin_bottom" />
+                                <field name="margin_right" />
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Barcode">
+                        <group>
+                            <group>
+                                <field name="with_barcode" />
+                                <field name="barcode_height" invisible="not with_barcode" required="with_barcode"/>
+                                <field name="barcode_width" invisible="not with_barcode" required="with_barcode"/>
+                            </group>
+                            <group>
+                                <field name="humanReadable" invisible="not with_barcode"/>
+                                <field name="display_height" invisible="not with_barcode" required="with_barcode"/>
+                                <field name="display_width" invisible="not with_barcode" required="with_barcode"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Design">
+                        <field name="view_id" invisible="1" />
+                        <field name="paper_format_id" invisible="1" />
+                        <field name="column_report_design" required="1" widget="ace" />
+                    </page>
+                    <page string="Barcode Print Help">
+                        <div style="padding-left:5px;">
+                            <span>
+                                <strong>To print barcode follow below the rules.</strong>
+                            </span>
+                            <br />
+                            <span>
+                                here is the function that will generate barcode => "
+                                <strong>get_barcode_string(barcode_number, type, data)</strong>
+                                "
+                            </span>
+                            <br />
+                            <span>
+                                First parameter of Function, That is
+                                <strong>barcode_number</strong>
+                                .
+                            </span>
+                            <br />
+                            <span style="padding-left:10px;">
+                                <strong>*</strong>
+                                here you have to place the field name that contain barcode number
+                            </span>
+                            <br />
+                            <span>
+                                Second parameter of function is
+                                <strong>type</strong>
+                                .
+                            </span>
+                            <br />
+                            <span style="padding-left:10px;">
+                                <strong>*</strong>
+                                here you have to place barcode type along with single quote.
+                            </span>
+                            <br />
+                            <span>
+                                <strong>Supported barcode type are : </strong>
+                            </span>
+                            <ul>
+                                <li>EAN13</li>
+                                <li>Codabar</li>
+                                <li>Code11</li>
+                                <li>Code128</li>
+                                <li>Extended39</li>
+                                <li>EAN8</li>
+                                <li>Extended93</li>
+                                <li>USPS_4State</li>
+                                <li>I2of5</li>
+                                <li>UPCA</li>
+                                <li>QR</li>
+                            </ul>
+                        </div>
+                    </page>
+                </notebook>
+                <footer>
+                    <button name="action_print" string="Print" type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_page_barcode_form" model="ir.actions.act_window">
+        <field name="name">Print Product Page Label</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wizard.product.page.report</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="product_page_barcode_form_wizard" />
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="sale.model_sale_order" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_product_page_barcode_duplicate_form" model="ir.actions.act_window">
+        <field name="name">Print Product Page Label</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wizard.product.page.report</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="product_page_barcode_form_wizard_duplicate" />
+        <field name="target">new</field>
+        <field name="context">{'active_model':'product.product'}</field>
+<!--        <field name="binding_model_id" ref="sale.model_sale_order" />-->
+        <field name="binding_type">report</field>
+    </record>
+
+    <menuitem id="menu_print_product_page_label" action="action_product_page_barcode_duplicate_form" name="Print Product Page Label" parent="product_page_label_acespritech"/>
+    
+    <record id="action_print_purchase_order_product_page_barcode_form" model="ir.actions.act_window">
+        <field name="name">Dynamic Product Page Label</field>
+        <field name="res_model">wizard.product.page.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+    </record>
+
+    <record id="action_print_stock_picking_product_page_barcode_form" model="ir.actions.act_window">
+        <field name="name">Dynamic Product Page Label</field>
+        <field name="res_model">wizard.product.page.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+    </record>
+
+
+    <record id="action_print_account_move_product_page_barcode_form" model="ir.actions.act_window">
+        <field name="name">Dynamic Product Page Label</field>
+        <field name="res_model">wizard.product.page.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+    </record>
+
+    <record id="action_print_product_product_product_page_barcode_form" model="ir.actions.act_window">
+        <field name="name">Dynamic Product Page Label</field>
+        <field name="res_model">wizard.product.page.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="product.model_product_product"/>
+    </record>
+
+    <record id="action_print_stock_production_lot_page_barcode_form" model="ir.actions.act_window">
+        <field name="name">Dynamic Product Page Label</field>
+        <field name="res_model">wizard.product.page.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="stock.model_stock_lot"/>
+    </record>
+
+</odoo>

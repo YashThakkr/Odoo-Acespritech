@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <template id="login_layout_inherited_fitness_management" inherit_id="website.login_layout">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/aspl_fitness_management/static/src/css/login_background.css"/>
+                <link rel="stylesheet" href="/aspl_fitness_management/static/src/css/multi_branch_widget.css"/>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

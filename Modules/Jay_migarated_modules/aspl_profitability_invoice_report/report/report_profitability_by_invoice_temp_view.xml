@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="profit_by_invoice_temp">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="doc_ids" t-as="o">
+                        <div class="page" style="font-size:11px;">
+                            <br/>
+                            <h3 class="text-center text-primary">
+                                <center style="font-size: 1.9em;">Profitability By Invoice Report</center>
+                            </h3>
+                            <table class="table table-bordered" style="font-size:15px">
+                                <thead>
+                                    <tr>
+                                        <td>
+                                            <center>
+                                                <b>From Date</b>
+                                            </center>
+                                        </td>
+                                        <td>
+                                            <center>
+                                                <b>To Date</b>
+                                            </center>
+                                        </td>
+                                        <td>
+                                            <center>
+                                                <b>Customers</b>
+                                            </center>
+                                        </td>
+                                        <td>
+                                            <center>
+                                                <b>Teams</b>
+                                            </center>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td>
+                                        <center>
+                                            <span t-field="o.from_date"/>
+                                        </center>
+                                    </td>
+                                    <td>
+                                        <center>
+                                            <span t-field="o.to_date"/>
+                                        </center>
+                                    </td>
+                                    <td>
+                                        <center>
+                                            <t t-if="o.customer_ids">
+                                                <span t-esc="', '.join(map(lambda x: (x.name), o.customer_ids))"/>
+                                            </t>
+                                            <t t-if="not o.customer_ids">
+                                                <b>ALL</b>
+                                            </t>
+                                        </center>
+                                    </td>
+                                    <td>
+                                        <center>
+                                            <t t-if="o.sale_team_ids">
+                                                <span t-esc="', '.join(map(lambda x: (x.name), o.sale_team_ids))"/>
+                                            </t>
+                                            <t t-if="not o.sale_team_ids">
+                                                <b>ALL</b>
+                                            </t>
+                                        </center>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <t t-if="o.report_view == 'Summary'">
+                            <t t-foreach="get_data(o)" t-as="data">
+                                <strong style="font-size:15px">
+                                    <b>Team :
+                                        <span t-esc="request.env['crm.team'].search([('id', '=',int(data))]).name" style="font-size:15px;"/>
+                                    </b>
+                                </strong>
+                                <br/>
+                                <br/>
+                                <t t-set="total_sales" t-value="0"/>
+                                <t t-set="total_cogs" t-value="0"/>
+                                <table class="table" style="font-size:11px">
+                                    <thead>
+                                        <tr>
+                                            <td style="width:auto !important;" class="autowidth">
+                                                <b>Category</b>
+                                            </td>
+                                            <td style="text-align:right;" class="autowidth">
+                                                <b>Sales</b>
+                                            </td>
+                                            <td style="text-align:right;" class="autowidth">
+                                                <b>COGS</b>
+                                            </td>
+                                            <td style="text-align:right;" class="autowidth">
+                                                <b>Profitability</b>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tr t-foreach="data_value" t-as="result">
+                                        <td style="width:auto !important;" class="autowidth">
+                                            <span t-esc="request.env['product.category'].search([('id', '=',int(result['category']))]).name"/>
+                                        </td>
+                                        <td style="text-align:right;" class="autowidth">
+                                            <span t-esc="result['sales']" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                            <t t-set="total_sales"
+                                                   t-value="total_sales + result['sales']"/>
+                                        </td>
+                                        <td style="text-align:right;" class="autowidth">
+                                            <t t-esc="result['cogs']" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                            <t t-set="total_cogs"
+                                                   t-value="total_cogs + result['cogs']"/>
+                                        </td>
+                                        <td style="text-align:right;" class="autowidth">
+                                            <t t-esc="'%.2f'%float(result['profitability'])"/>%
+<!--                                            <t t-esc="result['profitability']"/>%-->
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black">
+                                        <td>
+                                            <strong style="font-size:11px">
+                                                <b>
+                                                    Total Of:
+                                                    <span t-esc="request.env['crm.team'].search([('id', '=',int(data))]).name" style="font-size:11px;"/>
+                                                </b>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <strong>
+                                                <b>
+                                                    <span t-esc="total_sales"
+                                                          t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'
+                                                          style="font-size:11px"/>
+                                                </b>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <strong>
+                                                <b>
+                                                    <span t-esc="total_cogs"
+                                                          t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'
+                                                          style="font-size:11px"/>
+                                                </b>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <strong>
+                                                <b>
+                                                    <span t-esc="get_total(total_sales, total_cogs)"
+                                                          t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'
+                                                          style="font-size:11px"/>%
+                                                </b>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </table>
+                                </t>
+                                <strong style="font-size:15px">
+                                    <b>Grand Total For Category
+                                    </b>
+                                </strong>
+                                <br/>
+                                <br/>
+                                <t t-set="total_catg_sales" t-value="0"/>
+                                <t t-set="total_catg_cogs" t-value="0"/>
+                                <table class="table" style="font-size:11px">
+                                    <thead>
+                                        <tr>
+                                            <td style="width:auto !important;" class="autowidth">
+                                                <b>Category</b>
+                                            </td>
+                                            <td style="text-align:right;" class="autowidth">
+                                                <b>Sales</b>
+                                            </td>
+                                            <td style="text-align:right;" class="autowidth">
+                                                <b>COGS</b>
+                                            </td>
+                                            <td style="text-align:right;" class="autowidth">
+                                                <b>Profitability</b>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tr t-foreach="total_category(o)" t-as="total">
+                                        <td style="width:auto !important;" class="autowidth">
+                                            <span t-esc="request.env['product.category'].search([('id', '=',int(total['category']))]).name"/>
+                                        </td>
+                                        <td style="text-align:right;" class="autowidth">
+                                            <span t-esc="total['sales']" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                            <t t-set="total_catg_sales"
+                                                   t-value="total_catg_sales + total['sales']"/>
+                                        </td>
+                                        <td style="text-align:right;" class="autowidth">
+                                            <t t-esc="total['cogs']" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                            <t t-set="total_catg_cogs"
+                                                   t-value="total_catg_cogs + total['cogs']"/>
+                                        </td>
+                                        <td style="text-align:right;" class="autowidth">
+                                            <t t-esc="'%.2f'%float(total['profitability'])"/>%
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black">
+                                        <td>
+                                            <strong style="font-size:11px">
+                                                <b>
+                                                    Grand Total:
+                                                </b>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <strong>
+                                                <b>
+                                                    <span t-esc="total_catg_sales"
+                                                          t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'
+                                                          style="font-size:11px"/>
+                                                </b>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <strong>
+                                                <b>
+                                                    <span t-esc="total_catg_cogs"
+                                                          t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'
+                                                          style="font-size:11px"/>
+                                                </b>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <strong>
+                                                <b>
+                                                    <span t-esc="get_total(total_catg_sales, total_catg_cogs)"
+                                                          t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'
+                                                          style="font-size:11px"/>%
+                                                </b>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </t>
+                             <t t-if="o.report_view == 'Detail'">
+                                 <t t-foreach="get_data(o)" t-as="data">
+                                    <t t-if="data">
+                                    <br/>
+                                    <strong style="font-size:15px">
+                                        <b>Team:</b>
+                                        <span t-esc="request.env['crm.team'].browse(int(data)).name" style="font-size:15px;"/>
+                                    </strong>
+                                    <br/>
+                                    <br/>
+                                    <t t-foreach="data_value" t-as="data1">
+                                        <strong style="font-size:15px">
+                                            <b>Invoice:
+                                                <span t-esc="request.env['account.move'].search([('id', '=',int(data1))]).name" style="font-size:15px;"/>
+                                            </b>
+                                        </strong>
+                                        <br/>
+                                        <br/>
+                                        <t t-set="total_sales" t-value="0"/>
+                                        <t t-set="total_cogs" t-value="0"/>
+                                        <table class="table" style="font-size:11px">
+                                        <thead>
+                                            <tr>
+                                                <td style="width:auto !important;" class="autowidth">
+                                                    <b>Date</b>
+                                                </td>
+                                                <td style="width:auto !important;" class="autowidth">
+                                                    <b>Number</b>
+                                                </td>
+                                                <td style="width:auto !important;" class="autowidth">
+                                                    <b>Partner</b>
+                                                </td>
+                                                <td style="width:auto !important;" class="autowidth">
+                                                    <b>Category</b>
+                                                </td>
+                                                <td style="text-align:right;" class="autowidth">
+                                                    <b>Sales</b>
+                                                </td>
+                                                <td style="text-align:right;" class="autowidth">
+                                                    <b>COGS</b>
+                                                </td>
+                                                <td style="text-align:right;" class="autowidth">
+                                                    <b>Profitability</b>
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tr t-foreach="data1_value" t-as="result">
+                                            <td style="width:auto !important;" class="autowidth">
+                                                <t t-esc="result['date']"/>
+                                            </td>
+                                            <td style="width:auto !important;" class="autowidth">
+                                                <span t-esc="result['number']"/>
+                                            </td>
+                                            <td style="width:auto !important;" class="autowidth">
+                                                <t t-esc="result['partner']"/>
+                                            </td>
+                                            <td style="width:auto !important;" class="autowidth">
+                                                <span t-esc="request.env['product.category'].search([('id', '=',int(result['category']))]).name"/>
+                                            </td>
+                                            <td style="text-align:right;">
+                                                <t t-esc="result['sales']"
+                                                   t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                                <t t-set="total_sales"
+                                                   t-value="total_sales + result['sales']"/>
+                                            </td>
+                                            <td style="text-align:right;">
+                                                <t t-esc="result['cogs']"
+                                                   t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                                <t t-set="total_cogs" t-value="total_cogs + result['cogs']"/>
+                                            </td>
+                                            <td style="text-align:right;">
+                                                <t t-esc="'%.2f'%float(result['profitability'])"/>%
+                                            </td>
+                                        </tr>
+                                        <tr class="border-black">
+                                            <td>
+                                                <strong style="font-size:11px">
+                                                    <b>
+                                                            Total Of:
+                                                    </b>
+                                                </strong>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td style="text-align:right;">
+                                                <strong>
+                                                    <b>
+                                                        <span t-esc="total_sales"
+                                                              t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'
+                                                              style="font-size:11px"/>
+                                                    </b>
+                                                </strong>
+                                            </td>
+                                            <td style="text-align:right;">
+                                                <strong>
+                                                    <b>
+                                                        <span t-esc="total_cogs"
+                                                              t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'
+                                                              style="font-size:11px"/>
+                                                    </b>
+                                                </strong>
+                                            </td>
+                                            <td style="text-align:right;">
+                                                <strong>
+                                                    <b>
+                                                        <span t-esc="get_total(total_sales, total_cogs)"
+                                                          t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'
+                                                          style="font-size:11px"/>%
+                                                    </b>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    </t>
+                                    </t>
+                                </t>
+                             </t>
+<!--                                <p style="page-break-before:always;"></p>-->
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="attendance_report_wizard_form" model="ir.ui.view">
+            <field name="name">attendance.report.wizard.form</field>
+            <field name="model">attendance.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="HR Attendance Report">
+                    <group invisible="state != 'choose'">
+                        <group>
+                            <field name="start_date"/>
+                        </group>
+                        <group>
+                            <field name="end_date"/>
+                            <field name="state" invisible="1"/>
+                        </group>
+                    </group>
+                    <group invisible="state != 'choose'">
+                        <group>
+                            <field name="report_by"/>
+                        </group>
+                        <group>
+                            <field name="employee_ids" options="{'no_create': True}" widget="many2many_tags"
+                                   invisible="report_by == 'department' or report_by == False"/>
+
+                            <field name="department_ids" options="{'no_create': True}" widget="many2many_tags"
+                                    invisible="report_by == 'employee' or report_by == False"/>
+                        </group>
+                    </group>
+                    <group invisible="state != 'choose'">
+                        <field name="view_by" class="oe_inline"/>
+                    </group>
+                    <div invisible="view_by == 'pdf' or state == 'choose'">
+                        <h2>Report Complete</h2>
+                        <p>Here is the Xls File :
+                            <field name="file_data" readonly="1" filename="file_name"/>
+                        </p>
+                    </div>
+                    <footer invisible="state != 'choose'">
+                        <button string="Print" class="oe_highlight" type="object" name="print_report"/>
+                        <button string="Cancel" class="oe_highlight" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_attendance_report_wizard" model="ir.actions.act_window">
+            <field name="name">HR Attendance Report</field>
+            <field name="res_model">attendance.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem action="action_attendance_report_wizard" id="menu_attendance_report_wizard"
+                  parent="hr_attendance.menu_hr_attendance_root" sequence="101"
+                  groups="hr_attendance.group_hr_attendance_own_reader"/>
+
+    </data>
+</odoo>

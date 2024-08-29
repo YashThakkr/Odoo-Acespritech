@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+        <record model="ir.ui.view" id="view_hr_payslip_extended_form">
+            <field name="name">hr.payslip.inherit.form</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//button[@name='refund_sheet']" position="after">
+            		<button string="Employee Payslip Payment" name="%(act_payslip_payment)d" states="done" type="action" class="oe_highlight"/>
+        		</xpath>
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_journal_entry" string="Payslip Payment" type="object" class="oe_stat_button" icon="fa-list"/>
+                </xpath>
+
+                <xpath expr="//field[@name='state']" position="replace">
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,paid"/>
+                </xpath>
+                <field name="credit_note" position="after">
+                    <field name="transfer_amount" invisible="0"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

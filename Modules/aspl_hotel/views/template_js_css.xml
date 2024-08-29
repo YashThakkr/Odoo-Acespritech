@@ -1,0 +1,22 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+
+<!--<odoo>-->
+
+<!--    <template id="assets_backend" inherit_id="web.assets_backend">-->
+<!--        <xpath expr="." position="inside">-->
+<!--            <link rel="stylesheet" href="/aspl_hotel/static/src/css/my_style.css"/>-->
+<!--            <script type="text/javascript" src="/aspl_hotel/static/src/js/walk_in_calendar.js"/>-->
+<!--            <script type="text/javascript" src="/aspl_hotel/static/src/js/dashboard.js"/>-->
+<!--            <script type="text/javascript" src="/aspl_hotel/static/src/js/lib/fullcalendar.js"/>-->
+<!--            <script type="text/javascript" src="/aspl_hotel/static/src/js/lib/scheduler.js"/>-->
+
+<!--            <link rel="stylesheet" href="/aspl_hotel/static/src/css/fullcalendar.css"/>-->
+<!--            <link rel="stylesheet" href="/aspl_hotel/static/src/css/walk_in_calendar.css"/>-->
+<!--            <link rel="stylesheet" href="/aspl_hotel/static/src/css/dashboard.css"/>-->
+<!--            <link rel="stylesheet" href="/aspl_hotel/static/src/css/my_style.css"/>-->
+<!--            <link rel="stylesheet" href="/aspl_hotel/static/src/css/scheduler.css"/>-->
+<!--            <link rel="stylesheet" href="/aspl_hotel/static/src/css/scheduler.min.css"/>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
+<!--</odoo>-->

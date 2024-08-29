@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <template id="report_stock_consignee">
+            <t t-call="web.external_layout">
+                <t t-call="web.basic_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page">
+                            <br/>
+                            <br/>
+                            <div style="text-align:center; width:100%;">
+                                <h3>
+                                    <b>
+                                        <u>Consignee Stock Report</u>
+                                    </b>
+                                </h3>
+                            </div>
+                        </div>
+                        <div>
+                            <span>
+                                <b>Time Duration:</b>
+                                <span t-esc="o.from_date"/>
+                                -
+                                <span t-esc="o.to_date"/>
+                            </span>
+                        </div>
+
+                        <t t-value="o.compute_quantities_dict()" t-set="qty_detail"/>
+                        <t t-value="qty_detail[0]" t-set="header_details"/>
+                        <t t-value="qty_detail[1]" t-set="qty_dict_details"/>
+                        <br/>
+                        <t t-foreach="header_details" t-as="header_name">
+                            <t t-if="o.view_report=='product_wise'">
+                                <div>
+                                    <b>
+                                        <t t-esc="header_name"/>
+                                    </b>
+                                </div>
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <th>
+                                            <span style="color: white;" t-esc="'...'"/>
+                                            Consignee
+                                        </th>
+                                        <th>Location</th>
+                                        <th>Quantity</th>
+                                    </thead>
+                                    <tbody class="stock_consignee">
+                                        <tr>
+                                            <t t-foreach="qty_dict_details.get(header_name)" t-as="var">
+                                                <td>
+                                                    <span style="color: white;" t-esc="'...'"/>
+                                                    <t t-esc="var.get('consignee_id')"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="var.get('location_id')"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="var.get('quantity')"/>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </t>
+
+                            <t t-if="o.view_report=='consignee_wise'">
+                                <div>
+                                    <b>
+                                        <t t-esc="header_name"/>
+                                    </b>
+                                </div>
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <th>
+                                            <span style="color: white;" t-esc="'...'"/>
+                                            Product
+                                        </th>
+                                        <th>Quantity</th>
+                                    </thead>
+                                    <tbody class="stock_consignee">
+                                        <tr>
+                                            <t t-foreach="qty_dict_details.get(header_name)" t-as="var">
+                                                <td>
+                                                    <span style="color: white;" t-esc="'...'"/>
+                                                    <t t-esc="var.get('product_id')"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="var.get('quantity')"/>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </t>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

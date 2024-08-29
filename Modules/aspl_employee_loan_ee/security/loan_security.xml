@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record id="rule_loan_setting_multi_company" model="ir.rule">
+            <field name="name">Loan Configuration: Multi Company</field>
+            <field ref="model_loan_setting" name="model_id"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="global">True</field>
+        </record>
+
+    </data>
+</odoo>

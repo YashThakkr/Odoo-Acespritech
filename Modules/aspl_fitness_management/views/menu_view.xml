@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_fitness_dashboard" model="ir.actions.client">
+            <field name="name">Fitness</field>
+            <field name="tag">fitness_dashboard</field>
+        </record>
+
+        <menuitem id="fitness_main_menu"
+                  name="Fitness"
+                  sequence="10"
+        />
+
+        <menuitem id="fitness_menu_dashboard"
+                  name="Dashboard"
+                  sequence="1"
+                  action="action_fitness_dashboard"
+                  parent="fitness_main_menu"
+        />
+
+        <menuitem id="fitness_menu_subscribers"
+                  name="Members"
+                  sequence="2"
+                  parent="fitness_main_menu"
+        />
+
+        <menuitem id="fitness_menu_gym"
+                  name="Gym"
+                  sequence="3"
+                  parent="fitness_main_menu"
+        />
+
+        <menuitem id="fitness_menu_gym_equipments"
+                  name="Equipments"
+                  sequence="3"
+                  parent="fitness_menu_gym"
+        />
+
+        <menuitem id="fitness_menu_nutrition"
+                  name="Nutrition"
+                  sequence="4"
+                  parent="fitness_main_menu"
+                  groups="aspl_fitness_management.nutrition_security_group"
+        />
+
+        <menuitem id="fitness_menu_food"
+                  name="Food"
+                  sequence="1"
+                  parent="fitness_menu_nutrition"
+        />
+
+        <menuitem id="fitness_menu_meals"
+                  name="Meals   "
+                  sequence="2"
+                  parent="fitness_menu_nutrition"
+        />
+
+        <menuitem id="fitness_menu_Configuration"
+                  name="Configuration"
+                  sequence="5"
+                  parent="fitness_main_menu"
+        />
+
+        <menuitem id="fitness_menu_membership"
+                  name="Membership"
+                  sequence="7"
+                  parent="fitness_menu_Configuration"
+        />
+
+    </data>
+</odoo>

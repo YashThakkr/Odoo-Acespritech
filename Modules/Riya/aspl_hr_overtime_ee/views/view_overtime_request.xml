@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view"
+                id="overtime_request_search_view">
+            <field name="name">Overtime Request Search View</field>
+            <field name="model">hr.employee.overtime</field>
+            <field name="arch" type="xml">
+                <search string="Employee Entry Search">
+                    <!-- search by field direct -->
+                    <field name="employee_id"/>
+                    <!-- group by -->
+                    <group expand="1" string="Group By">
+                        <filter string="Employee" name="employee_id"
+                                context="{'group_by':'employee_id'}"/>
+                        <filter string="State" name="state"
+                                context="{'group_by':'state'}"/>
+                        <filter string="Date" name="date"
+                                context="{'group_by':'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="aspl_overtime_request_from_view"
+                model="ir.ui.view">
+            <field name="name">Overtime Request</field>
+            <field name="model">hr.employee.overtime</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="emp_overtime_approve" string="Approve"
+                                class="oe_highlight" type="object"
+                                invisible="state != 'to_be_approved'"
+                                groups="aspl_hr_overtime_ee.group_overtime_manager_user"/>
+                        <button name="to_be_approve" string="Send For Approval"
+                                class="oe_highlight" type="object"
+                                invisible="state != 'draft'"
+                        />
+                        <button name="emp_overtime_cancel" string="Cancel"
+                                type="object"
+                                invisible="state != 'draft'"
+                                groups="hr.group_hr_manager"/>
+                        <field name="state" widget="statusbar" nolabel="1"
+                               clickable="0"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="employee_id" required="1"/>
+                            <field name="date"/>
+                        </group>
+                        <notebook>
+                            <page name="line_ids" string="Lines">
+                                <field name="line_ids">
+                                    <tree editable="bottom">
+                                        <field name="date"  readonly="state == 'approved'"/>
+                                        <field name="description" required="1" readonly="state == 'approved'"/>
+                                        <field name="based_on" readonly="1" force_save="1"/>
+                                        <field name="ot_rate" readonly="1" force_save="1"/>
+                                        <field name="overtime" readonly="state != 'draft'"/>
+                                        <field name="state" invisible="1" force_save="1"/>
+                                        <field name="overtime_approved" groups="aspl_hr_overtime_ee.group_overtime_manager_user"  readonly="state in ['draft','approved','cancelled','paid']"
+                                               force_save="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                            <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <field name="total_overtime" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <field name="total_approved_overtime" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="aspl_overtime_request_tree_view"
+                model="ir.ui.view">
+            <field name="name">Overtime Request</field>
+            <field name="model">hr.employee.overtime</field>
+            <field name="arch" type="xml">
+                <tree string="Overtime Request">
+                    <field name="employee_id"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_aspl_overtime_request"
+                model="ir.actions.act_window">
+            <field name="name">Overtime Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee.overtime</field>
+            <field name="domain">[('state', 'in', ['draft'])]</field>
+            <field name="context">{'manual_overtime':1}</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('aspl_overtime_request_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('aspl_overtime_request_from_view')}),
+                ]"/>
+        </record>
+
+        <menuitem id="menu_overtime_request" name="Overtime Request"
+                  action="aspl_hr_overtime_ee.action_aspl_overtime_request" groups="group_overtime_manual_overtime"
+                  parent="menu_overtime" sequence="1"/>
+    </data>
+</odoo>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="inherit_res_config_settings_form_view"
+            model="ir.ui.view">
+        <field name="name">res.config.settings.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Overtime" string="Overtime" data-key="aspl_hr_overtime">
+                    <h2>Overtime Settings</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="weekday_ot_rate"/>
+                                <span class="fa fa-lg"
+                                      title="Set the Weekday OT Rate here.."/>
+                                <div class="row">
+                                    <div class="text-muted col-md-8">
+                                        Set the Weekday OT Rate here..
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <div class="address_format" readonly="1">
+                                            <field name="weekday_ot_rate" style="width: 15%"/>
+                                            /hour
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="col-6">
+                                <label for="weekend_ot_rate"/>
+                                <span class="fa fa-lg"
+                                      title="Set the Weekend OT Rate here.."/>
+                                <div class="row">
+                                    <div class="text-muted col-md-8">
+                                        Set the Weekend OT Rate here..
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <div class="address_format" readonly="1">
+                                            <field name="weekend_ot_rate" style="width: 30%"/>
+                                            /hour
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="holiday_ot_rate"/>
+                                <span class="fa fa-lg"
+                                      title="Set the Holiday OT Rate here.."/>
+                                <div class="row">
+                                    <div class="text-muted col-md-8">
+                                        Set the Holiday OT Rate here..
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <div class="address_format" readonly="1">
+                                            <field name="holiday_ot_rate" style="width: 15%"/>
+                                            /hour
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="col-6">
+                                <label for="ot_time_difference_limit"/>
+                                <span class="fa fa-lg"
+                                      title="Set OT Time Difference here.."/>
+                                <div class="row">
+                                    <div class="text-muted col-md-8">
+                                        Set OT Time Difference here . If not create manual overtime Request.
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <div class="address_format" readonly="1">
+                                            <field name="ot_time_difference_limit" style="width: 30%"/>
+                                            /Minutes
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Overtime Request Manual</h2>
+
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="manually_create_overtime_req"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="manually_create_overtime_req" string="Manual Overtime Request.  "/>
+                                <div class="text-muted">
+                                    Create Manual Overtime Request..
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <h2>Overtime Payroll</h2>
+
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="payslip_date_range"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="payslip_date_range" string=" Check Payslip Date Range.  "/>
+                                <div class="text-muted">
+                                    It will take overtime request based on payslip start date and end date.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="overtime_config_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="inherit_res_config_settings_form_view"/>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'aspl_hr_overtime'}</field>
+    </record>
+
+    <menuitem id="menu_overtime_general_settings"
+              name="Settings"
+              parent="menu_overtime_config"
+              sequence="100"
+              action="overtime_config_settings_action"
+    />
+
+
+</odoo>

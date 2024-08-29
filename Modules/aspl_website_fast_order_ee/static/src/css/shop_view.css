@@ -1,0 +1,304 @@
+.table-editable {
+    position: relative;
+}
+
+.table-editable .glyphicon {
+    font-size: 20px;
+}
+
+.table-remove {
+    color: #f00c;
+    cursor: pointer;
+    font-size: 20px;
+    margin-top: 5px;
+    margin-left: 18px;
+}
+
+.table-up, .table-down {
+    color: #007;
+    cursor: pointer;
+}
+
+.table-up:hover, .table-down:hover {
+    color: #00f;
+}
+
+.table-add {
+    color: #070;
+    cursor: pointer;
+}
+
+.table-add:hover {
+    color: #0b0;
+
+}
+
+.table-fixed {
+    width: 100%;
+}
+
+.table-fixed tbody {
+    max-height: 306px;
+    float: left;
+    width: 100%;
+}
+
+#table_quick_view tr th, #table_quick_view tr td {
+    text-align: center;
+    padding: 4px;
+}
+
+.td-qty {
+    position: relative;
+}
+
+.td-qty div.discount {
+    position: absolute;
+    top: 12px;
+    left: -90px;
+}
+
+.oe_list .discount_modal {
+    float: right;
+    margin-right: 70%;
+}
+
+.share-buttons {
+    width: 50px;
+    position: fixed;
+    top: 25%;
+}
+
+.share-buttons img {
+    float: left;
+    width: 100%;
+    padding: 5px;
+    border: 0;
+    display: inline;
+}
+
+.social-popout {
+    -webkit-transition: all ease 0.5s;
+    -moz-transition: all ease 0.5s;
+    -o-transition: all ease 0.5s;
+    -ms-transition: all ease 0.5s;
+    transition: all ease 0.5s;
+}
+
+.social-popout img {
+    cursor: pointer;
+    border-radius: 50%;
+    margin-left: 5px;
+    -webkit-transition: all ease 0.5s;
+    -moz-transition: all ease 0.5s;
+    -o-transition: all ease 0.5s;
+    -ms-transition: all ease 0.5s;
+    transition: all ease 0.5s;
+}
+
+.social-popout img:hover {
+    box-shadow: 0px 0px 5px 4px rgba(0, 0, 0, 0.3);
+}
+
+.social {
+    position: relative;
+}
+
+#socialShow {
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+.showSocial {
+    right: 0px;
+    -webkit-transition: all ease 0.5s;
+    -moz-transition: all ease 0.5s;
+    -o-transition: all ease 0.5s;
+    -ms-transition: all ease 0.5s;
+    transition: all ease 0.5s;
+}
+
+.hideSocial {
+    right: -45px;
+    -webkit-transition: all ease 0.5s;
+    -moz-transition: all ease 0.5s;
+    -o-transition: all ease 0.5s;
+    -ms-transition: all ease 0.5s;
+    transition: all ease 0.5s;
+}
+
+.custom_bxslider {
+    background: #7c7bad;
+    color: white;
+    margin: 0 14px;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(0% 100%, 90% 100%, 100% 0, calc(100% - 30px) 0%, 10% 0%)
+}
+
+.custom_bxslider p {
+    margin-bottom: 0;
+}
+
+.out_of_stock span {
+    padding: 10px 0;
+    width: 100%;
+    background: #fff;
+    font-size: 15px;
+}
+
+.out_of_stock {
+    color: Red;
+    margin: 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: absolute;
+    z-index: 999;
+    top: 35%;
+}
+
+.oe_product_image:hover {
+    overflow: hidden;
+    -webkit-transform: scale(1.25, 1.25);
+    transform: scale(1.25, 1.25);
+    -webkit-transition-duration: 1s; /* Safari */
+    transition-duration: 1s;
+}
+
+.col-md-3.oe_product.oe_grid.oe-height-2 {
+    overflow: hidden;
+}
+
+.jq-ry-normal-group.jq-ry-group {
+    z-index: 0 !important;
+}
+
+.form-control.quantity {
+    z-index: 0 !important;
+}
+
+a:focus,
+a:hover,
+a:active {
+    outline: 0;
+    text-decoration: none;
+}
+
+#accordion .panel {
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: #fff;
+    background: none;
+    box-shadow: none;
+    width: 100%;
+    float: left;
+
+}
+
+#accordion .panel:last-child {
+    border-bottom: none;
+}
+
+#accordion .panel-group .panel {
+    border-radius: 0;
+}
+
+#accordion .panel-group .panel + .panel {
+    margin-top: 0;
+}
+
+#accordion .panel-heading {
+    background: white;
+    border-bottom: 2px solid gainsboro !important;
+    border-radius: unset !important;
+    padding: 0;
+}
+
+#accordion .panel-heading.active {
+    border-bottom: 2px solid #337ab7 !important;
+}
+#accordion .panel-title{
+    margin-bottom: 0px;
+}
+#accordion .panel-title a {
+    display: block;
+    color: black;
+    padding: 15px;
+    position: relative;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+#accordion .panel-body {
+    background: #fff;
+    float: left;
+    width: 100%;
+}
+#accordion .panel-body .col-md-12{
+    float: left;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#accordion .panel:last-child .panel-body {
+    border-radius: 0 0 4px 4px;
+}
+
+#accordion .panel:last-child .panel-heading {
+    border-radius: 0 0 4px 4px;
+    transition: border-radius 0.3s linear 0.2s;
+}
+
+#accordion .panel:last-child .panel-heading.active {
+    border-radius: 0;
+    transition: border-radius linear 0s;
+}
+
+#text {
+    width: 500px;
+    overflow: hidden;
+    background-color: #FFF;
+    color: #222;
+    font-family: Courier, monospace;
+    font-weight: normal;
+    font-size: 16px;
+    resize: vertical;
+    line-height: 35px;
+    background-image: url(lines.png), url(paper.png);
+    background-repeat: repeat-y, repeat;
+    border: 1px solid #337ab7;
+    height: 351px !important;
+    overflow: auto !important;
+}
+
+.blockPage {
+    z-index: 1011; 
+    position: fixed; 
+    padding: 0px; 
+    margin: 0px; 
+    width: 30%; 
+    top: 40%; 
+    left: 35%; 
+    text-align: center; 
+    color: rgb(0, 0, 0); 
+    cursor: wait;
+}
+.product_img img:hover{
+    transform: translateZ(0) scale(4);
+    transition: all .3s ease;
+    background: white;
+    z-index: 999;
+    height: 40px !important;
+    position: absolute;
+}
+.more-less {
+    float: right;
+}
+tr.hide.ac-row-data-list {
+    display: none;
+}

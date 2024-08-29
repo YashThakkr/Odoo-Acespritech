@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pdf_overtime_report" model="ir.actions.report">
+        <field name="name">Overtime Report PDF</field>
+        <field name="model">wizard.overtime</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">aspl_hr_overtime.overtime_report_pdf</field>
+        <field name="report_file">aspl_hr_overtime.overtime_report_pdf</field>
+        <field name="print_report_name">'Overtime Report PDF'</field>
+        <field name="binding_model_id" ref="model_wizard_overtime"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

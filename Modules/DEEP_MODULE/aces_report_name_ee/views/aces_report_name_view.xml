@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Report name Tree -->
+    <record id="aces_report_name_tree_view" model="ir.ui.view">
+        <field name="name">aces.report.name.tree</field>
+        <field name="model">aces.report.name</field>
+        <field name="arch" type="xml">
+            <tree string="Report Name">
+                <field name="model_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Report name Form view -->
+    <record id="view_aces_report_name_form" model="ir.ui.view">
+        <field name="name">aces.report.name.form</field>
+        <field name="model">aces.report.name</field>
+        <field name="arch" type="xml">
+            <form string="Report Name">
+                <sheet>
+                    <group>
+                        <field name="model_id"/>
+                        <field name="model" invisible="1"/>
+                        <field name="reports_ids">
+                            <tree editable="top">
+                                <field name="report_id" domain="[('model', '=', parent.model)]"/>
+                                <field name="prefix"/>
+                                <field name="suffix"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Report name Action view -->
+    <record id="action_aces_report_name" model="ir.actions.act_window">
+        <field name="name">Report Configuration</field>
+        <field name="res_model">aces.report.name</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menuitem_aces_report_name"
+              action="action_aces_report_name"
+              name="Report Configuration"
+              parent="base.reporting_menuitem"/>
+
+</odoo>

@@ -1,0 +1,22 @@
+.navbar, header, body {
+
+  background: url(/aspl_fitness_management_ee/static/src/img/login_background.png)no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+   background-size: 100% 100%;
+
+}
+.oe_login_buttons {
+    font: bold !important;
+}
+
+.justify-content-between.mt-2.d-flex.small a{
+    font-size: 15px;
+    color: #fff;
+}
+
+.btn.btn-link.btn-sm.btn-block {
+    font-size: 15px;
+    color: #fff;
+}

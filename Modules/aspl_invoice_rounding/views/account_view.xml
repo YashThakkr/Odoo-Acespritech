@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record id="aspl_inherit_customer_invoice_form_view" model="ir.ui.view">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+            <field name="arch" type="xml">
+                <field name="amount_residual" position="before">
+                    <div class="" style="text-align: right;display: flex;">
+                        <button style="font-size: 20px;padding:0px 5px 0px 0px;" name="remove_round_off"
+                            class="fa fa-times-circle oe_link rounding_button" type="object" invisible="state not in ['draft']"
+                                aria-label="Values set here are company-specific." title="Values set here are company-specific." />
+                        <button style="font-size: 20px;padding:0px 5px 0px 0px;" name="apply_round_off" type="object"
+                            class="fa fa-check-circle oe_link rounding_button" invisible="state not in ['draft']"
+                                aria-label="Values set here are company-specific." title="Values set here are company-specific." />
+                        <span style="font-weight: bold;font-size: 15px;margin-left: 0px;padding-right: 15px;">Rounding</span>
+                    </div>
+                    <field name="round_off" readonly="1" nolabel="1" style="margin-top : 2px;" widget="monetary" />
+                </field>
+            </field>
+        </record>
+
+        <record id="aspl_inherit_view_move_form" model="ir.ui.view">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='line_ids']/tree" position="inside">
+                    <field name="rounding_move_line" invisible="0" />
+                </xpath>
+            </field>
+        </record>
+
+        <record id="aspl_move_line_filter_inherit" model="ir.ui.view">
+            <field name="name">Journal Items</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_account_move_line_filter" />
+            <field name="arch" type="xml">
+                <field name="tax_ids" position="after">
+                    <field name="rounding_move_line" />
+                </field>
+                <filter name="posted" position="after">
+                    <filter name="rounding" string="Rounding" domain="[('rounding_move_line','=','True')]" />
+                </filter>
+            </field>
+        </record>
+
+    </data>
+</odoo>

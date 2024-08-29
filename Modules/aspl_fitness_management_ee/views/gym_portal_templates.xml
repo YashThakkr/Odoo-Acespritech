@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template id="portal_my_home_gym_plans" name="Portal My Home : Gym Plans" inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="gym_plan_count" t-call="portal.portal_docs_entry">
+                <t t-set="title">Gym Plans</t>
+                <t t-set="url" t-value="'/my/gym_plans'"/>
+                <t t-set="count" t-value="gym_plan_count"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_menu_gym_plan3" name="Portal layout : gym plan" inherit_id="portal.portal_breadcrumbs" priority="32">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'gym_plans'" t-attf-class="breadcrumb-item #{'active ' if not plan else ''}">
+                <a t-if="plan" t-attf-href="/my/gym_plans?{{ keep_query() }}">Gym Plans</a>
+                <t t-else="">Gym Plans</t>
+            </li>
+            <li t-if="plan" class="breadcrumb-item active">
+                <t t-esc="plan.gym_plan_id.name" t-if="plan.gym_plan_id.name"/>
+                <t t-else=""><em>No Plan Available</em></t>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_gym_plans" name="My Gym Plans">
+      <t t-call="portal.portal_layout">
+        <t t-if="not gym_plans">
+            <p>There are currently no gym plans</p>
+        </t>
+        <t t-if="gym_plans" t-call="portal.portal_table">
+            <thead>
+                <tr class="active">
+                    <th>Name #</th>
+                    <th>Gym Plan</th>
+                    <th>start Date</th>
+                    <th>End Date</th>
+                    <th class="text-right">Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-foreach="gym_plans" t-as="each_plan">
+                    <tr>
+                        <td>
+                            <a t-att-href="'/my/gym_plans/%s' % (each_plan.id)" t-att-title="each_plan.id">
+                                <t t-esc="each_plan.name"/>
+                            </a>
+                        </td>
+                        <td>
+                            <t t-esc="each_plan.gym_plan_id.name" t-if="each_plan.id"/>
+                        </td>
+                        <td><span t-field="each_plan.joining_date"/></td>
+                        <td class='d-none d-md-table-cell'><span t-field="each_plan.ending_date"/></td>
+                        <td class="text-right">
+                            <span t-esc="each_plan.plan_fees"/></td>
+<!--                        <td class="text-right">-->
+<!--                            <span t-esc="each_plan.plan_fees"-->
+<!--                                  t-options='{"widget": "monetary",-->
+<!--                                              "display_currency": each_plan.gym_currency_id}'/></td>-->
+                    </tr>
+                </t>
+            </tbody>
+        </t>
+      </t>
+    </template>
+
+    <template id="portal_gym_plan_page3" name="Gym Plan Portal Template">
+            <t t-call="portal.portal_layout">
+                <div class="o_download_pdf btn-toolbar flex-sm-nowrap float-right" style="margin-top: 10px;">
+                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                        <a class="btn btn-primary btn-block o_download_btn"
+                           t-att-href="'/my/gym_plans/%s/report' % (plan.id)" title="Download">
+                            <i class="fa fa-download"/> Download</a>
+                    </div>
+                </div>
+                <div class="container" style="background-color: white; padding: 10px 10px; border: solid; margin-top: 55px; border-width: 2px;">
+                    <center><h4 style="margin-top:20px;font-weight: bold;">Your Schedules</h4></center>
+                    <form class="form">
+                    <div class="float-right mb16">
+                        <label><span t-esc="plan.subscriber_id.name"/><br/>
+                        <span t-esc="plan.gym_plan_id.name"/><br/>
+                        <span t-esc="plan.branch_id.name"/>( <span t-esc="plan.start_time" t-options='{"widget": "float_time"}'/> - <span t-esc="plan.end_time" t-options='{"widget": "float_time"}'/> )</label><br/>
+                    </div>
+                    <br/><br/><br/>
+                    <div class="Page">
+                        <table class="table">
+                            <tr>
+                                <td style="width:100px;"><strong>Day</strong></td>
+                                <td><strong>Activities</strong></td>
+                                <td><strong>Exercises</strong></td>
+                            </tr>
+                            <br/>
+                            <tr t-foreach="plan.schedule_ids" t-as="schedule">
+                                <td t-if="schedule.day == '1'" style="width:100px;">Monday</td>
+                                <td t-if="schedule.day == '2'" style="width:100px;">Tuesday</td>
+                                <td t-if="schedule.day == '3'" style="width:100px;">Wednesday</td>
+                                <td t-if="schedule.day == '4'" style="width:100px;">Thursday</td>
+                                <td t-if="schedule.day == '5'" style="width:100px;">Friday</td>
+                                <td t-if="schedule.day == '6'" style="width:100px;">Saturday</td>
+                                <td t-if="schedule.day == '7'" style="width:100px;">Sunday</td>
+                                <td><t t-foreach="plan.service_line_ids" t-as="service">
+                                    <span t-esc="service.service_id.name" style="border: solid 1px black;border-radius: 5px;padding: 2.5px;margin:2px 2px;"/>
+                                </t></td>
+                                <td><t t-foreach="schedule.line_ids" t-as="line">
+                                    <span t-esc="line.exercise_id.name"/>,
+                                </t></td>
+                            </tr>
+                        </table>
+                    </div>
+                    </form>
+                </div>
+            </t>
+    </template>
+
+</odoo>

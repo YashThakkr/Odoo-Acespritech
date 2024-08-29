@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- Switch Branch Menu -->
+<!--    <t t-name="aspl_hotel.SwitchBranchMenu" owl="1">-->
+
+<!--&lt;!&ndash;        <Dropdown class="o_switch_branch_menu" position="'bottom-end'">&ndash;&gt;-->
+<!--&lt;!&ndash;            <t t-set-slot="toggler">&ndash;&gt;-->
+<!--&lt;!&ndash;                <span t-attf-class="{{env.isSmall ? 'fa fa-building-o' : 'oe_topbar_name'}}">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <t t-if="!env.isSmall"><t t-esc="currentBranch.name"/></t>&ndash;&gt;-->
+<!--&lt;!&ndash;                </span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </t>&ndash;&gt;-->
+<!--&lt;!&ndash;            <t t-foreach="Object.values(allowedBranches)" t-as="branch_data">&ndash;&gt;-->
+<!--&lt;!&ndash;                <t t-call="aspl_hotel.SwitchBranchItem">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <t t-set="branch" t-value="branch_data"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                </t>&ndash;&gt;-->
+<!--&lt;!&ndash;            </t>&ndash;&gt;-->
+<!--&lt;!&ndash;        </Dropdown>&ndash;&gt;-->
+<!--    </t>-->
+
+    <t t-name="aspl_hotel.SwitchBranchMenu" owl="1">
+    <Dropdown class="'o_switch_branch_menu d-none d-md-block'" position="'bottom-end'">
+        <t t-set-slot="toggler">
+            <i class="fa fa-building d-lg-none"/>
+            <span class="oe_topbar_name d-none d-lg-block" t-esc="branchService.currentBranch.name"/>
+        </t>
+        <t t-foreach="Object.values(branchService.availableBranches)
+                      .filter((c) => !c.parent_id)
+                      .sort((c1, c2) => c1.sequence - c2.sequence)
+                     " t-as="branch" t-key="branch.id">
+            <SwitchBranchItem branch="branch" level="0"/>
+        </t>
+    </Dropdown>
+</t>
+
+    <t t-name="aspl_hotel.SwitchBranchItem" owl="1">
+    <DropdownItem class="'p-0 bg-white'">
+        <t t-set="isBranchSelected" t-value="selectedBranches.includes(props.branch.id)"/>
+        <t t-set="isCurrent" t-value="props.branch.id === branchService.currentBranch.id"/>
+        <div class="d-flex" data-menu="branch" t-att-data-company-id="props.branch.id">
+            <div
+                role="menuitemcheckbox"
+                t-att-aria-checked="isBranchSelected ? 'true' : 'false'"
+                t-att-aria-label="props.branch.name"
+                t-att-title="(isBranchSelected ? 'Hide ' : 'Show ') + props.branch.name + ' content.'"
+                tabindex="0"
+                class="border-end toggle_company"
+                t-attf-class="{{isCurrent ? 'border-primary' : ''}}"
+                t-on-click.stop="() => this.toggleBranch(props.branch.id)">
+
+                <span class="btn btn-light border-0 p-2">
+                    <i class="fa fa-fw py-2" t-att-class="isBranchSelected ? 'fa-check-square text-primary' : 'fa-square-o'"/>
+                </span>
+            </div>
+
+            <div
+                role="button"
+                t-att-aria-pressed="isCurrent ? 'true' : 'false'"
+                t-att-aria-label="'Switch to ' + props.branch.name "
+                t-att-title="'Switch to ' + props.branch.name "
+                tabindex="0"
+                class="d-flex flex-grow-1 align-items-center py-0 log_into ps-2"
+                t-att-class="isCurrent ? 'alert-primary' : 'btn btn-light fw-normal border-0'"
+                t-att-style="'margin-left:' + (props.level * 20) + 'px';"
+                t-on-click="() => this.logIntoBranch(props.branch)">
+
+                <span
+                    class='branch_label pe-3'
+                    t-att-class="isCurrent ? 'text-900 fw-bold' : ''">
+                    <t t-esc="props.branch.name"/>
+                </span>
+            </div>
+        </div>
+    </DropdownItem>
+</t>
+
+<!--    <t t-name="aspl_hotel.SwitchBranchItem" owl="1">-->
+<!--        <DropdownItem class="p-0 bg-white">-->
+<!--            <t t-set="isBranchSelected"-->
+<!--               t-value="selectedBranches.includes(branch.id)"/>-->
+<!--            <t t-set="isCurrent" t-value="branch.id === currentBranch.id"/>-->
+<!--            <div class="d-flex" data-menu="branch"-->
+<!--                 t-att-data-branch-id="branch.id">-->
+<!--                <div role="menuitemcheckbox"-->
+<!--                     t-att-aria-checked="isBranchSelected"-->
+<!--                     t-att-aria-label="branch.name"-->
+<!--                     t-att-title="(isBranchSelected ? 'Hide ' : 'Show ') + branch.name + ' content.'"-->
+<!--                     tabindex="0"-->
+<!--                     class="border-right toggle_branch o_py"-->
+<!--                     t-attf-class="{{isCurrent ? 'border-primary' : ''}}"-->
+<!--                     t-on-click.stop="toggleBranch(branch.id)">-->
+<!--                    <span class="btn btn-light border-0 p-2">-->
+<!--                        <i class="fa fa-fw py-2"-->
+<!--                           t-att-class="isBranchSelected ? 'fa-check-square text-primary' : 'fa-square-o'"/>-->
+<!--                    </span>-->
+<!--                </div>-->
+
+<!--                <div role="button"-->
+<!--                     t-att-aria-pressed="isCurrent"-->
+<!--                     t-att-aria-label="'Switch to ' + branch.name "-->
+<!--                     t-att-title="'Switch to ' + branch.name "-->
+<!--                     tabindex="0"-->
+<!--                     class="d-flex flex-grow-1 align-items-center py-0 log_into pl-2 o_py"-->
+<!--                     t-att-class="isCurrent ? 'alert-primary ml-1 mr-2' : 'btn btn-light font-weight-normal border-0'"-->
+<!--                     t-on-click="logIntoBranch(branch)">-->
+<!--                    <span class='branch_label pr-3'-->
+<!--                          t-att-class="isCurrent ? 'text-900 font-weight-bold' : 'ml-1'">-->
+<!--                        <t t-esc="branch.name"/>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </DropdownItem>-->
+<!--    </t>-->
+
+</templates>

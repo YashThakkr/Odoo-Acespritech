@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <record id="sale_res_config_settings_form_inherit" model="ir.ui.view">
+            <field name="name">res.config.settings.from</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/app//block[@name='quotation_order_setting_container']" position="after">
+                    <block title="Agent Commission" name="agent_commission_settings">
+                        <div>
+                            <setting id="is_agent_commission_main_setting">
+                                <field name="is_agent_commission"/>
+                            </setting>
+                        </div>
+                        <setting id="commission_calculation" invisible="is_agent_commission == False">
+                            <field name="commission_calculation"/>
+                        </setting>
+                        <setting id="commission_based_on" invisible="is_agent_commission == False">
+                            <field name="commission_based_on"/>
+                        </setting>
+                        <setting id="commission_account" invisible="is_agent_commission == False">
+                            <field name="commission_account_id"/>
+                        </setting>
+                        <setting id="commission_apply_with" invisible="is_agent_commission == False">
+                            <field name="commission_with"/>
+                        </setting>
+                        <setting id="eligible_for_commission_setting" invisible="is_agent_commission == False">
+                            <field name="is_eligible"/>
+                        </setting>
+                        <setting id="commission_skip_orders" invisible="is_eligible == False">
+                            <field name="skip_order"/>
+                        </setting>
+                    </block>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

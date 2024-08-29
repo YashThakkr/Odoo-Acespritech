@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem name="Inventory" id="stock.menu_stock_root" sequence="30"
+                  groups="stock.group_stock_manager,stock.group_stock_user,group_stock_consignee"
+                  web_icon="stock,static/description/icon.png"/>
+
+        <menuitem id="stock.menu_stock_inventory_control" name="Master Data" parent="stock.menu_stock_root" sequence="4"
+                  groups="stock.group_stock_manager,stock.group_stock_user"/>
+
+        <menuitem action="stock.stock_picking_type_action" id="stock.stock_picking_type_menu"
+                  parent="stock.menu_stock_root" sequence="0"
+                  name="Dashboard" groups="stock.group_stock_manager,stock.group_stock_user"/>
+
+        <menuitem action="stock.action_procurement_compute" id="stock.menu_procurement_compute"
+                  parent="stock.menu_stock_warehouse_mgmt"
+                  sequence="135" groups="stock.group_stock_manager,stock.group_stock_user"/>
+
+        <record id="stock_consignee_transfer_form_view" model="ir.ui.view">
+            <field name="name">stock.consignee.form.view</field>
+            <field name="model">stock.consignee.transfer</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_request" string="Request" type="object" class="oe_highlight"
+                                invisible="state != 'draft'"
+                                groups="stock.group_stock_manager,stock.group_stock_user"/>
+                        <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
+                                invisible="state != 'request'"/>
+                        <button name="action_cancel" string="Cancel" type="object" class="oe_highlight"
+                                invisible="state not in ('draft','request','confirm')"/>
+                        <button name="action_draft" string="Set To Draft" type="object" class="oe_highlight"
+                                invisible="state != 'cancel'"/>
+                        <button name="action_ready_to_transfer" string="Ready To Transfer" type="object"
+                                class="oe_highlight" invisible="state != 'confirm'"
+                                groups="stock.group_stock_manager,stock.group_stock_user"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,request,confirm,ready_to_transfer,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object" name="open_stock_picking" icon="fa-arrows-v"
+                                    invisible="state != 'done'">
+                                <field string="Stock" name="picking_number_ref" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group cols="4">
+                            <group>
+                                <field name="partner_id" required="1" readonly="state in ['done','cancel']"
+                                       options="{'no_create':True,'no_create_edit':True}"/>
+                                <field name="source_location_id" required="1"
+                                       domain="[('usage','=','internal'), ('company_id', '=', company_id)]"
+                                       readonly="state in ['done','cancel']" invisible="is_internal_transfer"
+                                       options="{'no_create_edit': True, 'no_open': True}"/>
+                                <field name="destination_location_id" required="1"
+                                       domain="[('usage','=','internal'), ('company_id', '=', company_id)]"
+                                       readonly="state in ['done','cancel']" invisible="is_internal_transfer"
+                                       options="{'no_create_edit': True, 'no_open': True}"/>
+                            </group>
+                            <group>
+                                <field name="date" require="1"/>
+                                <field name="picking_type_id"
+                                       domain="[('code', '=', 'internal'), ('warehouse_id.company_id', '=', company_id)]"
+                                       required="1" readonly="state in ['done','cancel']"
+                                       options="{'no_create_edit': True, 'no_open': True}"/>
+                                <field name="company_id"
+                                       required="1"
+                                       readonly="state in ['done','cancel']"
+                                       options="{'no_create_edit': True, 'no_open': True}"/>
+                                <field name="is_return" invisible="1"/>
+                                <field name="is_internal_transfer" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="stock_consignee" string="Lines">
+                                <field name="lines" widget="one2many" readonly="state in ['done','cancel']">
+                                    <tree editable="top">
+                                        <field name="product_id" required="1"
+                                               options="{'no_create_edit': True, 'no_open': True}"/>
+                                        <field name="requested_qty"/>
+                                        <field name="transfer_qty"/>
+                                        <field name="uom_id" required="1"
+                                               options="{'no_create_edit': True, 'no_open': True}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="stock_consignee_return_transfer_form_view" model="ir.ui.view">
+            <field name="name">stock.consignee.form.view</field>
+            <field name="model">stock.consignee.transfer</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_request" string="Request" type="object" class="oe_highlight"
+                                invisible="state != 'draft'"/>
+                        <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
+                                invisible="state != 'request'"
+                                groups="stock.group_stock_manager,stock.group_stock_user"/>
+                        <button name="action_cancel" string="Cancel" type="object" class="oe_highlight"
+                                invisible="state not in ('draft','request','confirm')"/>
+                        <button name="action_draft" string="Set To Draft" type="object" class="oe_highlight"
+                                invisible="state != 'cancel'"/>
+                        <button name="action_ready_to_transfer" string="Ready To Transfer" type="object"
+                                class="oe_highlight" invisible="state != 'confirm'"
+                                groups="stock.group_stock_manager,stock.group_stock_user"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,request,confirm,ready_to_transfer,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object" name="open_stock_picking" icon="fa-arrows-v"
+                                    invisible="state != 'done'">
+                                <field string="Stock" name="picking_number_ref" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group cols="4">
+                            <group>
+                                <field name="partner_id" required="1" readonly="state in ['done','cancel']"
+                                       options="{'no_create_edit': True, 'no_open': True}"/>
+                                <field name="source_location_id" required="1"
+                                       domain="[('usage','=','internal'), ('company_id', '=', company_id)]"
+                                       readonly="state in ['done','cancel']" invisible="is_internal_transfer"
+                                       options="{'no_create_edit': True, 'no_open': True}"/>
+                                <field name="destination_location_id" required="1"
+                                       domain="[('usage','=','internal'), ('company_id', '=', company_id)]"
+                                       readonly="state in ['done','cancel']" invisible="is_internal_transfer"
+                                       options="{'no_create_edit': True, 'no_open': True}"/>
+                            </group>
+                            <group>
+                                <field name="date" require="1"/>
+                                <field name="picking_type_id"
+                                       domain="[('code', '=', 'internal'), ('warehouse_id.company_id', '=', company_id)]"
+                                       readonly="state in ['done','cancel']"
+                                       required="1"
+                                       options="{'no_create_edit': True, 'no_open': True}"/>
+                                <field name="company_id" readonly="state in ['done','cancel']"
+                                       options="{'no_create_edit': True, 'no_open': True}"/>
+                                <field name="is_return" invisible="1"/>
+                                <field name="is_internal_transfer" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="stock_consignee" string="Lines">
+                                <field name="lines" widget="one2many"
+                                       readonly="state in ['done','cancel']">
+                                    <tree editable="top">
+                                        <field name="product_id" required="1"
+                                               options="{'no_create_edit': True, 'no_open': True}"/>
+                                        <field name="requested_qty"/>
+                                        <field name="transfer_qty"/>
+                                        <field name="uom_id" required="1"
+                                               options="{'no_create_edit': True, 'no_open': True}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="stock_consignee_transfer_tree_view" model="ir.ui.view">
+            <field name="name">stock.consignee.tree.view</field>
+            <field name="model">stock.consignee.transfer</field>
+            <field name="arch" type="xml">
+                <tree decoration-success="(state == 'done')">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="destination_location_id"/>
+                    <field name="source_location_id"/>
+                    <field name="date"/>
+                    <field name="is_return" invisible="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="stock_consignee_consignee_transfer_form_view" model="ir.ui.view">
+            <field name="name">stock.consignee.form.view</field>
+            <field name="model">stock.consignee.transfer</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_request" string="Request" type="object" class="oe_highlight"
+                                invisible="state != 'draft'"/>
+                        <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
+                                invisible="state != 'request'"/>
+                        <button name="action_cancel" string="Cancel" type="object" class="oe_highlight"
+                                invisible="state not in ('draft','request','confirm')"/>
+                        <button name="action_draft" string="Set To Draft" type="object" class="oe_highlight"
+                                invisible="state != 'cancel'"/>
+                        <button name="action_ready_to_transfer" string="Ready To Transfer" type="object"
+                                class="oe_highlight" invisible="state != 'confirm'"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,request,confirm,ready_to_transfer,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object" name="open_stock_picking" icon="fa-arrows-v"
+                                    invisible="state != 'done'">
+                                <field string="Stock" name="picking_number_ref" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group cols="4">
+                            <group>
+                                <field name="partner_id" required="1" string="Source Consignee" readonly="1"
+                                       options="{'no_create_edit': True, 'no_open': True}"/>
+                                <field name="to_partner_id" string="Destination Consignee"
+                                       options="{'no_create_edit': True, 'no_open': True}"
+                                       readonly="state in ['done','cancel']" invisible="is_internal_transfer"
+                                       required="is_internal_transfer"/>
+
+                                <field name="source_location_id"
+                                       domain="[('usage','=','internal'), ('company_id', '=', company_id)]"
+                                       readonly="state in ['done','cancel']" invisible="is_internal_transfer"
+                                       options="{'no_create_edit': True, 'no_open': True}"/>
+                                <field name="destination_location_id"
+                                       domain="[('usage','=','internal'), ('company_id', '=', company_id)]"
+                                       readonly="state in ['done','cancel']" invisible="is_internal_transfer"
+                                       options="{'no_create_edit': True, 'no_open': True}"/>
+                            </group>
+                            <group>
+                                <field name="date" required="1"/>
+                                <field name="picking_type_id" required="1"
+                                       domain="[('code', '=', 'internal'), ('warehouse_id.company_id', '=', company_id)]"
+                                       readonly="state in ['done','cancel']"
+                                       options="{'no_create_edit': True, 'no_open': True}"/>
+                                <field name="company_id"
+                                       readonly="state in ['done','cancel']"/>
+                                <field name="is_return" invisible="1"/>
+                                <field name="is_internal_transfer" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="stock_consignee" string="Lines">
+                                <field name="lines" widget="one2many"
+                                       readonly="state in ['done','cancel']">
+                                    <tree editable="top">
+                                        <field name="product_id" required="1"/>
+                                        <field name="requested_qty"/>
+                                        <field name="transfer_qty"/>
+                                        <field name="uom_id" required="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="stock_consignee_to_consignee_transfer_tree_view" model="ir.ui.view">
+            <field name="name">stock.consignee.to.consignee.tree.view</field>
+            <field name="model">stock.consignee.transfer</field>
+            <field name="arch" type="xml">
+                <tree decoration-success="(state == 'done')">
+                    <field name="name"/>
+                    <field name="partner_id" string="From Consignee"/>
+                    <field name="to_partner_id"/>
+                    <field name="is_internal_transfer" invisible="1"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="search_view_stock_consignee_transfer" model="ir.ui.view">
+            <field name="name">search.view.stock.consignee</field>
+            <field name="model">stock.consignee.transfer</field>
+            <field name="arch" type="xml">
+                <search string="Search Detail">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="destination_location_id"/>
+                    <field name="source_location_id"/>
+                    <field name="picking_type_id"/>
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Stock Consignee Transfer -->
+        <record id="action_stock_consignee_transfer" model="ir.actions.act_window">
+            <field name="name">Consignee Transfer</field>
+            <field name="res_model">stock.consignee.transfer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_return','=',False),('is_internal_transfer','=',False)]</field>
+        </record>
+        <record id="action_stock_consignee_transfer_tree_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock_consignee_transfer_tree_view"/>
+            <field name="act_window_id" ref="action_stock_consignee_transfer"/>
+        </record>
+        <record id="action_stock_consignee_transfer_form_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock_consignee_transfer_form_view"/>
+            <field name="act_window_id" ref="action_stock_consignee_transfer"/>
+        </record>
+        <menuitem id="stock_consignee_menu" name="Consignee Transfer" parent="stock.menu_stock_warehouse_mgmt"
+                  action="action_stock_consignee_transfer"
+                  sequence="6"/>
+
+        <!-- Stock Consignee Return Transfer -->
+        <record id="action_stock_consignee_return" model="ir.actions.act_window">
+            <field name="name">Consignee Return Transfer</field>
+            <field name="res_model">stock.consignee.transfer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_return','=',True)]</field>
+            <field name="context">{'default_is_return' : 'True'}</field>
+        </record>
+        <record id="action_stock_consignee_return_transfer_tree_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock_consignee_transfer_tree_view"/>
+            <field name="act_window_id" ref="action_stock_consignee_return"/>
+        </record>
+        <record id="action_stock_consignee_return_transfer_form_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock_consignee_return_transfer_form_view"/>
+            <field name="act_window_id" ref="action_stock_consignee_return"/>
+        </record>
+        <menuitem id="stock_consignee_return_menu" name="Consignee Return Transfer"
+                  parent="stock.menu_stock_warehouse_mgmt" action="action_stock_consignee_return"
+                  sequence="8"/>
+
+        <!-- Stock Consignee to Consignee Transfer -->
+        <record id="action_stock_consignee_to_consignee" model="ir.actions.act_window">
+            <field name="name">Consignee To Consignee Transfer</field>
+            <field name="res_model">stock.consignee.transfer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_internal_transfer','=',True)]</field>
+            <field name="context">{'default_is_internal_transfer': 'True'}
+            </field>
+        </record>
+        <record id="action_stock_consignee_to_consignee_tree_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock_consignee_to_consignee_transfer_tree_view"/>
+            <field name="act_window_id" ref="action_stock_consignee_to_consignee"/>
+        </record>
+        <record id="action_stock_consignee_to_consignee_form_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock_consignee_consignee_transfer_form_view"/>
+            <field name="act_window_id" ref="action_stock_consignee_to_consignee"/>
+        </record>
+        <menuitem id="stock_consignee_to_consignee_menu" name="Consignee To Consignee Transfer"
+                  parent="stock.menu_stock_warehouse_mgmt"
+                  action="action_stock_consignee_to_consignee" sequence="10"
+                  groups="group_stock_consignee_consignee,stock.group_stock_user"/>
+
+        <record id="view_picking_form_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <button name="button_validate" position="attributes">
+                    <attribute name="groups">stock.group_stock_user,aspl_consignee_management_ee.group_stock_consignee
+                    </attribute>
+                </button>
+            </field>
+        </record>
+
+    </data>
+</odoo>

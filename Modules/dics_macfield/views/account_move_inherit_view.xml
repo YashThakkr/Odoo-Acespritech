@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_inherit_account_move_line" model="ir.ui.view">
+        <field name="name">inherit account</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='quantity']" position="before">
+                <field name="cus_po"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='tax_ids']" position="replace">
+                <field name="tax_ids" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_bank_id']" position="after">
+                <field name="remark"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_user_id']" position="after">
+                <field name="invoice_operator_id" widget="many2one_avatar_user"/>
+            </xpath>
+            <xpath expr="//field[@name='remark']" position="after">
+                <field name="commitment_date"/>
+                <field name="route"/>
+                <field name="opening_hours"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
+                <attribute name="domain">[('type','=','delivery'),('parent_id','=',partner_id)]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="inherit_account_move_tree_view" model="ir.ui.view">
+        <field name="name">inherit.account.move.tree.view</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_out_invoice_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="commitment_date"/>
+                <field name="route"/>
+            </field>
+        </field>
+    </record>
+
+    <!--    custom menuitem readonly in sale -->
+    <menuitem name="Invoices"
+              id="menu_action_move_out_invoice_type_sale_ra"
+              groups="sales_team.group_sale_salesman_all_leads"
+              action="account.action_move_out_invoice_type"
+              parent="sale.sale_order_menu"/>
+
+    <menuitem name="Credit Notes"
+              id="menu_action_move_out_refund_type_sale_ra"
+              groups="sales_team.group_sale_salesman_all_leads"
+              action="account.action_move_out_refund_type"
+              parent="sale.sale_order_menu"/>
+
+    <record id="account.account_invoices" model="ir.actions.report">
+        <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman_all_leads'))]"/>
+    </record>
+
+    <record id="account.account_invoices_without_payment" model="ir.actions.report">
+        <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman_all_leads'))]"/>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,179 @@
+.o_employee_data {
+    border-left: 1px solid gray;
+    margin-left: 30px;
+}
+
+td.o_EmployeeData:before {
+    content: '-';
+    background: #000;
+    line-height: 1px;
+    width: 11%;
+    position: absolute;
+}
+
+.o_EmployeeHierarchy_dropdownMenu {
+    display: none;
+    width: 650px;
+    left: auto;
+    right: 0;
+    top: 46px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.header_td {
+    line-height:1;
+    padding-top: 10px;
+}
+
+.o_jobtitle {
+  width: 150px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-wrap: nowrap;
+  font-size: 10px;
+}
+
+.employee_child_count {
+    line-height: 1;
+}
+
+.icon_button {
+    font-size: 20px;
+    padding-left: 10px;
+    line-height: 0.4;
+}
+
+.font_size_h5 {
+    font-size: 13.28px;
+}
+
+#check_in {
+    font-size: 15px;
+    margin-left: 2px
+}
+
+#check_out {
+    font-size: 15px;
+    margin-left: 2px
+}
+
+.btn_badge {
+    position: relative;
+    top: 1px;
+}
+
+.o_approve_button {
+    margin-right: 5px;
+    color: green;
+    background: transparent;
+    border: transparent;
+    font-size: 15px;
+}
+
+.o_reject_button {
+    color: red;
+    background: transparent;
+    border: transparent;
+    padding-left: 0px;
+    font-size: 15px;
+}
+
+.o_employee_data {
+    position: relative;
+    line-height: 1;
+}
+
+.o_employee_data_leave {
+    position: relative;
+    line-height: 1;
+}
+
+.o_user_avatar {
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    margin:5px;
+}
+
+.o_employee_image {
+    bottom: 10px;
+    position: relative;
+}
+
+.o_employee_image {
+    bottom: 5px;
+    position: relative;
+}
+
+.leave_days {
+    top: 10px;
+    position: relative;
+    padding-left: 7px;
+}
+
+.flex-parent-element {
+  display: flex;
+}
+
+.flex-child-element:first-child {
+  margin-right: 20px;
+  position: relative;
+  top: 10px;
+  line-height: 0.5;
+}
+
+.leave_request {
+    margin-left: 35%;
+    margin-top: 50%;
+}
+
+.task_request {
+    margin-left: 35%;
+    margin-top: 50%;
+}
+
+.ShowHierarchy {
+     overflow: scroll;
+     overflow-x: hidden;
+     height: 420px;
+}
+
+.o_MessagingMenu_dropdownMenuHeader{
+    margin:5px;
+}
+
+.task_scroll{
+    overflow:auto;
+    height: 200px;
+    overflow-x: hidden;
+}
+
+.task_name {
+    line-height: 18px;
+    top: 5px;
+    position: relative;
+}
+
+.task_name_dotted {
+    width: 195px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 15px;
+    font-weight: 500;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.display_task {
+    margin-left: 10px;
+    color: #3366CC;
+}
+
+#header {
+    text-align: center;
+}
+
+.data-info{
+    line-height:17px;
+}

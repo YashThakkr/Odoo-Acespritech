@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <record id="event.action_event_view" model="ir.actions.act_window">
+            <field name="domain">[('is_hotel_event','=',True)]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record id="event_event_view_form_inherit_hotel" model="ir.ui.view">
+            <field name="name">event.event.view.form.inherit.website</field>
+            <field name="model">event.event</field>
+            <field name="inherit_id" ref="event.view_event_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page" position="after">
+                    <page string="Other Info">
+                        <group>
+                            <group>
+<!--                                <field name="branch_id" readonly="1" force_save="1"/>-->
+<!--                                <field name="room_floor_id" domain="[('branch_id', '=', branch_id)]"/>-->
+                                <field name="room_floor_id"/>
+                                <field name="room_type" invisible="1"/>
+                                <field name="room_id" domain="[('room_type_id', '=', room_type_id), ('floor_id', '=', room_floor_id), ('status', '=', 'available')]"
+                                       options="{'no_create': True}"/>
+                            </group>
+                            <group>
+                                <field name="room_category"/>
+                                <field name="room_type_id" options="{'no_create': True}"/>
+                                <field name="identity" options="{'no_create': True}"/>
+                                <field name="identity_no"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <field name='tag_ids' position='after'>
+                    <field name='is_hotel_event'/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_hotel_room_type_form" model="ir.ui.view">
+            <field name="name">hotel.room.type.form</field>
+            <field name="model">hotel.room.type</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Room Type">
+                    <sheet>
+                        <field name="active" widget="boolean_button" invisible="1"/>
+                        <widget name="web_ribbon" title="Active" bg_color="bg-success" invisible="not active"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <group col="4">
+<!--                            <field name="branch_id" readonly="1" force_save="1" context="{'form_view_ref': 'aspl_hotel.action_view_company_branch'}" required="1"/>-->
+                            <field name="name" />
+                            <field name="desc" />
+                        </group>
+                        <notebook>
+                            <page string="Images">
+                                <field name="room_image_ids" mode="kanban" class="room_type_image_kanban">
+                                    <kanban>
+                                        <field name="id"/>
+                                        <field name="room_image"/>
+                                        <field name="room_type_id"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div class="oe_kanban_global_click" style="width:0%">
+                                                    <a t-if="!read_only_mode" type="delete" class="fa fa-times pull-right" title="Add Image"/>
+                                                    <div class="o_kanban_image" style="width: 100%;margin-top: 5px;margin-bottom: 15px;">
+                                                        <img alt='Add Image' t-if="record.room_image.raw_value" t-att-src="kanban_image('room.type.image', 'room_image', record.id.raw_value)" class="o_kanban_image_inner_pic" />
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hotel_room_type_tree" model="ir.ui.view">
+            <field name="name">view.hotel.room.type.tree</field>
+            <field name="model">hotel.room.type</field>
+            <field name="arch" type="xml">
+                <tree string="Hotel Room Type">
+                    <field name="name"/>
+                    <field name="desc"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hotel_room_type_view_search" model="ir.ui.view">
+            <field name="model">hotel.room.type</field>
+            <field name="arch" type="xml">
+
+                <search string="Views">
+<!--                    <field name="branch_id" readonly="1" force_save="1"/>-->
+                    <group expand="0" string="Group By">
+                        <filter string="Branch" name="group_by_branch"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_hotel_room_pricelist_form" model="ir.ui.view">
+            <field name="name">view.hotel.room.pricelist.form</field>
+            <field name="model">hotel.room.pricelist</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Room Pricelist">
+                    <sheet>
+                        <field name="active" widget="boolean_button" invisible="1"/>
+                        <widget name="web_ribbon" title="Active" bg_color="bg-success" invisible="not active"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <group col="4">
+                            <field name="start_date" />
+                            <field name="end_date"/>
+<!--                            <field name="branch_id" readonly="1" force_save="1" required="1"/>-->
+                        </group>
+                        <notebook>
+                            <page string="Items">
+                                <group>
+                                    <field name="item_ids" nolabel="1">
+                                        <tree string="Hotel Room Pricelist Item" editable="bottom">
+                                            <field name="pricelist_id" invisible="1" />
+                                            <field name="room_type" options="{'no_create':True}"/>
+                                            <field name="want_to" />
+                                            <field name="based_on" />
+                                            <field name="percentage" invisible="based_on == 'fix'"/>
+                                            <field name="fixed" invisible="based_on == 'percentage'"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hotel_room_pricelist_tree" model="ir.ui.view">
+            <field name="name">view.hotel.room.pricelist.tree</field>
+            <field name="model">hotel.room.pricelist</field>
+            <field name="arch" type="xml">
+                <tree string="Hotel Room Pricelist">
+                    <field name="start_date" />
+                    <field name="end_date" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="hotel_room_pricelist_view_search" model="ir.ui.view">
+            <field name="model">hotel.room.pricelist</field>
+            <field name="arch" type="xml">
+                <search string="Views">
+<!--                    <field name="branch_id" invisible="1"/>-->
+                    <group expand="0" string="Group By">
+<!--                        <filter string="Branch" name="group_by_branch" domain="[]"-->
+<!--                                context="{'group_by':'branch_id'}"/>-->
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_hotel_room_form" model="ir.ui.view">
+            <field name="name">view.hotel.room.form</field>
+            <field name="model">hotel.room</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Room">
+                    <header>
+                        <field name="status" widget="statusbar" statusbar_visible="available,booked,occupied" />
+                    </header>
+                    <sheet>
+                        <field name="active" widget="boolean_button" invisible="1"/>
+                        <widget name="web_ribbon" title="Active" bg_color="bg-success" invisible="not active"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <group col="4">
+<!--                            <field name="branch_id" readonly="1" force_save="1" required="1"/>-->
+                            <field name="floor_id" options="{'no_create': True}"/>
+<!--                            <field name="floor_id" options="{'no_create': True}" domain="[('branch_id', '=', branch_id)]"/>-->
+                            <field name="room_no" />
+                            <field name="room_category"/>
+                            <field name="room_type_id" options="{'no_create': True}"/>
+                            <field name="rate"/>
+                            <field name="maximum_adult"/>
+                            <field name="maximum_child"/>
+                            <field name="capacity"/>
+                            <field name="taxes_ids" widget="many2many_tags" domain="[('type_tax_use','=','sale')]"/>
+                            <field name="telephone_ext" help="Room Telephone Number"/>
+                            <field name="no_of_bed"/>
+
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hotel_room_tree" model="ir.ui.view">
+            <field name="name">view.hotel.room.tree</field>
+            <field name="model">hotel.room</field>
+            <field name="arch" type="xml">
+                <tree string="Hotel Room">
+                    <field name="floor_id" />
+                    <field name="room_no" />
+                    <field name="room_type_id" />
+                    <field name="capacity" />
+                    <field name="rate" />
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hotel_room_view_search" model="ir.ui.view">
+            <field name="model">hotel.room</field>
+            <field name="arch" type="xml">
+                <search string="Views">
+                    <field name="room_type_id" invisible="1"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="group_by_satus" domain="[]" context="{'group_by':'status'}"/>
+                        <filter string="Floor" name="group_by_floor" domain="[]" context="{'group_by':'floor_id'}"/>
+                        <filter string="Room Type" name="group_by_room_type" domain="[]" context="{'group_by':'room_type_id'}"/>
+<!--                        <filter string="Branch" name="group_by_branch" domain="[]"-->
+<!--                                context="{'group_by':'branch_id'}"/>-->
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_hotel_room_amenities_type_form" model="ir.ui.view">
+            <field name="name">view.hotel.room.amenities.type.form</field>
+            <field name="model">hotel.room.amenities.type</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Room Amenities Type">
+                    <sheet>
+                        <field name="active" widget="boolean_button" invisible="1"/>
+                        <widget name="web_ribbon" title="Active" bg_color="bg-success" invisible="not active"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <group col="2">
+                            <field name="name" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hotel_room_amenities_type_tree" model="ir.ui.view">
+            <field name="name">view.hotel.room.amenities.type.tree</field>
+            <field name="model">hotel.room.amenities.type</field>
+            <field name="arch" type="xml">
+                <tree string="Hotel Room Amenities Type">
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="hotel_room_amenities_type_view_search" model="ir.ui.view">
+            <field name="model">hotel.room.amenities.type</field>
+            <field name="arch" type="xml">
+                <search string="Views">
+<!--                    <field name="branch_id" readonly="1" force_save="1"/>-->
+                    <group expand="0" string="Group By">
+<!--                        <filter string="Branch" name="group_by_branch" domain="[]"-->
+<!--                                context="{'group_by':'branch_id'}"/>-->
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_hotel_room_amenities_form" model="ir.ui.view">
+            <field name="name">view.hotel.room.amenities.form</field>
+            <field name="model">hotel.room.amenities</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Room Amenities">
+                    <sheet>
+                        <field name="active" widget="boolean_button" invisible="1"/>
+                        <widget name="web_ribbon" title="Active" bg_color="bg-success" invisible="not active"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <group col="4">
+                            <field name="name" />
+                            <field name="amenities_type_id" />
+<!--                            <field name="branch_id" readonly="1" force_save="1" required="1"/>-->
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hotel_room_amenities_tree" model="ir.ui.view">
+            <field name="name">view.hotel.room.amenities.tree</field>
+            <field name="model">hotel.room.amenities</field>
+            <field name="arch" type="xml">
+                <tree string="Hotel Room Amenities">
+                    <field name="name" />
+                    <field name="amenities_type_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hotel_room_amenities_view_search" model="ir.ui.view">
+            <field name="model">hotel.room.amenities</field>
+            <field name="arch" type="xml">
+                <search string="Views">
+<!--                    <field name="branch_id" readonly="1" force_save="1" invisible="1"/>-->
+                    <group expand="0" string="Group By">
+<!--                        <filter string="Branch" name="group_by_branch" domain="[]"-->
+<!--                                context="{'group_by':'branch_id'}"/>-->
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_hotel_room_amenities" model="ir.actions.act_window">
+            <field name="name">Amenities</field>
+            <field name="res_model">hotel.room.amenities</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_hotel_room_amenities_type" model="ir.actions.act_window">
+            <field name="name">Amenities Type</field>
+            <field name="res_model">hotel.room.amenities.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <record id="action_hotel_room_pricelist" model="ir.actions.act_window">
+            <field name="name">Pricelist</field>
+            <field name="res_model">hotel.room.pricelist</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_hotel_room" model="ir.actions.act_window">
+            <field name="name">Rooms</field>
+            <field name="res_model">hotel.room</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="hotel_room_view_search" />
+        </record>
+
+        <record id="action_hotel_room_type" model="ir.actions.act_window">
+            <field name="name">Room Type</field>
+            <field name="res_model">hotel.room.type</field>
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+
+        <menuitem id="menu_rooms" parent="aspl_hotel.configuration_menu_hotel" name="Room" sequence="13" />
+
+        <menuitem id="menu_hotel_room_pricelist" name="Pricelist" parent="menu_rooms" action="action_hotel_room_pricelist"
+                  sequence="2" />
+
+        <menuitem id="menu_hotel_room" name="Rooms" parent="menu_rooms" action="action_hotel_room" sequence="1" />
+
+        <menuitem id="menu_hotel_room_type" name="Room Type" parent="menu_rooms" action="action_hotel_room_type"
+                  sequence="3" />
+
+        <menuitem id="menu_hotel_room_amenities_type" name="Amenities Type" parent="menu_rooms"
+                  action="action_hotel_room_amenities_type" sequence="4" />
+
+        <menuitem id="menu_hotel_room_amenities" name="Amenities" parent="menu_rooms" action="action_hotel_room_amenities"
+                  sequence="5" />
+    </data>
+</odoo>

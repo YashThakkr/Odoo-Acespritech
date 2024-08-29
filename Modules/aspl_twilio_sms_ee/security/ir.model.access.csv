@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_send_sms,access_send_sms,model_send_sms,base.group_user,1,1,1,1
+access_sms_delivery_report,access_sms_delivery_report,model_sms_delivery_report,base.group_user,1,1,1,1
+access_schedule_sms,access_schedule_sms,model_schedule_sms,base.group_user,1,1,1,1
+access_sms_configuration,access_sms_configuration,model_sms_configuration,base.group_user,1,1,1,1
+access_sms_group,access_sms_group,model_sms_group,base.group_user,1,1,1,1
+access_sms_queue,access_sms_queue,model_sms_queue,base.group_user,1,1,1,1
+access_wizard_sms,access_wizard_sms,model_wizard_sms,base.group_user,1,1,1,1
+aspl_twilio_sms_ee.access_wizard_connection_notification,access_wizard_connection_notification,aspl_twilio_sms_ee.model_wizard_connection_notification,base.group_user,1,1,1,1

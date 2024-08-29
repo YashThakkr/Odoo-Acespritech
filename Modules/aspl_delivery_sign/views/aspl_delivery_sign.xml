@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- vim:fdn=3:-->
+<odoo>
+    <data>
+        <template inherit_id="stock.report_picking" id="custom_report_picking">
+            <xpath expr="//div[@class='page']/p[2]" position="after">
+                <t t-if="o.signature">
+	                <div style="height: 90px;position: relative;">
+		                <div style="float: right;border-bottom: 1px solid #000;background: white;">
+                            <!-- <t t-esc="o.signature"/> -->
+		                    <img t-att-src="'data:image/png;base64,%s' % o.signature" widget="signature" style="height: 60px;"/>
+		                </div>
+		                <div style="position: absolute;right: 0;bottom: 0;text-align: center;width: 16%;">
+		                   Signature
+		                </div>
+	                </div>
+                </t>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

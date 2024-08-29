@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="group_hide_price" model="res.groups">
+            <field name="name">Hide Pricing Information</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+        <record id="group_hide_price" model="res.groups">
+            <field name="name">Track Shipment</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+    </data>
+</odoo>

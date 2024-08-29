@@ -1,0 +1,18 @@
+.panel {
+  border: 1px solid lightgray;
+  margin-top:10px;
+}
+
+.panel-heading {
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: 0.025em;
+  height: 60px;
+  line-height: 38px;
+}
+
+.panel-default .panel-heading {
+  background: #fff;
+  border-bottom: 1px solid #e9ecf2;
+  color: #444444;
+}

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="template_design_1" model="product.small.label.design">
+            <field name="name">Default Design</field>
+            <field name="template_label_design"><![CDATA[<?xml version="1.0"?>
+            <t t-name="aspl_product_small_label_zebra.prod_small_label_zebra" owl="1">
+                <div class="page" style="background-color:white;width:100%;height:100%;border: 3px double black;margin_top:10px;">
+                    <t t-call="web.html_container">
+                        <span t-foreach="get_barcode_data(data)" t-as="product">
+                            <t t-foreach="doc_ids" t-as="doc_id">
+                                <t t-call="web.basic_layout">
+                                    <div align="center" style="color:black;font-size:9px;font: italic small-caps 10px/2 cursive;">
+                                        <span t-field="product.name"/>
+                                    </div>
+                                    <div align="center" style="color:black;font-size:9px;font: italic small-caps 10px/2 cursive;">
+                                        <span t-field="product.default_code"/>
+                                    </div>
+                                    <t t-if="data['form']['with_barcode']">
+                                        <t t-if="get_barcode_string(product.barcode, 'EAN13', data)">
+                                            <div align="center" style="color:black;margin-top:8px;font-size:11px;font: italic small-caps bold 10px/2 cursive;">
+                                                <t t-set="style" t-value="get_style(data)"/>
+                                                <img t-att-src="image_data_uri(get_barcode_string(product.barcode, 'EAN13', data))" t-att-style="style"/>
+                                            </div>
+                                        </t>
+                                    </t>
+                                    <div align="center" style="color:black;font-size:10px;font: italic small-caps 10px/2 cursive;">
+                                        <span t-esc="get_price(product, doc_id.pricelist_id)" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: product.currency_id}"/>
+                                    </div>
+                                    <t t-if="data['form']['label_logo']">
+                                        <div align="center" style="color:black;font-size:10px;font: italic small-caps 10px/2 cursive;">
+                                            <t t-set="style" t-value="get_style(data)"/>
+                                            <t t-set="logo_img" t-value="return_encode_datas(data['form']['label_logo'])"/>
+                                            <img t-att-src="image_data_uri(logo_img)" t-att-style="'width: 80px; height:80px'"/>
+                                        </div>
+                                    </t>
+                                </t>
+                            </t>
+                        </span>
+                    </t>
+                </div>
+            </t>]]>
+            </field>
+            <field name="label_width">100</field>
+            <field name="label_height">100</field>
+            <field name="dpi">80</field>
+            <field name="margin_top">4</field>
+            <field name="margin_left">1</field>
+            <field name="margin_bottom">1</field>
+            <field name="margin_right">1</field>
+            <field name="with_barcode">True</field>
+            <field name="barcode_height">500</field>
+            <field name="barcode_width">2000</field>
+            <field name="humanReadable">True</field>
+            <field name="display_height">40</field>
+            <field name="display_width">250</field>
+            <field name="label_config_option">local</field>
+        </record>
+
+    </data>
+</odoo>

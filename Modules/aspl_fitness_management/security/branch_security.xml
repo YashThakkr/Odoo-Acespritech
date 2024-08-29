@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record model="res.groups" id="group_multi_branches">
+            <field name="name">Multi Branches</field>
+            <field name="category_id" ref="base.module_category_usability"/>
+        </record>
+
+        <record model="res.groups" id="nutrition_security_group">
+            <field name="name">Nutrition</field>
+            <field name="category_id" ref="base.module_category_usability"/>
+        </record>
+
+        <!-- Partner -->
+        <record id="company_branch_rule_partner" model="ir.rule">
+            <field name="name">Multi Branch : Partner</field>
+            <field name="model_id" ref="model_res_partner"/>
+            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>
+<!--            <field name="domain_force">['|', ('branch_id','=', False), ('branch_id','in', branch_ids)]</field>-->
+        </record>
+
+        <!-- Duration -->
+        <record id="company_branch_rule_batch_duration" model="ir.rule">
+            <field name="name">Multi Branch : Batch Duration</field>
+            <field name="model_id" ref="model_batch_duration"/>
+            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>
+<!--            <field name="domain_force">['|', ('branch_id','=', False), ('branch_id','in', branch_ids)]</field>-->
+        </record>
+
+        <!-- Service -->
+        <record id="company_branch_rule_product_template" model="ir.rule">
+            <field name="name">Multi Branch : Product Template</field>
+            <field name="model_id" ref="model_product_template"/>
+            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>
+        </record>
+
+        <record id="company_branch_rule_gym_plan" model="ir.rule">
+            <field name="name">Multi Branch : Gym Plan</field>
+            <field name="model_id" ref="model_gym_plan"/>
+            <field name="domain_force">['|', ('branch_ids','in', branch_ids), ('branch_ids','=', False)]</field>
+        </record>
+
+        <!-- Equipment Maintenance -->
+        <record id="company_branch_rule_equipment_maintenance" model="ir.rule">
+            <field name="name">Multi Branch : Equipment Maintenance</field>
+            <field name="model_id" ref="model_equipment_maintenance"/>
+            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>
+<!--            <field name="domain_force">['|', ('branch_id','=', False), ('branch_id','in', branch_ids)]</field>-->
+        </record>
+
+        <!-- Subscriber Plan -->
+        <record id="company_branch_rule_subscriber_plan" model="ir.rule">
+            <field name="name">Multi Branch : Subscriber Plan</field>
+            <field name="model_id" ref="model_subscriber_plan"/>
+            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>
+<!--            <field name="domain_force">['|', ('branch_id','=', False), ('branch_id','in', branch_ids)]</field>-->
+        </record>
+
+        <!-- Subscriber Membership History -->
+        <record id="company_branch_rule_subscriber_membership_history" model="ir.rule">
+            <field name="name">Multi Branch : Subscriber Membership History</field>
+            <field name="model_id" ref="model_subscriber_membership_history"/>
+            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>
+        </record>
+
+        <!-- Membership Renewal Reminder -->
+        <record id="company_branch_rule_membership_renewal_reminder" model="ir.rule">
+            <field name="name">Multi Branch : Membership Renewal Reminder</field>
+            <field name="model_id" ref="model_membership_renewal_reminder"/>
+            <field name="domain_force">['|', ('branch_id','in', branch_ids), ('branch_id','=', False)]</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="aspl_fitness_management_ee.nutrition_schedule_report">
+
+               <t t-call="web.html_container">
+                   <t t-foreach="docs" t-as="o">
+                        <t t-call="web.external_layout">
+                            <div class="page">
+                                <br/><center><h4><span t-esc="o.subscriber_id.name"/> Nutition Schedules</h4></center><br/>
+                                <t t-foreach="o.nutrition_line_ids" t-as="schedule">
+                                    <table class="table table-bordered" style="font-size: 15px;border: 2px solid #010203;width: 100%;">
+                                        <tr>
+                                            <td colspan="3" style="border: 2px solid #010203;">
+                                                <strong><span t-if="schedule.day == '1'">Monday</span></strong>
+                                                <strong><span t-if="schedule.day == '2'">Tuesday</span></strong>
+                                                <strong><span t-if="schedule.day == '3'">Wednesday</span></strong>
+                                                <strong><span t-if="schedule.day == '4'">Thursday</span></strong>
+                                                <strong><span t-if="schedule.day == '5'">Friday</span></strong>
+                                                <strong><span t-if="schedule.day == '6'">Saturday</span></strong>
+                                                <strong><span t-if="schedule.day == '7'">Sunday</span></strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Meal</strong></td>
+                                            <td><strong>Food Items</strong></td>
+                                            <td><strong>Time</strong></td>
+                                        </tr>
+                                        <br/>
+                                        <tr t-foreach="schedule.meal_ids" t-as="meal">
+                                            <td><span t-esc="meal.name"/></td>
+                                            <td><t t-foreach="meal.meal_line_ids" t-as="line">
+                                                <span t-esc="line.food_item_id.name"/>,
+                                            </t></td>
+                                            <td><span t-esc="meal.meal_time" t-options="{'widget': 'float_time'}"/></td>
+                                        </tr>
+                                    </table>
+                                    <p style="page-break-after: always;"/><br/>
+                                </t>
+                            </div>
+                        </t>
+                   </t>
+               </t>
+
+        </template>
+    </data>
+</odoo>

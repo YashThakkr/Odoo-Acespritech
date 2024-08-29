@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="dics_import_sale_order_wiz_form" model="ir.ui.view">
+        <field name="name">import.saleorder.wiz.form</field>
+        <field name="model">import.saleorder.wiz</field>
+        <field name="arch" type="xml">
+            <form string="Import Sale Order">
+                <group>
+                    <group>
+                        <field name="file_name" invisible="1"/>
+                        <field name="file" widget="binary" filename="file_name"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="import_sale_order" string="Import" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="import_sale_order_wiz_action" model="ir.actions.act_window">
+        <field name="name">Import Sale Order</field>
+        <field name="res_model">import.saleorder.wiz</field>
+        <field name="view_id" ref="dics_import_sale_order_wiz_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_import_sale_order_wiz" name="Advance Import Sale Order" action="import_sale_order_wiz_action"
+              parent="sale.sale_order_menu" />
+</odoo>

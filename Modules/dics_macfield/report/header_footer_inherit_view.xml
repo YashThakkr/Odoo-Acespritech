@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="mac_field_report_invoice_header" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[contains(@t-attf-class, 'header')]" position="replace">
+            <br/>
+            <t t-if="is_inv_order">
+                <!--                <t t-if="is_pro_forma_order">-->
+                <div class="header">
+                    <!--                    <t t-if="not is_pro_forma_order">-->
+                    <!--                        <div class="row">-->
+                    <!--                            <div class="col-2">-->
+                    <!--                                <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"-->
+                    <!--                                     style="max-height: 45px;"-->
+                    <!--                                     alt="Logo"/>-->
+                    <!--                            </div>-->
+                    <!--                            <div class="col-10" id="company_header_standard">-->
+                    <!--                                <span>-->
+                    <!--                                    <ul class="list-unstyled">-->
+                    <!--                                        <li t-if="o.company_id">-->
+                    <!--                                            <t t-esc="o.company_id.name"/>-->
+                    <!--                                        </li>-->
+                    <!--                                        <li t-if="o.company_id.chinese_name">-->
+                    <!--                                            <t t-esc="o.company_id.chinese_name"/>-->
+                    <!--                                        </li>-->
+                    <!--                                    </ul>-->
+                    <!--                                </span>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </t>-->
+                    <!--                    <t t-if="is_pro_forma_order">-->
+                    <div>
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                             style="max-height: 45px;"
+                             alt="Logo"/>
+                    </div>
+                    <div id="company_header_standard" style="margin-bottom:-2%">
+                        <span>
+                            <ul class="list-unstyled">
+                                <li t-if="o.company_id">
+                                    <t t-esc="o.company_id.name"/>
+                                </li>
+                                <li t-if="o.company_id.chinese_name">
+                                    <t t-esc="o.company_id.chinese_name"/>
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                    <!--                    </t>-->
+                    <div class="row">
+                        <div>
+                            <div>
+                                <span>
+                                    <t t-if="o.company_id">
+                                        <t t-esc="o.company_id.street or ''"/>
+                                        <t t-esc="o.company_id.street2 or ''"/>,
+                                        <!--                                         <t t-esc="o.company_id.city or ''"/>, -->
+                                        <!--                                         <t t-esc="o.company_id.state_id.name or ''"/>, -->
+                                        <t t-esc="company.partner_id.country_id.name or ''"/>
+                                        <!--                                         <t t-esc="company.partner_id.zip or ''"/>, -->
+                                        <br/>
+                                        E-mail:
+                                        <t t-esc="company.partner_id.email or ''"/>&#160;&#160;
+                                        Website:
+                                        <t t-esc="company.partner_id.website or ''"/>
+                                        <br/>
+                                        Ordering Hotline:
+                                        <t t-esc="company.partner_id.phone or ''"/>&#160;&#160;
+                                        Fax:
+                                        <t t-esc="o.company_id.fax or ''"/>
+
+                                    </t>
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </t>
+            <!--            Sale Order Header-->
+            <t t-if="not is_inv_order">
+                <t t-if="not is_pro_forma_order">
+                    <t t-if="is_so_order">
+                        <div class="header">
+                            <div>
+                                <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                                     style="max-height: 45px;"
+                                     alt="Logo"/>
+                            </div>
+                            <div id="company_header_standard" style="margin-bottom:-2%">
+                                <span>
+                                    <ul class="list-unstyled">
+                                        <li t-if="o.company_id">
+                                            <t t-esc="o.company_id.name"/>
+                                        </li>
+                                        <li t-if="o.company_id.chinese_name">
+                                            <t t-esc="o.company_id.chinese_name"/>
+                                        </li>
+                                    </ul>
+                                </span>
+                            </div>
+                            <div class="row">
+                                <t t-if="is_so_order">
+                                    <div class="row">
+                                        <div>
+                                            <div>
+                                                <span>
+                                                    <t t-if="o.company_id">
+                                                        <t t-esc="o.company_id.street or ''"/>
+                                                        <t t-esc="o.company_id.street2 or ''"/>,
+                                                        <!--                                         <t t-esc="o.company_id.city or ''"/>, -->
+                                                        <!--                                         <t t-esc="o.company_id.state_id.name or ''"/>, -->
+                                                        <t t-esc="company.partner_id.country_id.name or ''"/>
+                                                        <!--                                         <t t-esc="company.partner_id.zip or ''"/>, -->
+                                                        <br/>
+                                                        E-mail:
+                                                        <t t-esc="company.partner_id.email or ''"/>&#160;&#160;
+                                                        Website:
+                                                        <t t-esc="company.partner_id.website or ''"/>
+                                                        <br/>
+                                                        Ordering Hotline:
+                                                        <t t-esc="company.partner_id.phone or ''"/>&#160;&#160;
+                                                        Fax:
+                                                        <t t-esc="o.company_id.fax or ''"/>
+
+                                                    </t>
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                                <t t-elif="not is_so_order">
+                                    <div class="col-6" name="company_address">
+                                        <ul class="list-unstyled">
+                                            <li t-if="company.is_company_details_empty">
+                                                <t t-esc="company.partner_id"
+                                                   t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+                                            </li>
+                                            <li t-else="">
+                                                <t t-esc="company.company_details"/>
+                                            </li>
+                                            <li t-if="forced_vat">
+                                                <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                                <span t-esc="forced_vat"/>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="col-6" name="company_address">
+                                        <ul class="list-unstyled">
+                                            <li t-if="company.is_company_details_empty">
+                                                <t t-esc="company.partner_id"
+                                                   t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+                                            </li>
+                                            <li t-else="">
+                                                <t t-esc="company.company_details"/>
+                                            </li>
+                                            <li t-if="forced_vat">
+                                                <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                                <span t-esc="forced_vat"/>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+            <!--            purchase order header-->
+            <t t-if="not is_inv_order">
+                <t t-if="not is_pro_forma_order">
+                    <t t-if="not is_so_order">
+                        <t t-if="is_prc_order">
+                            <div class="header">
+                                <div>
+                                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                                         style="max-height: 45px;"
+                                         alt="Logo"/>
+                                </div>
+                                <div id="company_header_standard" style="margin-bottom:-2%">
+                                    <span>
+                                        <ul class="list-unstyled">
+                                            <li t-if="o.company_id">
+                                                <t t-esc="o.company_id.name"/>
+                                            </li>
+                                            <li t-if="o.company_id.chinese_name">
+                                                <t t-esc="o.company_id.chinese_name"/>
+                                            </li>
+                                        </ul>
+                                    </span>
+                                </div>
+                                <div class="row">
+                                    <t t-if="is_prc_order">
+                                        <div class="row">
+                                            <div>
+                                                <div>
+                                                    <span>
+                                                        <t t-if="o.company_id">
+                                                            <t t-esc="o.company_id.street or ''"/>
+                                                            <t t-esc="o.company_id.street2 or ''"/>,
+                                                            <!--                                         <t t-esc="o.company_id.city or ''"/>, -->
+                                                            <!--                                         <t t-esc="o.company_id.state_id.name or ''"/>, -->
+                                                            <t t-esc="company.partner_id.country_id.name or ''"/>
+                                                            <!--                                         <t t-esc="company.partner_id.zip or ''"/>, -->
+                                                            <br/>
+                                                            E-mail:
+                                                            <t t-esc="company.partner_id.email or ''"/>&#160;&#160;
+                                                            Website:
+                                                            <t t-esc="company.partner_id.website or ''"/>
+                                                            <br/>
+                                                            Ordering Hotline:
+                                                            <t t-esc="company.partner_id.phone or ''"/>&#160;&#160;
+                                                            Fax:
+                                                            <t t-esc="o.company_id.fax or ''"/>
+
+                                                        </t>
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                    <t t-elif="not is_prc_order">
+                                        <div class="col-6" name="company_address">
+                                            <ul class="list-unstyled">
+                                                <li t-if="company.is_company_details_empty">
+                                                    <t t-esc="company.partner_id"
+                                                       t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+                                                </li>
+                                                <li t-else="">
+                                                    <t t-esc="company.company_details"/>
+                                                </li>
+                                                <li t-if="forced_vat">
+                                                    <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                                    <span t-esc="forced_vat"/>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="col-6" name="company_address">
+                                            <ul class="list-unstyled">
+                                                <li t-if="company.is_company_details_empty">
+                                                    <t t-esc="company.partner_id"
+                                                       t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+                                                </li>
+                                                <li t-else="">
+                                                    <t t-esc="company.company_details"/>
+                                                </li>
+                                                <li t-if="forced_vat">
+                                                    <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                                    <span t-esc="forced_vat"/>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </t>
+            <t t-if="not is_inv_order">
+                <t t-if="not is_pro_forma_order">
+                    <t t-if="not is_so_order">
+                        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                            <div class="row">
+                                <div class="col-3 mb4">
+                                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                                         style="max-height: 45px;"
+                                         alt="Logo"/>
+                                </div>
+                                <div class="col-9 text-end" style="margin-top:22px;" t-field="company.report_header"
+                                     name="moto"/>
+                            </div>
+                            <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                                <div class="col-12">
+                                    <div style="border-bottom: 1px solid black;"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6" name="company_address">
+                                    <ul class="list-unstyled">
+                                        <li t-if="company.is_company_details_empty">
+                                            <t t-esc="company.partner_id"
+                                               t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+                                        </li>
+                                        <li t-else="">
+                                            <t t-esc="company.company_details"/>
+                                        </li>
+                                        <li t-if="forced_vat">
+                                            <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                            <span t-esc="forced_vat"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </xpath>
+
+        <xpath expr="//div[contains(@t-attf-class, 'footer')]" position="replace">
+            <t t-if="is_pro_forma_order">
+                <div class="footer" style="">
+                    <div class="row" style="border-top:0px;font-size: 11px;">
+                        <div class="col-5">
+                            <span t-raw="o.company_id.footer1"/>
+                        </div>
+                        <div class="col-2">
+
+                        </div>
+                        <div class="col-5">
+                            <span t-raw="o.company_id.footer2"/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top:1%;">
+                        <div class="col-6">
+                            <p>100% Made In Hong Kong</p>
+                        </div>
+                        <div class="col-6" style="font-size:15px;">
+                            <span>
+                                <!--                                   Invoice No:-->
+                            </span>
+                            <!--                                <span t-field="o.company_id.email"/>-->
+                            <span>
+                                <!--                                    Website:-->
+                            </span>
+                            <!--                                <span t-field="o.company_id.website"/>-->
+                            <div t-if="report_type == 'pdf'" class="text-muted text-end">
+                                <span style="margin-right:7%">Pro-Forma :
+                                    <t t-if="o.name">
+                                        <t t-esc="o.name"/>
+                                    </t>
+                                </span>
+                                <span class="page"/>
+                                |
+                                <span class="topage"/>
+                            </div>
+                        </div>
+                        <!--                            <div t-if="report_type == 'pdf'" class="text-muted text-end">-->
+                        <!--                                &lt;!&ndash;                                Invoice No:&ndash;&gt;-->
+                        <!--                                &lt;!&ndash;                                <span class="page"/>&ndash;&gt;-->
+                        <!--                                &lt;!&ndash;                                |&ndash;&gt;-->
+                        <!--                                &lt;!&ndash;                                <span class="topage"/>&ndash;&gt;-->
+                        <!--                            </div>-->
+                    </div>
+                </div>
+            </t>
+
+            <t t-if="is_inv_order">
+                <t t-if="not is_pro_forma_order ">
+                    <!--                    <t t-if="o.move_type != 'out_refund'">-->
+                    <div class="footer" style="">
+                        <div class="row" style="border-top:0px;font-size: 11px;">
+                            <div class="col-5">
+<!--                                <span t-raw="o.company_id.footer1"/>-->
+                            </div>
+                            <div class="col-2">
+
+                            </div>
+                            <div class="col-5">
+
+<!--                                <span t-raw="o.company_id.footer2"/>-->
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top:1%;">
+                            <t t-if="o.move_type != 'out_refund'">
+                                <div class="col-6" style="font-size: 15px;">
+                                    <span>
+                                        E-mail:
+                                    </span>
+                                    <span t-field="o.company_id.email"/>
+                                    <span>
+                                        Website:
+                                    </span>
+                                    <span t-field="o.company_id.website"/>
+                                </div>
+                                <div class="col-6" style="">
+                                    <span>
+                                        <!--                                   Invoice No:-->
+                                    </span>
+                                    <!--                                <span t-field="o.company_id.email"/>-->
+                                    <span>
+                                        <!--                                    Website:-->
+                                    </span>
+                                    <!--                                <span t-field="o.company_id.website"/>-->
+                                    <div t-if="report_type == 'pdf'" class="text-muted text-end">
+                                        <span style="margin-right:7%">Credit Note No:
+                                            <t t-if="o.name">
+                                                <t t-esc="o.name"/>
+                                            </t>
+                                        </span>
+                                        <span class="page"/>
+                                        |
+                                        <span class="topage"/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="o.move_type == 'out_refund'">
+                                <div class="col-6" style="font-size: 15px;">
+                                    <div class="row">
+                                        <div class="col-3" style="text-align:center;">
+                                            <strong>Account Tel:</strong>
+                                            <p style="text-align:right;padding-right:10%;"><strong>Fax:</strong></p>
+                                        </div>
+                                        <div class="col-6" style="text-align:left;">
+                                            <span t-field="o.company_id.ac_phone"/>
+                                            <br/>
+                                            <span t-field="o.company_id.ac_fax"/>
+                                        </div>
+                                        <div class="col-3">
+
+                                        </div>
+                                    </div>
+<!--                                    <table class="table table-borderless" style="width:60%;" >-->
+<!--                                        <tr style="height:-10px;">-->
+<!--                                            <td style="text-align:left;">Account Tel:</td>-->
+<!--                                            <td t-if="o.company_id.ac_phone" style="text-align:left;"><span t-field="o.company_id.ac_phone"/></td>-->
+<!--                                        </tr>-->
+<!--                                        <tr>-->
+<!--                                            <td style="text-align:left;">Fax:</td>-->
+<!--                                            <td t-if="o.company_id.ac_fax" style="text-align:left;"><span t-field="o.company_id.ac_fax"/></td>-->
+<!--                                        </tr>-->
+<!--                                    </table>-->
+
+<!--                                    <div style="text-align:left;">-->
+<!--                                        <strong>Account Tel:</strong>-->
+<!--                                        <span t-field="o.company_id.ac_phone"/>-->
+<!--                                    </div>-->
+
+<!--                                    <div style="text-align:left;">-->
+<!--                                        <strong>Fax:</strong>-->
+<!--                                        <span t-field="o.company_id.ac_fax"/>-->
+<!--                                    </div>-->
+                                </div>
+                                <div class="col-6" style="">
+                                    <span>
+                                        <!--                                   Invoice No:-->
+                                    </span>
+                                    <!--                                <span t-field="o.company_id.email"/>-->
+                                    <span>
+                                        <!--                                    Website:-->
+                                    </span>
+                                    <!--                                <span t-field="o.company_id.website"/>-->
+                                    <div t-if="report_type == 'pdf'" class="text-muted text-end">
+                                        <span style="margin-right:7%">Credit Note No:
+                                            <t t-if="o.name">
+                                                <t t-esc="o.name"/>
+                                            </t>
+                                        </span>
+                                        <span class="page"/>
+                                        |
+                                        <span class="topage"/>
+
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                    <!--                    </t>-->
+                </t>
+
+            </t>
+
+            <i t-if="not is_inv_order">
+                <t t-if="not is_pro_forma_order">
+                    <t t-if="is_so_order">
+                        <div class="footer">
+                            <!--                            <div class="row" style="border-top:0px;font-size: 11px;">-->
+                            <!--                                <div class="col-5">-->
+                            <!--                                    <span t-raw="o.company_id.footer1"/>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="col-2"></div>-->
+                            <!--                                <div class="col-5">-->
+                            <!--                                    <span t-raw="o.company_id.footer2"/>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
+                            <div class="row" style="padding-bottom:100px">
+                                <div class="col-6">
+                                    <p>100% Made In Hong Kong</p>
+                                </div>
+                                <div class="col-6" style="font-size:15px;">
+                                    <div t-if="report_type == 'pdf'" class="text-muted text-end">
+                                        <span style="margin-right:7%">
+                                            Quotation No:
+                                            <t t-if="o.name">
+                                                <t t-esc="o.name"/>
+                                            </t>
+                                        </span>
+                                        <span class="page"/>
+                                        |
+                                        <span class="topage"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--                        old code-->
+                        <!--                        <div class="footer">-->
+                        <!--                            <div class="row" style="margin-top:5%;">-->
+                        <!--                                <div class="col-6"></div>-->
+                        <!--                                <div class="col-6" style="">-->
+                        <!--                                    <br/>-->
+                        <!--                                    <br/>-->
+                        <!--                                    <br/>-->
+                        <!--                                    <div t-if="report_type == 'pdf'" class="text-muted text-end">-->
+                        <!--                                        <span style="margin-right:7%">-->
+                        <!--                                            Quotation No:-->
+                        <!--                                            <t t-if="o.name">-->
+                        <!--                                                <t t-esc="o.name"/>-->
+                        <!--                                            </t>-->
+                        <!--                                        </span>-->
+                        <!--                                        <span class="page"/>-->
+                        <!--                                        /-->
+                        <!--                                        <span class="topage"/>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                    </t>
+                </t>
+            </i>
+<!--            purchase footer-->
+            <i t-if="not is_inv_order">
+                <t t-if="not is_pro_forma_order">
+                    <t t-if="not is_so_order">
+                        <t t-if="is_prc_order">
+                            <div class="footer">
+                                <div class="row" style="padding-bottom:100px">
+                                    <div class="col-6">
+<!--                                        <p>100% Made In Hong Kong</p>-->
+                                    </div>
+                                    <div class="col-6" style="font-size:15px;">
+                                        <div t-if="report_type == 'pdf'" class="text-muted text-end">
+                                            <span style="margin-right:7%">
+                                                PO No:
+                                                <t t-if="o.name">
+                                                    <t t-esc="o.name"/>
+                                                </t>
+                                            </span>
+                                            <span class="page"/>
+                                            |
+                                            <span class="topage"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </i>
+
+            <i t-if="not is_inv_order">
+                <t t-if="not is_pro_forma_order">
+                    <t t-if="not is_so_order">
+                        <div class="footer">
+                            <div class="text-center" style="border-top: 1px solid black;">
+                                <ul class="list-inline mb4">
+                                    <div t-field="company.report_footer"/>
+                                </ul>
+
+                                <div t-if="report_type == 'pdf'" class="text-muted">
+                                    Page
+                                    <span class="page"/>
+                                    |
+                                    <span class="topage"/>
+                                </div>
+                                <div t-if="report_type == 'pdf' and display_name_in_footer" class="text-muted">
+                                    <span t-field="o.name"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </i>
+        </xpath>
+    </template>
+</odoo>

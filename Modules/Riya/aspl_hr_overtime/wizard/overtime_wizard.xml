@@ -1,0 +1,45 @@
+<odoo>
+    <data>
+        <record id="overtime_report_wizard_form" model="ir.ui.view">
+            <field name="name">wizard.overtime.form</field>
+            <field name="model">wizard.overtime</field>
+            <field name="arch" type="xml">
+                <form string="Overtime Report">
+                    <group invisible="state != 'choose'">
+                        <group>
+                            <field name="start_date"/>
+                            <field name="employee_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="end_date"/>
+                            <field name="payslip_detail"/>
+                            <field name="state" invisible="1"/>
+                        </group>
+                    </group>
+                    <div invisible="state == 'choose'">
+                        <h2>Report Complete</h2>
+                        <p>Here is the Xlsx File :
+                            <field name="file_data" readonly="1" filename="file_name"/>
+                        </p>
+                    </div>
+                    <footer invisible="state != 'choose'">
+                        <button string="Print PDF" class="oe_highlight" type="object" name="print_report_pdf"/>
+                        <button string="Print Excel" class="oe_highlight" type="object" name="print_report_excel"/>
+                        <button string="Cancel" class="oe_highlight" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_overtime_report_wizard" model="ir.actions.act_window">
+            <field name="name">Overtime</field>
+            <field name="res_model">wizard.overtime</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem action="action_overtime_report_wizard" id="menu_overtime_report_wizard"
+                  parent="menu_overtime_report"/>
+
+    </data>
+</odoo>

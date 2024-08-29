@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="stock_consignee_wiz_form_view" model="ir.ui.view">
+            <field name="name">stock.consignee.wiz.form</field>
+            <field name="model">wizard.consignee.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4">
+                        <field name="from_date" required="1"/>
+                        <field name="to_date" required="1"/>
+                        <field name="view_report"/>
+                    </group>
+                    <group>
+                        <field name="product_ids"
+                               invisible="view_report == 'consignee_wise' or not view_report"
+                               widget="many2many_tags"/>
+                        <field name="consignee_ids"
+                               invisible="view_report == 'product_wise' or not view_report"
+                               widget="many2many_tags"/>
+                    </group>
+                    <footer>
+                        <button name="generate_consignee_report" type="object" string="Generate Excel"
+                                class="oe_highlight"/>
+                        <button name="%(stock_consignee_reporting)d" type="action" string="Generate PDF"
+                                class="oe_highlight"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="stock_consignee_wiz_action" model="ir.actions.act_window">
+            <field name="name">Consignee Report</field>
+            <field name="res_model">wizard.consignee.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="stock_consignee_report_menu" action="aspl_consignee_management_ee.stock_consignee_wiz_action"
+                  parent="stock.menu_warehouse_report"
+                  name="Stock Consignee Report"/>
+
+        <record id="stock_consignee_view_down_report" model="ir.ui.view">
+            <field name="name">stock.consignee.view.down.report</field>
+            <field name="model">wiz.consignee.dwn.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" readonly="1" invisible="1"/>
+                            <field name="file" filename="name" readonly="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

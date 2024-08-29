@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<!--    direct button call action -->
+<!--        <record id="action_sale_order_action_bulk_confirm" model="ir.actions.server">-->
+<!--            <field name="name">Bulk Confirm</field>-->
+<!--            <field name="model_id" ref="sale.model_sale_order"/>-->
+<!--            <field name="binding_model_id" ref="sale.model_sale_order"/>-->
+<!--            <field name="binding_view_types">form,list</field>-->
+<!--            <field name="state">code</field>-->
+<!--            <field name="code">-->
+<!--                for rec in records:-->
+<!--                rec.action_confirm_sale()-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--    Wizard call action-->
+    <record id="action_sale_order_action_bulk_confirm" model="ir.actions.server">
+        <field name="name">Bulk Confirm</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = model.action_confirm_sale()
+        </field>
+    </record>
+</odoo>
+

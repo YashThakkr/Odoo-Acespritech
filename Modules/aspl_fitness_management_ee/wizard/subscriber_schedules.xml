@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id='view_create_subscriber_schedule_form' model='ir.ui.view'>
+            <field name='name'>view.create.subscriber.schedule.view</field>
+            <field name='model'>create.subscriber.schedule</field>
+            <field name='arch' type='xml'>
+                <form>
+                    <sheet>
+                        <group col="4">
+                            <field name="subscriber_id" invisible="1"/>
+                            <field name="plan_id" invisible="1"/>
+                            <field name="gym_service_ids" widget="many2many_tags" required="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Exercise Details">
+                                <field name="schedule_line_ids" options="{'no_create': True}">
+                                    <tree string="Exercises" create="false" editable="bottom" >
+                                        <field name="exercise_id"/>
+                                        <field name="count"/>
+                                        <field name="uom_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <footer>
+                            <button name="button_create_schedules" type="object" string="Create"/>
+                            <button string="Cancel" class="btn-secondary" special="cancel" />
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+
+</odoo>

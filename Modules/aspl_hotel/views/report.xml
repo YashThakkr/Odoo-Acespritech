@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_hotel_laundry_report" model="ir.actions.report">
+            <field name="name">Print Receipt</field>
+            <field name="model">hotel.laundry.service</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">aspl_hotel.hotel_laundry_report</field>
+            <field name="report_file">aspl_hotel.hotel_laundry_report</field>
+            <field name="binding_model_id" ref="model_hotel_laundry_service"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_work_order_report" model="ir.actions.report">
+            <field name="name">Work Order Report</field>
+            <field name="model">work.order.detail</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">aspl_hotel.work_order_report</field>
+            <field name="report_file">aspl_hotel.work_order_report</field>
+            <field name="binding_model_id" ref="model_work_order_detail"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="agent_payment_report" model="ir.actions.report">
+            <field name="name">Agent Payment Report</field>
+            <field name="model">agent.commission.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">aspl_hotel.agent_payment_report_template</field>
+            <field name="report_file">aspl_hotel.agent_payment_report_template</field>
+            <field name="binding_model_id" ref="model_agent_commission_payment"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_hotel_folio_report" model="ir.actions.report">
+            <field name="name">Folio</field>
+            <field name="model">hotel.folio</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">aspl_hotel.hotel_folio_report</field>
+            <field name="report_file">aspl_hotel.hotel_folio_report</field>
+            <field name="binding_model_id" ref="model_hotel_folio"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>

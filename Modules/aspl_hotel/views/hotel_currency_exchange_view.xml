@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="view_hotel_currency_exchange_form" model="ir.ui.view">
+            <field name="name">view.hotel.currency.exchange.form</field>
+            <field name="model">hotel.currency.exchange</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Currency Exchange">
+                    <sheet>
+                        <field name="active" widget="boolean_button" invisible="1"/>
+                        <widget name="web_ribbon" title="Active" bg_color="bg-success" invisible="not active"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="number" readonly="1" />
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="receipt_date"/>
+                            <field name="customer_id"/>
+                            <field name="source_currency"/>
+                            <field name="output_currency"/>
+                            <field name="currency_rate"/>
+                            <field name="folio_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hotel_currency_exchange_tree" model="ir.ui.view">
+            <field name="name">view.hotel.currency.exchange.tree</field>
+            <field name="model">hotel.currency.exchange</field>
+            <field name="arch" type="xml">
+                <tree string="Hotel Currency Exchange">
+                    <field name="receipt_date"/>
+                    <field name="customer_id"/>
+                    <field name="source_currency"/>
+                    <field name="output_currency"/>
+                </tree>
+            </field>
+        </record>
+
+         <record id="action_hotel_currency_exchange" model="ir.actions.act_window">
+            <field name="name">Currency Exchange</field>
+            <field name="res_model">hotel.currency.exchange</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_hotel_currency_exchange" name="Currency Exchange" sequence="18" parent="aspl_hotel.configuration_menu_hotel" action="action_hotel_currency_exchange"/>
+
+    </data>
+</odoo>

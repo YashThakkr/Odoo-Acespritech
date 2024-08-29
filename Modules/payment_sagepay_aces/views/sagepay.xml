@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <template id="sagepay_aces_provider_button">
+            <form t-att-action="api_url" method="post">
+                <input type="hidden" name="VPSProtocol" t-att-value="VPSProtocol"/>
+                <input type="hidden" name="TxType" t-att-value="TxType"/>
+                <input type="hidden" name="Vendor" t-att-value="Vendor"/>
+                <input type="hidden" name="Crypt" t-att-value="Crypt"/>
+            </form>
+        </template>
+
+    </data>
+</odoo>

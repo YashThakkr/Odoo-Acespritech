@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="account_payment.portal_invoice_page_inherit_payment" name="Payment on My Invoices" inherit_id="account.portal_invoice_page">
+        <xpath expr="//t[@t-call='portal.portal_record_sidebar']//div[hasclass('o_download_pdf')]" position="before">
+            <t t-set="tx_ids" t-value="invoice.transaction_ids.filtered(lambda tx: tx.state in ('pending', 'authorized', 'done'))"/>
+            <t t-set="pending_manual_txs" t-value="tx_ids.filtered(lambda tx: tx.state == 'pending' and tx.acquirer_id.provider in ('transfer', 'manual'))"/>
+            <div>
+                <t t-if="invoice.state == 'posted' and invoice.payment_state == 'not_paid' and invoice.amount_total and invoice.move_type == 'out_invoice' and (pending_manual_txs or not tx_ids)">
+                    <a t-if="not invoice.signature" role="button" class="btn btn-primary btn-block mb8" data-bs-toggle="modal" data-bs-target="#modalacceptinvoice" href="#" style="width: 100%;">
+                        <i class="fa fa-check"/><t t-if="not invoice.signature"> Sign &amp; Pay</t><t t-else=""> Accept &amp; Sign</t>
+                    </a>
+                    <t t-else="">
+                        <a href="#" t-if="invoice.state == 'posted' and invoice.payment_state == 'not_paid' and invoice.amount_total and invoice.move_type == 'out_invoice' and (pending_manual_txs or not tx_ids)"
+                           class="btn btn-primary btn-block mb-2" id="o_invoice_portal_paynow" data-bs-toggle="modal" data-bs-target="#pay_with" style="width: 100%;">
+                            <i class="fa fa-fw fa-arrow-circle-right"/> Pay Now
+                        </a>
+                    </t>
+                </t>
+
+                <div t-if="tx_ids and not pending_manual_txs and invoice.payment_state != 'paid'" class="alert alert-info py-1 mb-2" >
+                    <i class="fa fa-fw fa-check-circle"/> Pending
+                </div>
+                <div t-if="invoice.payment_state == 'paid'" class="alert alert-success py-1 mb-2" >
+                    <i class="fa fa-fw fa-check-circle"/> Paid
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//t[@t-set='o_portal_fullwidth_alert']" position="after">
+            <div class="modal fade" id="pay_with" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Pay with</h3>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div t-if="providers or tokens" id="payment_method" class="text-start col-md-13">
+                                <t t-call="payment.checkout"/>
+                            </div>
+                            <div t-else="" class="alert alert-warning">
+                                <strong>No suitable payment option could be found.</strong><br/>
+                                If you believe that it is an error, please contact the website administrator.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="invoice_content" class="col-12 col-lg justify-content-end">
+                <div role="dialog" class="modal fade" id="modalacceptinvoice">
+                    <div class="modal-dialog" t-if="not invoice.signature">
+                        <form id="accept" method="POST" t-att-data-order-id="invoice.id" t-att-data-token="invoice.access_token" class="js_accept_json modal-content js_website_submit_form">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <header class="modal-header">
+                                <h4 class="modal-title">Validate Invoice</h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&amp;times;</button>
+                            </header>
+                            <main class="modal-body" id="sign-dialog">
+                                <p>
+                                    <span>By signing this invoice, I agree to the following terms:</span>
+                                    <ul>
+                                        <li><span>Accepted on the behalf of:</span> <b t-field="invoice.partner_id.commercial_partner_id"/></li>
+                                        <li><span>For an amount of:</span> <b data-id="total_amount" t-field="invoice.amount_total"/></li>
+                                    </ul>
+                                </p>
+                                <t t-call="portal.signature_form">
+                                    <t t-set="call_url" t-value="invoice.get_portal_url(suffix='/accept')"/>
+                                    <t t-set="default_name" t-value="invoice.partner_id.name"/>
+                                </t>
+                            </main>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

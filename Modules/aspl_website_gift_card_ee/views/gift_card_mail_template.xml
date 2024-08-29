@@ -1,0 +1,55 @@
+<odoo>
+
+    <record id="email_template__buy_card" model="mail.template">
+        <field name="name">Gift Card Buy</field>
+        <field name="email_from">noreply@gmail.com</field>
+        <field name="subject">Set Pin for Gift Card</field>
+        <field name="email_to">${object.email}</field>
+        <field name="model_id" ref="aspl_website_gift_card_ee.model_website_gift_card"/>
+        <field name="auto_delete" eval="False"/>
+        <field name="body_html"><![CDATA[
+            <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+            <p>Hello <t t-esc="object.customer_id.name"/>
+            <br/>
+            <p style="margin-left: 50px;">
+                Your card <t-esc="object.card_no"/> have balance <t t-esc="object.card_value"/>.<br/>
+                Thanks for using our services.
+            </p>
+            <p style="margin-left: 50px;">
+            <a t-attf-href="/shop/set_pin?value=#{object.encrypted_id}">Set Pin For This Gift Card</a>
+            </p>car
+            </p>
+            <br/>
+            Thank You,
+            <br/>
+            <t t-esc="user.name"/>
+            </div>
+        ]]></field>
+    </record>
+
+    <record id="email_template_recharge_card" model="mail.template">
+        <field name="name">Gift Card Recharge</field>
+        <field name="email_from">noreply@gmail.com</field>
+        <field name="subject">Recharge successfully</field>
+        <field name="email_to">${object.card_id.email}</field>
+        <field name="model_id" ref="aspl_website_gift_card_ee.model_gift_card_recharge"/>
+        <field name="auto_delete" eval="False"/>
+        <field name="body_html"><![CDATA[
+            <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+            <p>Hello <t t-esc="object.card_id.customer_id.name"/>
+            <br/>
+            <p style="margin-left: 50px;">
+                Your card recharge is done.
+                Your card <t t-esc="object.card_id.card_no"/> have current balance <t t-esc="object.card_id.card_value"/>.<br/>
+                Thanks for using our services.
+            </p>
+            </p>
+            <br/>
+            Thank You,
+            <br/>
+            <t t-esc="user.name"/>
+            </div>
+        ]]></field>
+    </record>
+
+</odoo>

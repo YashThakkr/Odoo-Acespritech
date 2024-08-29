@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="inherit_view_res_partner_filter" model="ir.ui.view">
+            <field name="name">res.partner.search</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <filter name="inactive" position="after">
+<!--                    <filter name="branch" string="Branch"-->
+<!--                            context="{'group_by' : 'branch_id'}"/>-->
+                </filter>
+            </field>
+        </record>
+
+        <record id="view_res_partner_inh_form" model="ir.ui.view">
+            <field name="name">view.res.partner.inh.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="lang" position="after">
+                    <field name="birth_date"/>
+                    <field name="birth_county_id"/>
+                    <field name="birth_city"/>
+                    <field name="guest_type" widget="radio" options="{'horizontal': true}"/>
+                    <field name="gender" widget="radio" options="{'horizontal': true}"/>
+                    <field name="vip_status_id"/>
+                    <field name="payment_type_id"/>
+                    <field name="direct_billing_ac"/>
+                    <field name="spouse_birth_date"/>
+                    <field name="wedding_anniversary"/>
+                </field>
+                <xpath expr="//page[@name='sales_purchases']//field[@name='company_id']" position="after">
+<!--                    <field name="branch_id" required="1" domain="[('company_id', '=', company_id)]"-->
+<!--                           groups="aspl_hotel.group_multi_branches"-->
+<!--                           options="{'no_create':True,'no_edit':True}"/>-->
+                </xpath>
+                <xpath expr="//sheet/notebook//page[@name='sales_purchases']//group[@name='container_row_2']//group[@name='purchase']"
+                       position="after">
+                    <group string="Agent Commission">
+                        <field name="is_agent"/>
+                    </group>
+                    <group string="Laundry Agency">
+                        <field name="is_agency"/>
+                    </group>
+                    <group string="Transportation Agency">
+                        <field name="is_transportation_agency"/>
+                    </group>
+                </xpath>
+                <xpath expr="//sheet//notebook" position="inside">
+                    <page string="Agent Commission" invisible="not is_agent">
+                        <group>
+                            <group string="Currency">
+                                <field name="currency_id"/>
+                            </group>
+                            <group string="Scheduler Details">
+                                <field name="commission_payment_type"/>
+                                <field name="next_payment_date"
+                                       invisible="commission_payment_type == 'manually'"/>
+                            </group>
+                        </group>
+                        <field name="agent_commission_ids" nolabel="1" mode="tree">
+                            <tree editable="bottom">
+                                <field name="agent_id" invisible="1"/>
+                                <field name="calculation"/>
+                                <field name="commission"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+                <xpath expr="//button[hasclass('oe_stat_button')]" position="before">
+                    <button name="commission_payment_count" type="object" class="oe_stat_button"
+                            icon="fa-pencil-square-o"
+                            invisible="not is_agent">
+                        <field string="Commission" name="commission_count" widget="statinfo"/>
+                    </button>
+                    <button class="oe_stat_button" type="object" icon="fa-ticket" name="customer_booking_count">
+                        <field string="Booking" name="booking_count" widget="statinfo"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

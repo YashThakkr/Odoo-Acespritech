@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template id="rfid_login" inherit_id="web.login" name="Login">
+        <xpath expr="//form" position="replace">
+            <form class="oe_login_form" role="form" t-attf-action="/web/login{{ '?debug' if debug else '' }}"
+                  method="post" onsubmit="this.action = this.action + location.hash">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <t t-set="is_rfid_enable"
+                   t-value="request.env['ir.config_parameter'].sudo().get_param('aspl_auth_rfid_login.enable_rfid')"/>
+
+                <div id="select_login_type" class="row form-group" t-if="is_rfid_enable">
+                    <div class="col-6">
+                        <label style="margin-left:10px;">
+                            <input class="option-input radio" id="login_with_rfid" type="radio" name="login_type"
+                                   value="with_rfid" checked="checked"/>
+                            <span>RFID</span>
+                        </label>
+                    </div>
+                    <div class="col-6">
+                        <label style="margin-left:10px;">
+                            <input class="option-input radio" id="login_without_bio" type="radio" name="login_type"
+                                   value="without_rfid"/>
+                            <span>Login</span>
+                        </label>
+                    </div>
+                    <br/>
+                </div>
+
+                <div class="form-group field-db" t-if="databases and len(databases) &gt; 1">
+                    <label for="db" class="col-form-label">Database</label>
+                    <div t-attf-class="input-group {{'input-group-sm' if form_small else ''}}">
+                        <input type="text" name="db" t-att-value="request.db" id="db"
+                               t-attf-class="form-control #{'form-control-sm' if form_small else ''}"
+                               required="required" readonly="readonly"/>
+                        <span class="input-group-append">
+                            <a role="button" href="/web/database/selector" class="btn btn-secondary">Select
+                                <i class="fa fa-database" role="img" aria-label="Database" title="Database"/>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group field-login" id="email_cus" style="display:none;" t-if="is_rfid_enable">
+                    <label for="login_email">Email</label>
+                    <input type="text" placeholder="Email" name="login_email" id="login_email"
+                           t-attf-class="form-control #{'form-control-sm' if form_small else ''}"
+                           t-att-required="'required' if is_rfid_enable else False" autofocus="autofocus"
+                           autocapitalize="off"/>
+                </div>
+
+                <div class="form-group field-login" id="login_email_cust">
+                    <label for="login">Email</label>
+                    <input type="text" placeholder="Email" name="login" t-att-value="login" id="login"
+                           t-attf-class="form-control #{'form-control-sm' if form_small else ''}"
+                           required="required" autofocus="autofocus" autocapitalize="off"/>
+                </div>
+
+                <div class="form-group field-password" id="password_cus" style=""
+                     t-attf-style="display:none;#{not is_rfid_enable and 'display:block' or ''}">
+                    <label for="password">Password</label>
+                    <input type="password" placeholder="Password" name="password" id="password"
+                           t-attf-class="form-control #{'form-control-sm' if form_small else ''}"
+                           required="required" autocomplete="current-password"
+                           t-att-autofocus="'autofocus' if login else None" maxlength="4096"/>
+                </div>
+
+                <div id="login_fail" class="alert alert-danger" role="alert" style="display:none;">
+                    <span id="error_msg">Login fail please try again!!!!</span>
+                </div>
+
+                <p class="alert alert-danger" t-if="error" role="alert">
+                    <t t-esc="error"/>
+                </p>
+                <p class="alert alert-success" t-if="message" role="status">
+                    <t t-esc="message"/>
+                </p>
+
+                <div t-attf-class="clearfix oe_login_buttons text-center mb-1 {{'pt-2' if form_small else 'pt-4'}}">
+                    <t t-if="is_rfid_enable">
+                        <button type="button" class="btn btn-primary btn-block" id="scan_rfid">Scan RFID</button>
+                    </t>
+
+                    <button type="submit" class="btn btn-primary btn-block"
+                            t-attf-style="display:none;#{not is_rfid_enable and 'display:block' or ''}"
+                            id="login_btn">Log
+                        in
+                    </button>
+                    <t t-if="debug">
+                        <button type="submit" name="redirect" value="/web/become"
+                                class="btn btn-link btn-sm btn-block">Log in as superuser
+                        </button>
+                    </t>
+                    <div class="o_login_auth"/>
+                </div>
+
+                <input type="hidden" name="redirect" t-att-value="redirect"/>
+
+                <div id="login_rfid_popup" data-backdrop="static" class="modal fade in" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div style="text-align:right">
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <i class="fa fa-times" style="font-size:20px;"/>
+                                    </button>
+                                </div>
+                                <div class="rfid_div">
+                                    <h3>Please Scan RFID</h3>
+                                    <div id="image">
+                                        <img src="/aspl_auth_rfid_login/static/image/scan.png"
+                                        style="height:300px;width:auto;"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </xpath>
+    </template>
+
+</odoo>

@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="hotel_laundry_report">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            <div class="row">
+                                <div class="col-xs-4 pull-right">
+                                    <t>
+                                        <span t-field="o.folio_id.customer_id.name"/>
+                                    </t>
+                                    <br/>
+                                    <t>
+                                        <span t-field="o.folio_id.customer_id.street"/>
+                                    </t>
+                                    <t t-if="o.folio_id.customer_id.street2">
+                                        <br/>
+                                    </t>
+                                    <t>
+                                        <span t-field="o.folio_id.customer_id.street2"/>
+                                    </t>
+                                    <t t-if="o.folio_id.customer_id.city">
+                                        <br/>
+                                    </t>
+                                    <t>
+                                        <span t-field="o.folio_id.customer_id.city"/>
+                                        <span t-field="o.folio_id.customer_id.state_id.name"/>
+                                        <span t-field="o.folio_id.customer_id.zip"/>
+                                    </t>
+                                    <t t-if="o.folio_id.customer_id.country_id">
+                                        <br/>
+                                    </t>
+                                    <t>
+                                        <span t-field="o.folio_id.customer_id.country_id"/>
+                                    </t>
+                                </div>
+                            </div>
+                            <br/>
+                            <h3>
+                                <strong>
+                                    Reciept No.
+                                    <span t-field="o.service_no"/>
+                                </strong>
+                            </h3>
+                            <br/>
+                            <br/>
+                            <table>
+                                <tr>
+                                    <td style="padding-left: 5px;">
+                                        <strong>Room No</strong>
+                                    </td>
+                                    <td style="padding-left: 5px;">
+                                        <strong>Customer</strong>
+                                    </td>
+                                    <td style="padding-left: 250px;">
+                                        <strong>Folio No</strong>
+                                    </td>
+                                    <td style="padding-left: 250px;">
+                                        <strong>Reciept Date</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left: 5px;">
+                                        <span t-field="o.room_id"/>
+                                    </td>
+                                    <td style="padding-left: 5px;">
+                                        <span t-field="o.folio_id.customer_id.name"/>
+                                    </td>
+                                    <td style="padding-left: 250px;">
+                                        <span t-field="o.folio_id"/>
+                                    </td>
+                                    <td style="padding-left: 250px;">
+                                        <span t-field="o.date"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <br/>
+                            <table class="table table-condensed" style="padding-top:20px;">
+                                <thead>
+                                    <tr>
+                                        <th>Clothes</th>
+                                        <th>Services</th>
+                                        <th>Quantity</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <t t-foreach="o.service_ids" t-as="service">
+                                    <tr>
+                                        <td>
+                                            <span t-esc="service.item_id.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-set="service_list"
+                                               t-value="[service_type.service_type_id.name for service_type in service.item_service_ids]"/>
+                                            <span t-esc="', '.join(service_list)"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="service.quantity"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="service.amount"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                            <div class="col-xs-4 pull-right">
+                                <table class="table table-condensed" style="min-width: 200px;max-width: 350px;">
+                                    <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+                                        <td class="text-right">
+                                            <strong>Untax Amount:</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="o.untax_amount"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+                                        <td class="text-right">
+                                            <strong>Tax Amount:</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="o.tax_amount"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+                                        <td class="text-right">
+                                            <strong>Total Amount:</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="o.total_amount"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="work_order_report">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <br/>
+                        <br/>
+                        <br/>
+                        <t t-foreach="data.get('get_data')" t-as="l">
+                            <div style="display: flex; align-content: center;">
+                                <strong>Date:</strong>
+                                <strong t-esc="l"/>
+                            </div>
+                            <t t-foreach="l_value" t-as="each_user">
+
+                                <div style="margin-top:20px;">
+                                    <strong>User:</strong>
+                                    <strong t-esc="each_user"/>
+                                </div>
+
+                                <table class="table" style="margin-top:10px;">
+                                    <tr>
+                                        <th>Room No</th>
+                                        <th>Order Category</th>
+                                        <th>Description</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Duration(Minutes)</th>
+                                        <th>State</th>
+                                    </tr>
+                                    <t t-foreach="each_user_value" t-as="each_user_line">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="each_user_line.room_id.room_no"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="each_user_line.work_order_categ_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="each_user_line.description"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="each_user_line.start_time"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="each_user_line.end_time"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="'%.2f'%(float(each_user_line.work_duration))"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="each_user_line.status"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </table>
+                            </t>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <template id="hotel_folio_report">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            <div class="row">
+                                <t t-set="total_room_amount" t-value="0"/>
+                                <t t-set="total_folio_service_amount" t-value="0"/>
+                                <t t-set="total_customer_activity_amount" t-value="0"/>
+                                <t t-set="total_laundry_amount" t-value="0"/>
+                                <t t-set="total_room_transfer_amount" t-value="0"/>
+                                <div class="col-xs-4 pull-right">
+                                    <t>
+                                        <span t-field="o.customer_id.name"/>
+                                    </t>
+                                    <br/>
+                                    <t>
+                                        <span t-field="o.customer_id.street"/>
+                                    </t>
+                                    <t t-if="o.customer_id.street2">
+                                        <br/>
+                                    </t>
+                                    <t>
+                                        <span t-field="o.customer_id.street2"/>
+                                    </t>
+                                    <t t-if="o.customer_id.city">
+                                        <br/>
+                                    </t>
+                                    <t>
+                                        <span t-field="o.customer_id.city"/>
+                                        <span t-field="o.customer_id.state_id.name"/>
+                                        <span t-field="o.customer_id.zip"/>
+                                    </t>
+                                    <t t-if="o.customer_id.country_id">
+                                        <br/>
+                                    </t>
+                                    <t>
+                                        <span t-field="o.customer_id.country_id"/>
+                                    </t>
+                                </div>
+                            </div>
+                            <br/>
+                            <h2>
+                                <t t-if="o.number">
+                                    <span>Folio No #</span>
+                                </t>
+                                <span t-field="o.number"/>
+                            </h2>
+
+                            <div class="row mt32 mb32" id="informations">
+                                <div t-if="o.checkin_date" class="col-auto mw-100 mb-2">
+                                    <strong>CheckIn Date:</strong>
+                                    <p class="m-0" t-field="o.checkin_date"/>
+                                </div>
+                                <div t-if="o.checkout_date"
+                                     class="col-auto mw-100 mb-2">
+                                    <strong>CheckOut Date:</strong>
+                                    <p class="m-0" t-field="o.checkout_date"/>
+                                </div>
+                                <div t-if="o.room_id"
+                                     class="col-auto mw-100 mb-2">
+                                    <strong>Room No:</strong>
+                                    <p class="m-0" t-field="o.room_id.room_no"/>
+                                </div>
+                                <div t-if="o.days" class="col-auto mw-100 mb-2">
+                                    <strong>Number Of Days:</strong>
+                                    <p class="m-0" t-field="o.days"/>
+                                </div>
+                                <div t-if="o.walk_in_id" class="col-auto mw-100 mb-2">
+                                    <strong>Walk In Reference:</strong>
+                                    <p class="m-0" t-field="o.walk_in_id.number"/>
+                                </div>
+                            </div>
+                            <br t-if="o.room_line_ids"/>
+                            <br t-if="o.room_line_ids"/>
+                            <h3 t-if="o.room_line_ids">Room Details</h3>
+                            <table class="table table-condensed" t-if="o.room_line_ids">
+                                <tr>
+                                    <td>
+                                        <strong>Room No</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Description</strong>
+                                    </td>
+
+                                    <td>
+                                        <strong>Discount(%)</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Price</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Total</strong>
+                                    </td>
+                                </tr>
+                                <t t-foreach="o.room_line_ids" t-as="each_room_line">
+                                    <tr>
+
+                                        <td>
+                                            <span t-field="each_room_line.room_id.room_no"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="each_room_line.description"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="each_room_line.discount"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="each_room_line.price"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="each_room_line.sub_total"/>
+                                        </td>
+                                        <t t-set="total_room_amount" t-value="total_room_amount + each_room_line.sub_total"/>
+                                    </tr>
+                                </t>
+                            </table>
+                            <br t-if="o.folio_services"/>
+                            <br t-if="o.folio_services"/>
+                            <h2 t-if="o.folio_services">Folio Service</h2>
+                            <table class="table table-condensed" t-if="o.folio_services" style="padding-top:20px;">
+                                <thead>
+                                    <tr>
+                                        <th>Service</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <t t-foreach="o.folio_services" t-as="each_folio_service">
+                                    <tr>
+                                        <td>
+                                            <span t-esc="each_folio_service.service_id.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="each_folio_service.amount"/>
+                                        </td>
+                                    </tr>
+                                    <t t-set="total_folio_service_amount" t-value="total_folio_service_amount + each_folio_service.amount"/>
+                                </t>
+                            </table>
+                            <br t-if="o.activity_ids"/>
+                            <br t-if="o.activity_ids"/>
+
+                            <h2 t-if="o.activity_ids">Customer Activity</h2>
+                            <table class="table table-condensed" t-if="o.activity_ids" style="padding-top:20px;">
+                                <thead>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Date</th>
+                                        <th>Activity</th>
+                                        <th>Duration</th>
+                                        <th>Charges</th>
+                                    </tr>
+                                </thead>
+                                <t t-foreach="o.activity_ids" t-as="each_activity">
+                                    <tr>
+                                        <td>
+                                            <span t-esc="each_activity.customer_id.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="each_activity.date"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="each_activity.activity.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="each_activity.duration"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="each_activity.charges"/>
+                                        </td>
+                                    </tr>
+                                    <t t-set="total_customer_activity_amount" t-value="total_customer_activity_amount + each_activity.charges"/>
+                                </t>
+                            </table>
+                            <br t-if="o.service_ids"/>
+                            <br t-if="o.service_ids"/>
+                            <h2 t-if="o.service_ids">Laundry Service</h2>
+                            <table t-if="o.service_ids" class="table table-condensed" style="padding-top:20px;">
+                                <thead>
+                                    <tr>
+                                        <th>Clothes</th>
+                                        <th>Services</th>
+                                        <th>Quantity</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <t t-foreach="o.service_ids" t-as="service">
+                                    <tr>
+                                        <td>
+                                            <span t-esc="service.item_id.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-set="service_list"
+                                               t-value="[service_type.service_type_id.name for service_type in service.item_service_ids]"/>
+                                            <span t-esc="', '.join(service_list)"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="service.quantity"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="service.amount"/>
+                                        </td>
+                                    </tr>
+                                    <t t-set="total_laundry_amount" t-value="total_laundry_amount + service.amount"/>
+                                </t>
+                            </table>
+
+                            <br t-if="o.hotel_room_transfer_ids"/>
+                            <br t-if="o.hotel_room_transfer_ids"/>
+
+                            <h2 t-if="o.hotel_room_transfer_ids">Room Transfer</h2>
+                            <table t-if="o.hotel_room_transfer_ids" class="table table-condensed" style="padding-top:20px;">
+                                <thead>
+                                    <tr>
+                                        <th>From Room No.</th>
+                                        <th>To Room No.</th>
+                                        <th>Transfer Date</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <t t-foreach="o.hotel_room_transfer_ids" t-as="each_room_transfer">
+                                    <tr>
+                                        <td>
+                                            <span t-esc="each_room_transfer.from_room_id.room_no"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="each_room_transfer.to_room_id.room_no"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="each_room_transfer.transfer_date"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="each_room_transfer.price"/>
+                                        </td>
+                                    </tr>
+                                    <t t-set="total_room_transfer_amount" t-value="total_room_transfer_amount + each_room_transfer.price"/>
+                                </t>
+                            </table>
+
+                            <div class="col-xs-5 pull-right" style="margin-top:35px;">
+                                <table class="table table-condensed" style="min-width: 200px;max-width: 350px;">
+                                    <tr t-if="o.room_line_ids">
+                                        <td class="text-right">
+                                            <strong>Room Amount:</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="total_room_amount"/>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="o.folio_services">
+                                        <td class="text-right">
+                                            <strong>Folio Service Amount:</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="total_folio_service_amount"/>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="o.activity_ids">
+                                        <td class="text-right">
+                                            <strong>Customer Activity Amount:</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="total_customer_activity_amount"/>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="o.service_ids">
+                                        <td class="text-right">
+                                            <strong>Laundry Amount:</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="total_laundry_amount"/>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="o.hotel_room_transfer_ids">
+                                        <td class="text-right">
+                                            <strong>Room Transfer Amount:</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="total_room_transfer_amount"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+                                        <td class="text-right">
+                                            <strong>Total Amount:</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="o.total_amount"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

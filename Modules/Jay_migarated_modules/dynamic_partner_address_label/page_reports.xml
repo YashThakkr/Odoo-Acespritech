@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    <data>-->
+
+        <record id="dynamic_partner_page_report" model="ir.actions.report">
+            <field name="name">Dynamic Partner Address Label</field>
+            <field name="model">wizard.partner.page.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dynamic_partner_address_label.dynamic_partner_page_rpt</field>
+            <field name="report_file">dynamic_partner_address_label.dynamic_partner_page_rpt</field>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="paperformat_dynamic_partner_address_label" model="report.paperformat">
+            <field name="name">Dynamic Partner Page Paper Format</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">1</field>
+            <field name="margin_bottom">1</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">0</field>
+            <field name="dpi">80</field>
+            <field name="report_ids" eval="[(6,0,[ref('dynamic_partner_address_label.dynamic_partner_page_report')])]" />
+        </record>
+
+<!--    </data>-->
+</odoo>

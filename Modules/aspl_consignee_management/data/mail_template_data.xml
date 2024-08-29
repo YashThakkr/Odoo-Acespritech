@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="consume_items_order_template" model="mail.template">
+            <field name="name">Consume Items Order Details</field>
+            <field name="subject">Consume Items Order Details</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="email_to">{{object.partner_id.email}}</field>
+<!--            <field name="report_template" ref="sale_consignee_reporting"/>-->
+            <field name="report_template_ids" eval="[(4, ref('aspl_consignee_management.sale_consignee_reporting'))]"/>
+<!--            <field name="report_name">{{(object.so_number_ref or '').replace('/','_')}}</field>-->
+            <field name="model_id" ref="aspl_consignee_management.model_consignee_consume_items"/>
+            <field name="body_html" type="html">
+                <div>
+                    <b>Dear
+                        <t t-out="object.partner_id.name or ''"/>
+                    </b>
+                    ,
+                    <br/>
+                    This mail is to inform you that sale order
+                    <b>
+                        <t t-out="object.so_number_ref or ''"/>
+                    </b>
+                    is been create for your consume items order
+                    <b>
+                        <t t-out="object.name or ''"/>
+                    </b>
+                    dated on
+                    <b>
+                        <t t-out="object.date"/>
+                    </b>
+                    .
+                    <br/>please verify consume items details into attach PDF.
+                    <br/>
+                </div>
+            </field>
+            <field name="auto_delete">False</field>
+        </record>
+
+        <record id="user_consignee_request_template" model="mail.template">
+            <field name="name">Product Transfer Request To Consignee</field>
+            <field name="subject">Product Transfer Request To Consignee</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="email_to">{{object.partner_id.email}}</field>
+<!--            <field name="report_template" ref="stock_consignee_request_reporting"/>-->
+            <field name="report_template_ids" eval="[(4, ref('aspl_consignee_management.stock_consignee_request_reporting'))]"/>
+<!--            <field name="report_name">{{(object.name or '').replace('/','_')}}</field>-->
+            <field name="model_id" ref="aspl_consignee_management.model_stock_consignee_transfer"/>
+            <field name="body_html" type="html">
+                <div>
+                    <b>Dear
+                        <t t-out="object.partner_id.name or ''"/>
+                    </b>
+                    ,
+                    <br/>
+                    This mail is to inform you that we have stock which we can transfer to your location.
+                    <br/>
+                    please verify items details into attach PDF.
+                </div>
+            </field>
+        </record>
+
+        <record id="user_consignee_confirm_template" model="mail.template">
+            <field name="name">Consignee Transfer Confirmation Details</field>
+            <field name="subject">Consignee Transfer Confirmation Details</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="email_to">{{(ctx.get('email_to'))}}</field>
+<!--            <field name="report_template" ref="stock_consignee_request_reporting"/>-->
+            <field name="report_template_ids" eval="[(4, ref('aspl_consignee_management.stock_consignee_request_reporting'))]"/>
+<!--            <field name="report_name">{{(object.name or '').replace('/','_')}}</field>-->
+            <field name="model_id" ref="aspl_consignee_management.model_stock_consignee_transfer"/>
+            <field name="body_html" type="html">
+                <div>
+                    <b>Hello,</b>,
+                    <br/>
+                    Thank You for processing this transfer
+                    <b>
+                        <t t-out="object.name or ''"/>
+                    </b>
+                    . we are ready to accept.
+                </div>
+            </field>
+            <field name="auto_delete">False</field>
+        </record>
+
+        <record id="consignee_request_template" model="mail.template">
+            <field name="name">Consignee Return Transfer Request Details</field>
+            <field name="subject">Consignee Return Transfer Request Details</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="email_to">{{(ctx.get('email_to'))}}</field>
+<!--            <field name="report_template" ref="stock_consignee_request_reporting"/>-->
+            <field name="report_template_ids" eval="[(4, ref('aspl_consignee_management.stock_consignee_request_reporting'))]"/>
+<!--            <field name="report_name">{{(object.name or '').replace('/','_')}}</field>-->
+            <field name="model_id" ref="aspl_consignee_management.model_stock_consignee_transfer"/>
+            <field name="body_html" type="html">
+                <div>
+                    <b>Hello,</b>,
+                    <br/>
+                    This mail is for request that we would like to return some of the products to your place again.
+                    <br/>
+                    please find detail into attachment.
+                </div>
+            </field>
+        </record>
+
+        <record id="consignee_confirm_template" model="mail.template">
+            <field name="name">Consignee Return Transfer Confirmation Details</field>
+            <field name="subject">Consignee Return Transfer Confirmation Details</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="email_to">{{object.partner_id.email}}</field>
+<!--            <field name="report_template" ref="stock_consignee_request_reporting"/>-->
+            <field name="report_template_ids" eval="[(4, ref('aspl_consignee_management.stock_consignee_request_reporting'))]"/>
+<!--            <field name="report_name">{{(object.name or '').replace('/','_')}}</field>-->
+            <field name="model_id" ref="aspl_consignee_management.model_stock_consignee_transfer"/>
+            <field name="body_html" type="html">
+                <div>
+                    <b>Dear
+                        <t t-out="object.partner_id.name or ''"/>
+                    </b>
+                    ,
+                    <br/>
+                    Your request for return
+                    <b>
+                        <t t-out="object.name or ''"/>
+                    </b>
+                    is accepted.
+                    <br/>
+                    you can send product at our place.
+                </div>
+            </field>
+            <field name="auto_delete">False</field>
+        </record>
+
+        <record id="consignee_consignee_request_internal_template" model="mail.template">
+            <field name="name">Consignee Request Internal Transfer</field>
+            <field name="subject">Consignee Request Internal Transfer</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="email_to">{{object.to_partner_id.email}}</field>
+<!--            <field name="report_template" ref="stock_consignee_request_reporting"/>-->
+            <field name="report_template_ids" eval="[(4, ref('aspl_consignee_management.stock_consignee_request_reporting'))]"/>
+<!--            <field name="report_name">{{(object.name or '').replace('/','_')}}</field>-->
+            <field name="model_id" ref="aspl_consignee_management.model_stock_consignee_transfer"/>
+            <field name="body_html" type="html">
+                <div>
+                    <b>Dear
+                        <t t-out="object.partner_id.name or ''"/>
+                    </b>
+                    ,
+                    <br/>
+                    This mail is for request that we are ready to transfer products from our location to your location.
+                    <br/>
+                    please find detail into attachment.
+                </div>
+            </field>
+        </record>
+
+        <record id="consignee_consignee_confirm_internal_template" model="mail.template">
+            <field name="name">Consignee Confirm Internal Transfer</field>
+            <field name="subject">Consignee Internal Confirmed Order</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="email_to">{{object.partner_id.email}}</field>
+<!--            <field name="report_template" ref="stock_consignee_request_reporting"/>-->
+            <field name="report_template_ids" eval="[(4, ref('aspl_consignee_management.stock_consignee_request_reporting'))]"/>
+<!--            <field name="report_name">{{(object.name or '').replace('/','_')}}</field>-->
+            <field name="model_id" ref="aspl_consignee_management.model_stock_consignee_transfer"/>
+            <field name="body_html" type="html">
+                <div>
+                    <b>Dear
+                        <t t-out="object.partner_id.name or ''"/>
+                    </b>
+                    ,
+                    <br/>
+                    Thank you for transferring product(s).Transfer
+                    <b>
+                        <t t-out="object.name or ''"/>
+                    </b>
+                    ,we are ready to accept.
+                </div>
+            </field>
+            <field name="auto_delete">False</field>
+        </record>
+
+        <record id="product_expiry_alert_mail" model="mail.template">
+            <field name="name">Send alert for product expire to consignee</field>
+            <field name="subject">Alert for product expiry</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="email_to">{{(ctx.get('email_to'))}}</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="body_html" type="html">
+                <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px;
+                                    color: rgb(34, 34, 34); background-color: #FFF; ">
+                    <p>Hello
+                        <t t-out="object.name or ''"/>
+                        <br/>
+                        This is list of products which going to expire at your location.
+                    </p>
+                    <table border="1">
+                        <tbody border="1">
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Qty</th>
+                                <th>Lot Number</th>
+                                <th>Expire Date</th>
+                            </tr>
+                            <t t-foreach="ctx.get('con_data')" t-as="data">
+                                <tr>
+                                    <td style="text-align:right">
+                                        <span t-esc="data.get('product_id').name"/>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span t-esc="data.get('qty')"/>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span t-esc="data.get('lot_id').name"/>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span t-esc="data.get('expire_date')"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </field>
+            <field name="auto_delete">False</field>
+        </record>
+
+        <record id="product_expiry_to_consignee_scheduler" model="ir.cron">
+            <field name="name">Consignee Product Expiry</field>
+            <field name="model_id" ref="model_stock_consignee_transfer"/>
+            <field name="state">code</field>
+            <field name="code">model.get_product_expiry_date_scheduler()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="active">True</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="inherit_res_config_settings_form_view" model="ir.ui.view">
+        <field name="name">res.config.settings.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div id="fitness_management_setting" class="app_settings_block" data-string="Fitness"
+                     string="Fitness" data-key="aspl_fitness_management_ee">
+                    <h2>Fitness</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="nutrition_management"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="nutrition_management" string="Nutrition .  "/>
+                                <div class="text-muted">
+                                    Manage nutrition subscribers, services and plans
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="feedback"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="feedback" string="Feedback.  "/>
+                                <div class="text-muted">
+                                    Manage customer feedback regarding fitness services and plan
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="welcome_mail_tmp_id" string="Welcome Mail Template"/>
+                                <div class="text-muted">
+                                    Subscriber welcome mail template
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <div class="address_format" readonly="1">
+                                            <field name="welcome_mail_tmp_id" style="width: 50%"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="invoice_mail_tmp_id" string="Invoice Mail Template"/>
+                                <div class="text-muted">
+                                    Mail template for plan invoice
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <div class="address_format" readonly="1">
+                                            <field name="invoice_mail_tmp_id" style="width: 50%"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="membership_renewal_days"/>
+                                <div class="row"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="membership_renewal_days" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="expiry_alert_days"/>
+                                <div class="row"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="expiry_alert_days" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="fitness_config_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="inherit_res_config_settings_form_view"/>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'aspl_fitness_management_ee'}</field>
+    </record>
+
+    <menuitem id="menu_fitness_general_settings"
+              name="Settings"
+              parent="fitness_menu_Configuration"
+              sequence="1"
+              action="fitness_config_settings_action"
+    />
+
+
+</odoo>

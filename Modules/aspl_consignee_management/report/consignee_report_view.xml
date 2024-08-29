@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_consignee_report_pivot" model="ir.ui.view">
+        <field name="name">consignee.report.pivot</field>
+        <field name="model">consignee.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Consignee Transfer Analysis" disable_linking="True">
+                <field name="partner_id" type="col"/>
+                <field name="date" interval="month" type="row"/>
+                <field name="transfer_qty" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_consignee_report_graph" model="ir.ui.view">
+        <field name="name">consignee.report.graph</field>
+        <field name="model">consignee.report</field>
+        <field name="arch" type="xml">
+            <graph string="Sales Analysis">
+                <field name="date" type="row"/>
+                <field name="transfer_qty" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Custom reports (aka filters) -->
+    <record id="filter_consignee_report_consignee" model="ir.filters">
+        <field name="name">By Consignee</field>
+        <field name="model_id">consignee.report</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': ['date:month', 'partner_id']}</field>
+    </record>
+    <record id="filter_consignee_report_from_consignee" model="ir.filters">
+        <field name="name">By To Consignee</field>
+        <field name="model_id">consignee.report</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': ['date:month', 'to_partner_id']}</field>
+    </record>
+    <record id="filter_consignee_report_product" model="ir.filters">
+        <field name="name">By Product</field>
+        <field name="model_id">consignee.report</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': ['date:month', 'product_id']}</field>
+    </record>
+    <record id="filter_consignee_report_product_category" model="ir.filters">
+        <field name="name">By Product Category</field>
+        <field name="model_id">consignee.report</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': ['date:month', 'product_category_id']}</field>
+    </record>
+
+    <record id="view_consignee_report_search" model="ir.ui.view">
+        <field name="name">consignee.report.search</field>
+        <field name="model">consignee.report</field>
+        <field name="arch" type="xml">
+            <search string="Consignee Tranfer Analysis">
+                <field name="date"/>
+                <field name="is_internal_transfer"/>
+                <filter string="This Year" name="year" invisible="1"
+                        domain="[('date','&lt;=', time.strftime('%%Y-12-31')),('date','&gt;=',time.strftime('%%Y-01-01'))]"/>
+                <filter name="Draft" string="Draft" domain="[('state','=', 'draft')]"/>
+                <filter name="Request" string="Request" domain="[('state','=', 'request')]"/>
+                <filter name="Confirm" string="Confirm" domain="[('state','=', 'confirm')]"/>
+                <filter name="Cancel" string="Cancel" domain="[('state','=', 'cancel')]"/>
+                <filter name="Done" string="Done" domain="[('state','=','done')]"/>
+                <filter name="Consignee Transfer" string="Consignee Transfer"
+                        domain="[('is_return','=',False), ('is_internal_transfer','=',False)]"/>
+                <filter name="Consignee Return" string="Consignee Return" domain="[('is_return','=',True)]"/>
+                <filter name="Consignee to Consignee" string="Consignee to Consignee"
+                        domain="[('is_internal_transfer','=', True)]"/>
+                <separator/>
+                <field name="partner_id"/>
+                <field name="to_partner_id"/>
+                <field name="product_id"/>
+                <field name="product_category_id"/>
+                <group expand="1" string="Group By">
+                    <filter string="Product" name="Product" context="{'group_by':'product_id'}"/>
+                    <filter string="Product Category" name="Product Category"
+                            context="{'group_by':'product_category_id'}"/>
+                    <filter string="Source Location" name="source_location"
+                            context="{'group_by':'source_location_id'}"/>
+                    <filter string="Destination Location" name="destination_location_id"
+                            context="{'group_by':'destination_location_id'}"/>
+                    <filter string="Consignee" name="Consignee" context="{'group_by':'partner_id'}"/>
+                    <filter name="status" string="Status" context="{'group_by':'state'}"/>
+                    <filter string="Company" groups="base.group_multi_company" name="company"
+                            context="{'group_by':'company_id'}"/>
+                    <separator/>
+                    <filter string="Transfer Month" context="{'group_by':'date:month'}" name="transfer_month"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_consignee_report_all" model="ir.actions.act_window">
+        <field name="name">Consignee Transfer Analysis</field>
+        <field name="res_model">consignee.report</field>
+        <field name="view_mode">graph,pivot</field>
+        <field name="view_id"></field>  <!-- force empty -->
+        <field name="search_view_id" ref="view_consignee_report_search"/>
+        <field name="context">{'search_default_Done':1, 'group_by_no_leaf':1,'group_by':[]}</field>
+    </record>
+
+    <menuitem id="menu_report_consignee_all" name="Consignee Analysis" action="action_consignee_report_all"
+              parent="stock.menu_warehouse_report"
+              sequence="1"/>
+</odoo>

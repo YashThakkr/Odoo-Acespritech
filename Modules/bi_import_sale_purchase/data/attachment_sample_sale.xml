@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+		<record id="sample_sale_xls" model="ir.attachment">
+        <field name="name">sale_order.xls</field>
+        <field name="type">binary</field>
+        <field name="datas" type="base64" file="bi_import_sale_purchase/Sample XLS-CSV File/sale_order.xls"/>
+    </record>
+
+
+    <record id="sample_sale_csv" model="ir.attachment">
+        <field name="name">sale_order.csv</field>
+        <field name="type">binary</field>
+        <field name="datas" type="base64" file="bi_import_sale_purchase/Sample XLS-CSV File/sale_order.csv"/>
+    </record>
+        <record id="sample_purchase_xls" model="ir.attachment">
+        <field name="name">purchase_order.xls</field>
+        <field name="type">binary</field>
+        <field name="datas" type="base64" file="bi_import_sale_purchase/Sample XLS-CSV File/purchase_order.xls"/>
+    </record>
+
+
+    <record id="sample_purchase_csv" model="ir.attachment">
+        <field name="name">purchase_order.csv</field>
+        <field name="type">binary</field>
+        <field name="datas" type="base64" file="bi_import_sale_purchase/Sample XLS-CSV File/purchase_order.csv"/>
+    </record>
+</odoo>
